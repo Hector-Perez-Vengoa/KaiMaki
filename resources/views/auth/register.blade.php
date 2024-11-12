@@ -20,6 +20,16 @@
             </div>
 
             <div class="mt-4">
+                <xlabel for="roles_id" class="block text-sm font-medium text-gray-700">{{ __('Roles') }}</xlabel>
+                <select id="roles_id" name="roles_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <option value="2">Trabajador</option>
+                    <option value="3">Cliente</option>
+                </select>                      
+            </div>
+            
+            
+
+            <div class="mt-4">
                 <x-label for="password" value="{{ __('Password') }}" />
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
