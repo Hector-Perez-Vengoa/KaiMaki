@@ -27,5 +27,5 @@ Route::get('/trabajador/index', [TrabajadorController::class, 'index'])->name('t
     // Rutas para el dashboard del cliente
 Route::get('/cliente/index', [ClienteController::class, 'index'])->name('cliente.index');
 
-
+    // Rutas para el dashboard del Servicio
 Route::get('/servicios', [ServiceController::class, 'servicios']);
