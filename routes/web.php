@@ -1,12 +1,16 @@
 <?php
 
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\TrabajadorController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
-/** 
 
 Route::get('/', function () {
     return view('welcome');
 });
-*/
+
+// Rutas para el dashboard (solo accesibles para usuarios autenticados)
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -20,3 +24,12 @@ Route::middleware([
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+    // Rutas para el dashboard del trabajador
+Route::get('/trabajador/index', [TrabajadorController::class, 'index'])->name('trabajador.index');
+
+    // Rutas para el dashboard del cliente
+Route::get('/cliente/index', [ClienteController::class, 'index'])->name('cliente.index');
+
+    // Rutas para el dashboard del Servicio
+Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
