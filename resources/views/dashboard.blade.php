@@ -1,7 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            @if(auth()->user()->id_roles == 1) <!-- Si el id_roles es 1, por ejemplo, Cliente -->
+                {{ __('Bienvenido, Cliente') }}
+            @elseif(auth()->user()->id_roles == 2) <!-- Si el id_roles es 2, por ejemplo, Trabajador -->
+                {{ __('Bienvenido, Trabajador') }}
+            @else
+                {{ __('Bienvenido') }}
+            @endif
         </h2>
     </x-slot>
 
