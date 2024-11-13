@@ -11,10 +11,30 @@
                 </div>
 
                 <!-- Navigation Links -->
+
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Panel') }}
                     </x-nav-link>
+                             <!-- Enlaces específicos para Clientes -->
+                    @if (Auth::user()->id_roles == 3)
+                        <x-nav-link href="" :active="request()->routeIs('cliente.datos')">
+                            {{ __('Mis Datos') }}
+                        </x-nav-link>
+                        <x-nav-link href="" :active="request()->routeIs('cliente.solicitudes')">
+                            {{ __('Mis Solicitudes') }}
+                        </x-nav-link>
+                    @endif
+
+                    <!-- Enlaces específicos para Trabajadores -->
+                    @if (Auth::user()->id_roles == 2)
+                    <x-nav-link href="" :active="request()->routeIs('trabajador.tareas')">
+                        {{ __('Tareas') }}
+                    </x-nav-link>
+                    <x-nav-link href="" :active="request()->routeIs('trabajador.reportes')">
+                        {{ __('Reportes') }}
+                    </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -99,7 +119,7 @@
                             </div>
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                {{ __('Perfil') }}
                             </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -116,7 +136,7 @@
 
                                 <x-dropdown-link href="{{ route('logout') }}"
                                          @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Salir') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>

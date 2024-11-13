@@ -18,13 +18,17 @@
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             </div>
-
             <div class="mt-4">
-                <xlabel for="roles_id" class="block text-sm font-medium text-gray-700">{{ __('Roles') }}</xlabel>
-                <select id="roles_id" name="roles_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                    <option value="2">Trabajador</option>
-                    <option value="3">Cliente</option>
-                </select>                      
+                <x-label for="id_roles" class="block text-sm font-medium text-gray-700">{{ __('Rol') }}</x-label>
+                <select id="id_roles" name="id_roles" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="old('id_roles')" required >
+                    <option value="">Seleccione un rol</option>
+                    <option value="2" @if (old  ('id_roles')==2)select @endif>Trabajador</option>
+                    <option value="3" @if (old  ('id_roles')==3 )select @endif>Cliente</option>
+                </select>
+                <!-- Agregar esto para debug -->
+                @error('id_roles')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
             
             

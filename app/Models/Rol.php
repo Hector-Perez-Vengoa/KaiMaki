@@ -11,6 +11,6 @@ class Rol extends Model
     protected $fillable = ['nombre'];
     public function users(){
         //define la relaciones 
-        return $this->hasMany('App\Models\User', 'roles_id', 'id_roles');
+        return $this->hasMany('App\Models\User', 'id_roles', 'id_roles');
     }
 }
