@@ -3,18 +3,27 @@ import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/**/*.js',
+        './resources/**/*.vue',
     ],
 
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                orange: {
+                    500: '#e64a19',
+                    600: '#d84315',
+                },
+                'custom-orange': '#f5f5dc',  // Aquí se agrega el color personalizado
             },
         },
     },
