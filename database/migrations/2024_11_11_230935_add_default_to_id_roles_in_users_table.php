@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_roles')->default(1)->change(); // Reemplaza 1 con el ID del rol que quieras como valor por defecto
+            $table->unsignedBigInteger('id_roles')->default(3)->change(); // Reemplaza 3 con el ID del rol que quieras como valor por defecto
        
         });
     }

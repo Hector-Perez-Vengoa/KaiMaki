@@ -28,14 +28,14 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'roles_id',
+        'id_roles',
         'password',
    
     ];
     // Relación con el modelo Rol (Usuario pertenece a un Rol)
     public function rol()
         {
-            return $this->belongsTo('App\Models\Rol', 'roles_id', 'id_roles');
+            return $this->belongsTo('App\Models\Rol', 'id_roles', 'id_roles');
         }
     /**
      * The attributes that should be hidden for serialization.
@@ -68,7 +68,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'roles_id' => 'integer',
         ];
     }
+
 
 }
