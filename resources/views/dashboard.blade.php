@@ -5,7 +5,7 @@
             @if(auth()->user()->id_roles == 3) <!-- Si el id_roles es 1, por ejemplo, Cliente -->
                 {{ __('Bienvenido, Cliente') }}
             @elseif(auth()->user()->id_roles == 2) <!-- Si el id_roles es 2, por ejemplo, Trabajador -->
-                {{ __('Bienvenido, Trabajador') }}
+                {{ __('Bienvenido Trabajador') }}
             @else
                 {{ __('Bienvenido') }}
             @endif
@@ -116,3 +116,4 @@
         </div>
     </div>
 </x-app-layout>
+

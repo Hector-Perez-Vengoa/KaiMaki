@@ -1,6 +1,57 @@
-@extends('layouts.app')
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>KaiMaki</title>
 
-@section('content')
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Styles / Scripts -->
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+
+</head>
+<body>
+    <header class="bg-orange-500 text-white py-4 px-6 flex justify-between items-center shadow-lg">
+        <!-- Logo -->
+        <div class="flex items-center space-x-4">
+            <a href=""></a>
+            <h1 class="text-xl font-bold">KaiMaki</h1>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="ml-auto flex space-x-8">
+            <a href=" " class="hover:underline hover:text-orange-300">Servicios</a>
+            <a href="{{ url('/ayuda') }}" class="hover:underline hover:text-orange-300">Ayuda</a>
+            <a href="{{ url('/nosotros') }}" class="hover:underline hover:text-orange-300">Nosotros</a>
+        </nav>
+        
+
+       <!-- Authentication Links -->
+    <div class="flex space-x-4 ml-12">
+        @if (Route::has('login'))
+            @auth
+                <a href="{{ url('/dashboard') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
+                    Ingresar
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
+                    Log in
+                </a>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
+                        Register
+                    </a>
+                @endif
+            @endauth
+        @endif
+    </div>
+    </header>
+
 <div class="relative bg-cover bg-center" style="background-image: url('{{ asset('storage/inicio/pantalla.jpg') }}'); height: 80vh;">
     <div class="absolute inset-0 flex items-center justify-end px-6">
         <div class="text-white">
@@ -62,9 +113,11 @@
         </div>
     </div>
 </div>
-
-
 <!-- Incluir el footer -->
 @include('footer')
+</body>
 
-@endsection
+
+
+
+

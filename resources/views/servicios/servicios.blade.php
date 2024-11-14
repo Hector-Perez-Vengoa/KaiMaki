@@ -1,6 +1,5 @@
-@extends('layouts.app')
+<x-app-layout>
 
-@section('content')
 
 <!-- Search Bar -->
 <div class="flex justify-center p-6 items-center border-2">
@@ -53,6 +52,4 @@
 @endif
 <!-- End Main Content -->
 
-@include('footer')
-
-@endsection
+</x-app-layout>

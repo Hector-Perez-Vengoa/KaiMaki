@@ -18,7 +18,7 @@ class ServiceController extends Controller
             $trabajadores = Trabajador::all();  // Si no hay búsqueda, mostrar todos los trabajadores
         }
 
-        return view('servicios')->with('trabajadores', $trabajadores);
+        return view('servicios.servicios')->with('trabajadores', $trabajadores);
     }
     
 }
