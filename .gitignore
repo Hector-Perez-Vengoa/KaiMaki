@@ -22,6 +22,7 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+public/build/assets
 public/build/assets/app-BF6O7kH7.css
 public/build/assets/app-CcKqdojz.css
 public/build/assets/app-CmIr3fnF.css
