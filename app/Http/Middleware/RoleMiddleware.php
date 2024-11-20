@@ -8,20 +8,29 @@ use Illuminate\Support\Facades\Auth;
 class RoleMiddleware
 {
     /**
-     * Handle an incoming request.
+     * Maneja una solicitud entrante.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  mixed  $role
+     * @return mixed
      */
     public function handle($request, Closure $next, $role)
     {
         // Verificar que el usuario esté autenticado
         if (!Auth::check()) {
-            return redirect('login');
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder a esta página.');
         }
 
-        // Verificar que el usuario tenga el rol especificado
-        if (Auth::user()->id_roles != $role) {
-            abort(403, 'No tienes acceso a esta página.');
+        // Comparar el rol del usuario autenticado con el rol requerido
+        $userRole = Auth::user()->id_roles;
+
+        if ($userRole != $role) {
+            return redirect('/');
         }
 
+        // Continuar con la solicitud si el rol coincide
         return $next($request);
     }
 }
+

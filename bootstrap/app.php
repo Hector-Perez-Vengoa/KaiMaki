@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        
+               // Aquí registramos los middlewares de ruta
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class, // Con namespace completo
+            ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

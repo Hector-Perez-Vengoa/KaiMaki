@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
 
 // Rutas para el dashboard genérico (protegido para usuarios autenticados)
 Route::middleware([
@@ -20,11 +23,25 @@ Route::middleware([
     })->name('dashboard');
     
     Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
+    
+    // Rutas específicas para clientes
+    Route::middleware(['auth','role:3'])->group(function () {
+        Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
+        Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
 
-    Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
-    Route::view('/cliente/formulario', 'cliente.formulario')->name('cliente.formulario');
+    });
+    
+    // Rutas específicas para trabajadores
+    Route::middleware(['auth', 'role:2'])->group(function () {
+        Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
+        
+        Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
+        Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
+    });
 
 });
+
+
 
 
 

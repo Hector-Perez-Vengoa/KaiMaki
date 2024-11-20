@@ -37,6 +37,12 @@ class User extends Authenticatable
         {
             return $this->belongsTo('App\Models\Rol', 'id_roles', 'id_roles');
         }
+
+    public function trabajadores()
+        {
+            return $this->hasMany(Trabajadores::class, 'id_usuario', 'id');
+        }
+        
     /**
      * The attributes that should be hidden for serialization.
      *
