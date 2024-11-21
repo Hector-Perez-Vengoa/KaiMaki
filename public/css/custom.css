@@ -1,0 +1,190 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    background: #f9d71c; /* Fondo amarillo */
+    padding: 50px 20px;
+    color: #333;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+}
+
+/* Featured Images */
+.featured-images {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 20px;
+}
+
+.featured-images .image img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Content Section */
+.content-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 50px 20px;
+    gap: 30px;
+}
+
+.text-block {
+    flex: 1 1 calc(50% - 30px);
+    min-width: 300px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-block h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.text-block p {
+    line-height: 1.6;
+}
+
+/* Highlight Section */
+.highlight-section {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 50px 20px;
+    background: #f8f9fa;
+}
+
+.highlight {
+    text-align: center;
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.highlight h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #f9d71c;
+}
+
+.highlight p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Opcional: Ajustes de personalización */
+.hero-section {
+    background: linear-gradient(to right, #ffd700, #f9d71c);
+}
+
+.faq-section h3 {
+    color: #f59e0b; /* Color destacado */
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+}
+
+.hero-section img {
+    filter: brightness(0.7); /* Oscurece un poco la imagen */
+}
+
+.team-member img {
+    transition: transform 0.3s ease;
+}
+
+.team-member img:hover {
+    transform: scale(1.1);
+}
+
+.team-member img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-member img:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+}
+
+
+.team-member div {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: transform 0.3s ease-in-out;
+}
+
+.team-member div:hover {
+    transform: scale(1.1); /* Zoom suave al pasar el cursor */
+}
+
+
+/*  animación opcional */
+.text-center h1, .text-center p {
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
+
+.faq-question {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #ffe3c9; /* Color naranja suave */
+}
+
+.faq-answer {
+    display: none;
+    transition: max-height 0.3s ease;
+}
+
+.faq-answer.open {
+    display: block;
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+}
+
+.faq-icon.open {
+    transform: rotate(45deg); /* Gira el ícono al expandir */
+}
+
+.faq-question span {
+    color: #f97316; /* Naranja brillante */
+}

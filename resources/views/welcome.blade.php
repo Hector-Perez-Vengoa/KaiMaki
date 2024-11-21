@@ -14,20 +14,28 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
 
+    <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+
 </head>
 <body>
     <header class="bg-orange-500 text-white py-4 px-6 flex justify-between items-center shadow-lg">
         <!-- Logo -->
         <div class="flex items-center space-x-4">
-            <a href=""></a>
-            <h1 class="text-xl font-bold">KaiMaki</h1>
+            <!-- Logo y nombre envueltos dentro de un solo enlace -->
+            <a href="/" class="flex items-center space-x-2">
+                <!-- Imagen del logo -->
+                <img src="/path/to/logo.png" alt="Logo KaiMaki" class="w-10 h-10">
+                <!-- Nombre del sitio -->
+                <span class="text-xl font-bold">Kai Maki</span>
+            </a>
         </div>
+        
 
         <!-- Navigation Links -->
         <nav class="ml-auto flex space-x-8">
-            <a href=" " class="hover:underline hover:text-orange-300">Servicios</a>
+            <a href=" {{ url('/servicios') }}" class="hover:underline hover:text-orange-300">Servicios</a>
             <a href="{{ url('/ayuda') }}" class="hover:underline hover:text-orange-300">Ayuda</a>
-            <a href="{{ url('/nosotros') }}" class="hover:underline hover:text-orange-300">Nosotros</a>
+            <a href="{{ url('about-us') }}" class="hover:underline hover:text-orange-300">Nosotros</a>
         </nav>
         
 
@@ -57,33 +65,80 @@
         <div class="text-white">
             <h1 class="text-5xl font-bold">¡Soluciones para tu hogar <br>a un clic de distancia!</h1>
             <p class="text-lg mt-4">Encuentra profesionales confiables y <br>capacitados para las tareas que necesitas. <br>Rápido, seguro y bajo demanda.</p>
-            <a href=" " class="text-right  bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded mt-6 inline-block">Solicita un servicio</a>
+            <a href="{{ url('/servicios') }}" class="text-right  bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded mt-6 inline-block">Solicita un servicio</a>
         </div>
     </div>
 </div>
 
-<div class="bg-cover bg-center">
-    <div class="container mx-auto py-5">
-        <div class="flex justify-center space-x-8">
-            <div class="text-center">
-                <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecanico" class="w-50 h-80 object-cover rounded-lg">
-                <p class="font-bold">Mecanico</p>
+
+<!---------------------------------------------------Carruel-------------------------------------------->
+
+<div class="carousel-container bg-orange-100 py-12">
+    <h2 class="text-5xl font-bold text-center text-orange-600 mb-6">Nuestros Servicios</h2>
+    <p class="text-lg text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        Descubre todo lo que tenemos para ofrecerte. Servicios diseñados pensando en ti.
+    </p>
+
+    <div class="carousel-wrapper relative overflow-hidden max-w-6xl mx-auto">
+        <div class="carousel flex" id="carousel">
+            <!-- Slide 1 -->
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Albañilería</p>
+                </div>
             </div>
-            <div class="text-center">
-                <img src="{{ asset('storage/inicio/electricista.jpg') }}" class="w-50 h-80 object-cover rounded-lg">
-                <p class="font-bold">Electricista</p>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Electricista</p>
+                </div>
             </div>
-            <div class="text-center">
-                <img src="{{ asset('storage/inicio/plomeria.jpg') }}" class="w-50 h-80 object-cover rounded-lg">
-                <p class="font-bold">Plomeria</p>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Mecánico</p>
+                </div>
             </div>
-            <div class="text-center">
-                <img src="{{ asset('storage/inicio/albañileria.jpg') }}" class="w-50 h-80 object-cover rounded-lg">
-                <p class="font-bold">Albañileria</p>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Plomería</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Albañilería</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Electricista</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Mecánico</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Plomería</p>
+                </div>
             </div>
         </div>
+
+        <!-- Botones de control -->
+        <button class="carousel-btn prev" onclick="prevSlide()">&#10094;</button>
+        <button class="carousel-btn next" onclick="nextSlide()">&#10095;</button>
     </div>
 </div>
+
+
 
 <div class="container mx-auto py-12">
     <div class="flex justify-center items-center">
@@ -95,26 +150,41 @@
                     <img src="{{ asset('storage/inicio/hombreseñalando.png') }}" alt="Imagen ilustrativa" class="mx-auto max-w-xs">
                 </div>
                 <!-- Pasos -->
-                <div class="w-2/4 space-y-6">
-                    <div class="flex items-start space-x-4 p-4 bg-white rounded-md shadow-md  ">
-                        <a href="#" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Clic aquí</a>
-                        <p class="font-semibold">Registrate e ingresa como como  profesional o cliente.</p>
+                <div class="space-y-6">
+                    <!-- Paso 1 -->
+                    <div class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">
+                        <div class="bg-orange-500 text-white text-xl font-bold h-12 w-12 flex items-center justify-center rounded-full">
+                            1
+                        </div>
+                        <p class="text-gray-800 font-semibold">Crea tu perfil como profesional o cliente.</p>
                     </div>
-                    <div class="flex items-start space-x-4 p-4 bg-white rounded-md shadow-md ">
-                        <a href="#" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Clic aquí</a>
-                        <p class="font-semibold">Busca el servicio que  necesitas y elige al mejor profesional.</p>
+                    <!-- Paso 2 -->
+                    <div class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">
+                        <div class="bg-orange-500 text-white text-xl font-bold h-12 w-12 flex items-center justify-center rounded-full">
+                            2
+                        </div>
+                        <p class="text-gray-800 font-semibold">Busca el servicio que necesitas <br> y elige al mejor profesional.</p>
+                        
                     </div>
-                    <div class="flex items-start space-x-4 p-4 bg-white rounded-md shadow-md ">
-                        <a href="#" class="bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-600">Clic aquí</a>
-                        <p class="font-semibold">El profesional realiza el  trabajo y luego puedes calificarlo.</p>
+                    <!-- Paso 3 -->
+                    <div class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">
+                        <div class="bg-orange-500 text-white text-xl font-bold h-12 w-12 flex items-center justify-center rounded-full">
+                            3
+                        </div>
+                        <p class="text-gray-800 font-semibold">El profesional realiza el trabajo <br> y luego puedes calificarlo.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
 <!-- Incluir el footer -->
 @include('footer')
+<script src="{{ asset('js/carousel.js') }}"></script>
+
 </body>
 
 

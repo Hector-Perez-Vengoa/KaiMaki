@@ -1,0 +1,80 @@
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.carousel-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out; /* Suaviza el movimiento entre slides */
+}
+
+.carousel-item {
+    flex: 0 0 calc(100% / 4); /* Ocupa exactamente 1/4 del ancho del carrusel en pantallas grandes */
+    text-align: center;
+    box-sizing: border-box; /* Incluye padding/margin dentro del tamaño */
+}
+
+.carousel-image {
+    width: 100%;
+    max-width: 200px; /* Tamaño máximo de la imagen */
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.carousel-slide p {
+    margin-top: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Botones de control */
+.carousel-btn {
+    position: absolute;
+    top: 50%; /* Centrado vertical */
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 1;
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
+/* Responsividad */
+@media (max-width: 767px) {
+    .carousel-item {
+        flex: 0 0 100%; /* Cada slide ocupa todo el ancho en pantallas pequeñas */
+    }
+}
