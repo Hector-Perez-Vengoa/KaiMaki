@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Trabajador;
+use App\Models\Trabajadores;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -11,13 +11,15 @@ class ServiceController extends Controller
     {
         $search = $request->get('search');
 
-        // Si hay un término de búsqueda, filtra los trabajadores por oficio
+        // Buscar trabajadores que tengan un oficio que coincida con el término de búsqueda
         if ($search) {
-            $trabajadores = Trabajador::where('oficio_tmp', 'like', '%' . $search . '%')->get();
+            $trabajadores = Trabajadores::whereHas('oficios', function ($query) use ($search) {
+                $query->where('nombre', 'like', '%' . $search . '%'); // Cambia 'nombre' si el nombre del oficio es diferente
+            })->with('oficios')->get();
         } else {
-            $trabajadores = Trabajador::all();  // Si no hay búsqueda, mostrar todos los trabajadores
+            $trabajadores = Trabajadores::with('oficios')->get(); // Traer todos los trabajadores con sus oficios
         }
-
+       
         return view('servicios.servicios')->with('trabajadores', $trabajadores);
     }
     

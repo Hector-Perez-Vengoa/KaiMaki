@@ -24,18 +24,24 @@ class UserSeeder extends Seeder
             'id_roles' => 1,
         ]);
 
-        User::create([
-            'name' => 'Trabajador',
-            'email' => 'trabajador@example.com',
-            'password' => bcrypt('password'),
-            'id_roles' => 2,
-        ]);
+        // Crear 5 usuarios trabajadores
+        for ($i = 1; $i <= 5; $i++) {
+            User::create([
+                'name' => "Trabajador $i",
+                'email' => "trabajador$i@example.com",
+                'password' => bcrypt('password'),
+                'id_roles' => 2, // Rol de Trabajador
+            ]);
+        }
 
-        User::create([
-            'name' => 'Cliente',
-            'email' => 'cliente@example.com',
-            'password' => bcrypt('password'),
-            'id_roles' => 3,
-        ]); 
+        // Crear 4 usuarios clientes
+        for ($i = 1; $i <= 5; $i++) {
+            User::create([
+                'name' => "Cliente $i",
+                'email' => "cliente$i@example.com",
+                'password' => bcrypt('password'),
+                'id_roles' => 3, // Rol de Cliente
+            ]);
+        }
     }
 }
