@@ -69,7 +69,7 @@ Route::middleware([
 
 
 
-    // Rutas específicas para Administrador
+// Rutas específicas para Administrador
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::get('/administrador/trabajadores', [TrabajadorController::class, 'index'])->name('administrador.trabajador');
      // Ver detalles del trabajador
@@ -111,9 +111,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
 
     // Rutas específicas para trabajadores
-    Route::middleware(['role:2'])->group(function () {
-        Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
+    Route::middleware(['auth', 'role:2'])->group(function () {
         Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
+        //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
+        Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario'); 
+        Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
+      
         Route::get('/trabajador/solicitudes', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
         Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
         
@@ -124,3 +127,4 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 Route::get('/about-us', function () {
     return view('Sobrenosotros.about-us');
 });
+
