@@ -27,6 +27,17 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('/servicios', function () {
+        $user = Auth::user();
+
+        // Redirige a completar el perfil si es cliente y no ha registrado su información
+        if ($user->id_roles == 3 && !$user->cliente) {
+            return redirect()->route('cliente.formulario')->with('error', 'Debes completar tu registro como cliente.');
+        }
+
+        return view('servicios');
+    })->name('servicios');
+
     // Rutas específicas para clientes
     Route::middleware(['auth','role:3'])->group(function () {
         Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
@@ -35,14 +46,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
         Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
         Route::get('/cliente/dashboard', function () {
-            return view('cliente.dashboard');
+            return view('dashboard');
         })->name('cliente.dashboard');
 
-
-
-        // Protección para la vista de servicios
-        Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
     });
+
 
     Route::middleware(['role:3'])->group(function () {
         Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');

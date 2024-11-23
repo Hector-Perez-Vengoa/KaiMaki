@@ -1,65 +1,4 @@
-<head>
-    <!-- Meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>KaiMaki</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Styles / Scripts -->
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-
-    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-
-</head>
-<body>
-    <header class="bg-orange-500 text-white py-4 px-6 flex justify-between items-center shadow-lg">
-        <!-- Logo -->
-        <div class="flex items-center space-x-4">
-            <!-- Logo y nombre envueltos dentro de un solo enlace -->
-            <a href="/" class="flex items-center space-x-2">
-                <!-- Imagen del logo -->
-                <img src="/path/to/logo.png" alt="Logo KaiMaki" class="w-10 h-10">
-                <!-- Nombre del sitio -->
-                <span class="text-xl font-bold">Kai Maki</span>
-            </a>
-        </div>
-        
-
-        <!-- Navigation Links -->
-        <nav class="ml-auto flex space-x-8">
-            <a href=" {{ url('/servicios') }}" class="hover:underline hover:text-orange-300">Servicios</a>
-            <a href="{{ url('/ayuda') }}" class="hover:underline hover:text-orange-300">Ayuda</a>
-            <a href="{{ url('about-us') }}" class="hover:underline hover:text-orange-300">Nosotros</a>
-        </nav>
-        
-
-       <!-- Authentication Links -->
-    <div class="flex space-x-4 ml-12">
-        @if (Route::has('login'))
-            @auth
-                <a href="{{ url('/dashboard') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
-                    Ingresar
-                </a>
-            @else
-                <a href="{{ route('login') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
-                    Log in
-                </a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
-                        Register
-                    </a>
-                @endif
-            @endauth
-        @endif
-    </div>
-    </header>
-
+@include('header')
         <!-- Hero Section -->
         <div class="relative bg-cover bg-center" style="background-image: url('{{ asset('storage/about-us/portada.jpg') }}'); height: 40vh;">
             <!-- Capa de opacidad -->
@@ -67,13 +6,11 @@
 
         
             <!-- Contenido centrado -->
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-8">
                 <h1 class="text-5xl font-bold mb-4">Acerca de Nosotros</h1>
                 <p class="text-lg max-w-2xl">
                     Descubre nuestra misión, visión y el equipo que trabaja para transformar tus ideas en soluciones. <br>
-                    En KaiMaki, creemos que la vida puede ser más fácil cuando tienes el apoyo adecuado. Por eso, 
-                    creamos esta plataforma para conectar hogares con trabajadores confiables y capacitados que 
-                    puedan ayudarte con esas tareas que a veces parecen complicadas o difíciles de gestionar.
+                    En KaiMaki, creemos que la vida puede ser más fácil cuando tienes el apoyo adecuado. 
                 </p>
             </div>
         </div>
@@ -101,7 +38,7 @@
                     <img src="{{ asset('storage/about-us/mision.png') }}" alt="Misión" class="w-16 h-16 mx-auto mb-4">
                     <h3 class="text-xl font-bold mb-4">Nuestra Misión</h3>
                     <p class="text-gray-600 leading-relaxed">
-                        Nuestra misión es simple: hacer que las personas puedan encontrar soluciones rápidas 
+                        Nuestra misión es hacer que las personas puedan encontrar soluciones rápidas 
                         y seguras para sus necesidades del hogar, mientras ofrecemos oportunidades justas a 
                         los trabajadores que colaboran con nosotros.
                     </p>
@@ -126,7 +63,7 @@
         </div>
     
         <!-- Team Section -->
-        <<div class="team-section py-12 px-6 bg-white">
+        <div class="team-section py-12 px-6 bg-white">
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-3xl font-bold text-center mb-8">Nuestro Equipo</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

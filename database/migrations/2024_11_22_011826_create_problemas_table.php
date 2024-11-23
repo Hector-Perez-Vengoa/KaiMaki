@@ -20,7 +20,7 @@ class CreateProblemasTable extends Migration
 
             $table->foreign('id_cliente')->references('id_cliente')->on('clientes')->onDelete('cascade');
             $table->foreign('id_oficios')->references('id_oficios')->on('oficios')->onDelete('cascade');
-            $table->foreign('id_estado_problema')->references('id_estado_problema')->on('estado_problemas')->onDelete('cascade');
+            $table->foreign('id_estado_problema')->references('id_estado_problema')->on('estado_problema')->onDelete('cascade');
         });
     }
 
