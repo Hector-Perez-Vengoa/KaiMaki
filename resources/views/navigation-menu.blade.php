@@ -25,7 +25,7 @@
                             {{ __('Mis Solicitudes') }}
                         </x-nav-link>
                         
-                        <x-nav-link href="{{ route('servicios') }}" :active="request()->routeIs('servicios')">
+                        <x-nav-link href="{{route('servicios')}}" :active="request()->routeIs('servicios')">
                             {{ __('Buscar servicios') }}
                         </x-nav-link>
                         
@@ -33,16 +33,34 @@
 
                     <!-- Enlaces específicos para Trabajadores -->
                     @if (Auth::user()->id_roles == 2)
-                    <x-nav-link href="" :active="request()->routeIs('trabajador.tareas')">
-                        {{ __('Tareas') }}
-                    </x-nav-link>
-                    <x-nav-link href="" :active="request()->routeIs('trabajador.reportes')">
-                        {{ __('Reportes') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{route('trabajador.formulario')}}" :active="request()->routeIs('trabajador.formulario')">
-                        {{ __('Registro') }}
-                    </x-nav-link>
+                        <x-nav-link href="" :active="request()->routeIs('trabajador.tareas')">
+                            {{ __('Tareas') }}
+                        </x-nav-link>
+                        <x-nav-link href="" :active="request()->routeIs('trabajador.reportes')">
+                            {{ __('Reportes') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{route('trabajador.formulario')}}" :active="request()->routeIs('trabajador.formulario')">
+                            {{ __('Registro') }}
+                        </x-nav-link>
+
+
+
                     @endif
+                        <!-- Enlaces específicos para Administrador -->
+                        @if (Auth::user()->id_roles == 1)
+                            <x-nav-link href="" :active="request()->routeIs('trabajador.tareas')">
+                                        {{ __('Trabajadores') }}
+                            </x-nav-link>
+                            <x-nav-link href="" :active="request()->routeIs('trabajador.reportes')">
+                                        {{ __('Clientes') }}
+                            </x-nav-link>
+                            <x-nav-link href="" :active="request()->routeIs('trabajador.formulario')">
+                                        {{ __('Reclamos') }}
+                            </x-nav-link>
+                
+                        @endif
+
+
                 </div>
             </div>
 

@@ -5,24 +5,39 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Antecedentes;
 use App\Models\Certificados;
+use App\Models\EstadoUsers;
 use App\Models\Oficios;
 use App\Models\Trabajadores;
 use App\Models\Ubicacion;
+use App\Models\User;
+use Hamcrest\Core\AllOf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class TrabajadorController extends Controller
 {   
+
+    public function index()
+    {   
+        // Obtiene a los usuarios con rol "Trabajador" (ID = 2) y carga relaciones
+        $trabajadores = User::where('id_roles', 2)
+            ->with(['trabajadores', 'rol', 'estado'])
+            ->get();
+
+        return view('administrador.trabajadores', compact('trabajadores'));
+    }
+    
+    
+
     public function formulario()
-{
+    {
     // Cargar los oficios desde la base de datos
     $oficios = Oficios::all();
-
     // Pasar los oficios a la vista
     return view('trabajador.formulario', compact('oficios'));
-}
+    }
+
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -125,21 +140,55 @@ class TrabajadorController extends Controller
             return redirect()->back()->with('error', 'Ocurrió un error al registrar el trabajador. Intente nuevamente.');
         }
     }
-    
-    
-
-    public function tareas()
+    public function show($id = null)
     {
-        return view('trabajador.tareas'); // Crear la vista
+        // ID del usuario autenticado
+        $userId = Auth::id();
+    
+        // Verifica si el usuario está autenticado
+        if (!empty(Auth::user())) {
+            $user = Auth::user();
+    
+            // Flujo para Administrador
+            if ($user->id_roles == 1) {
+                // Carga directamente el modelo Trabajadores con todas sus relaciones necesarias
+                $trabajador = Trabajadores::with([
+                    'ubicacion',
+                    'certificados.estado',
+                    'antecedentes',
+                    'oficios',
+                    'user' // Para obtener datos del usuario asociado
+                    ])->findOrFail($id);
+
+                    // Retorna la vista con los datos del trabajador
+                return view('trabajador.show', compact('trabajador'));
+                }
+
+            
+    
+            // Flujo para Trabajadores
+            if ($user->id_roles == 2) {
+                $trabajador = Trabajadores::with(['certificados.estado', 'ubicacion', 'antecedentes', 'oficios'])
+                    ->where('id_usuario', $userId)
+                    ->first();
+    
+                // Si no existe el trabajador o sus relaciones están vacías
+                if (!$trabajador || ($trabajador->antecedentes->isEmpty() && $trabajador->certificados->isEmpty())) {
+                    return redirect()->route('trabajador.formulario')
+                        ->with('error', 'No se encontraron datos registrados. Por favor, complete el formulario.');
+                }
+    
+                // Retorna la vista con los datos del trabajador
+                return view('trabajador.show', compact('trabajador'));
+            }
+        }
     }
+    
 
     public function reportes()
     {
         return view('trabajador.reportes'); // Crear la vista
     }
 
-    public function solicitudes()
-    {
-        return view('trabajador.solicitudes'); // Crear la vista
-    }
+
 }

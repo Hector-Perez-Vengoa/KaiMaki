@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('id_estado_certificados')
                   ->references('id_estado_certificados')
                   ->on('estado_certificados')
-                  ->onDelete('set null'); // Establece NULL si se elimina en la tabla padre
+                  ->onDelete('cascade'); // Establece NULL si se elimina en la tabla padre
             $table->timestamps();
         });
     }

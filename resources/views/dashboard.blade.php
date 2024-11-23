@@ -50,7 +50,14 @@
                             Ver solicitudes
                             </a>
                         </div>
-                        
+                                                             <!-- Botón Gestión de Tareas -->
+                        <div class="bg-red-100 rounded-lg p-4 shadow">
+                           <h2 class="text-lg font-bold mb-2">Busca Servicios</h2>
+                             <p class="text-sm text-gray-600 mb-4">Busca servicios de manera facil.</p>
+                                <a href="{{route('servicios')}}" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                                    Buscar 
+                                </a>
+                        </div>
 
 
 
@@ -78,6 +85,8 @@
                             </a>
                         </div>
 
+           
+
                         <!-- Botón Reporte de Actividades -->
                         <div class="bg-purple-100 rounded-lg p-4 shadow">
                             <h2 class="text-lg font-bold mb-2">Reporte de Actividades</h2>
@@ -101,7 +110,7 @@
                         <div class="bg-indigo-100 rounded-lg p-4 shadow">
                             <h2 class="text-lg font-bold mb-2">Configura tu perfil</h2>
                             <p class="text-sm text-gray-600 mb-4">Revisa tu perfil</p>
-                            <a href="{{ route('profile.show') }}"
+                            <a href="{{route('profile.show')}}"
                                 class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
                                 Configurar
                             </a>
@@ -109,13 +118,63 @@
 
                         <div class="bg-indigo-100 rounded-lg p-4 shadow">
                             <h2 class="text-lg font-bold mb-2">Datos Personales</h2>
-                            <p class="text-sm text-gray-600 mb-4">Cambia tus datos datos personales</p>
-                            <a href=" "
-                                class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
-                                Ingresar
+                            <p class="text-sm text-gray-600 mb-4">Ver datos Personales</p>
+                                <a href="{{route('trabajador.show')}}"
+                                    class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                                    Ingresar
+                                </a>
+                        </div>
+                        
+
+                    </div>
+
+                    @elseif (Auth::user()->id_roles  == 1)
+
+                    <!-- Contenido para Trabajador -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                                
+                        <!-- Botón Gestión de Tareas -->
+                        <div class="bg-purple-100 rounded-lg p-4 shadow">
+                            <h2 class="text-lg font-bold mb-2">Gestionar Trabajadores</h2>
+                            <p class="text-sm text-gray-600 mb-4">Visualiza a todos los trabajadores</p>
+                            <a href="{{route('administrador.trabajador')}}"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Ingresar
                             </a>
                         </div>
 
+
+           
+
+                        <!-- Botón Reporte de Actividades -->
+                        <div class="bg-purple-100 rounded-lg p-4 shadow">
+                            <h2 class="text-lg font-bold mb-2">Reporte de Actividades</h2>
+                            <p class="text-sm text-gray-600 mb-4">Genera reportes sobre tus actividades recientes.</p>
+                            <a href=""
+                            class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Generar Reporte
+                            </a>
+                        </div>
+
+                        <!-- Botón Revicion de Trabajadores -->
+                        <div class="bg-indigo-100 rounded-lg p-4 shadow">
+                            <h2 class="text-lg font-bold mb-2">Revicion de Trabajadores</h2>
+                            <p class="text-sm text-gray-600 mb-4">Revisa los Antecendentes</p>
+                            <a href=""
+                                class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                                Revisar
+                            </a>
+                        </div>
+
+                        <div class="bg-indigo-100 rounded-lg p-4 shadow">
+                            <h2 class="text-lg font-bold mb-2">Reclamos</h2>
+                            <p class="text-sm text-gray-600 mb-4">Ver detalles de reclamos</p>
+                                <a href=""
+                                    class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                                    Ingresar
+                                </a>
+                        </div>
+                        
                     </div>
                 @else
                     <!-- Contenido General -->
