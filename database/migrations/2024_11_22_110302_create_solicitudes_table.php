@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_solicitudes'); // unsigned BIGINT automáticamente
             $table->unsignedBigInteger('id_estado_solicitudes'); // Foreign Key unsigned
             $table->unsignedBigInteger('id_trabajadores'); // Foreign Key unsigned
-            #$table->unsignedBigInteger('id_cliente'); // Foreign Key unsigned
+            $table->unsignedBigInteger('id_cliente'); // Foreign Key unsigned
             $table->date('fech_reserva');
             $table->text('descripcion');
             $table->timestamps();
@@ -23,7 +23,7 @@ return new class extends Migration
             // Relaciones (Foreign Keys)
             $table->foreign('id_estado_solicitudes')->references('id_estado_solicitudes')->on('estado_solicitudes');
             $table->foreign('id_trabajadores')->references('id_trabajadores')->on('trabajadores');
-            #$table->foreign('id_cliente')->references('id_cliente')->on('clientes');
+            $table->foreign('id_cliente')->references('id_cliente')->on('clientes');
         });
         
     }

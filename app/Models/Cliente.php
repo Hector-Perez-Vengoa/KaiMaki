@@ -37,9 +37,9 @@ class Cliente extends Model
         return $this->hasMany(Problema::class, 'id_cliente', 'id_cliente');
     }
 
-    // Relación con ClienteSolicitudes
-    public function clienteSolicitudes()
+    // Relación uno a muchos con Solicitudes
+    public function solicitudes()
     {
-        // return $this->hasMany(ClienteSolicitud::class, 'id_cliente', 'id_cliente');
+        return $this->hasMany(Solicitud::class, 'id_cliente', 'id_cliente');
     }
 }
