@@ -36,6 +36,7 @@ class Solicitud extends Model
         return $this->belongsTo(Trabajador::class, 'id_trabajadores', 'id_trabajadores');
     }
 
+    // Relación muchos a uno con Cliente
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
