@@ -68,6 +68,8 @@ class ProblemaController extends Controller
 
         return view('cliente.problemas.show', compact('problema'));
     }
+
+    
     public function edit($id)
     {
         $problema = Problema::findOrFail($id);
