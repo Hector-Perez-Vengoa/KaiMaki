@@ -122,7 +122,7 @@
                         <div class="bg-indigo-100 rounded-lg p-4 shadow">
                             <h2 class="text-lg font-bold mb-2">Consultar Solicitudes</h2>
                             <p class="text-sm text-gray-600 mb-4">Revisa las solicitudes asignadas.</p>
-                            <a href=""
+                            <a href="{{ route('trabajador.solicitudes') }}"
                                 class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
                                 Consultar
                             </a>

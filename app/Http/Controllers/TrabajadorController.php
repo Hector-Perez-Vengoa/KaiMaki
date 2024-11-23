@@ -9,6 +9,7 @@ use App\Models\EstadoUsers;
 use App\Models\Oficios;
 use App\Models\Trabajadores;
 use App\Models\Ubicacion;
+use App\Models\Solicitud;
 use App\Models\User;
 use Hamcrest\Core\AllOf;
 use Illuminate\Support\Facades\Auth;
@@ -190,5 +191,37 @@ class TrabajadorController extends Controller
         return view('trabajador.reportes'); // Crear la vista
     }
 
+    public function solicitudes()
+    {   
+        // Obtener el usuario autenticado
+        $usuario = Auth::user();
+
+        // Obtener el ID del trabajador asociado al usuario autenticado
+        $trabajador = $usuario->trabajadores()->first();
+
+        $idTrabajador = $trabajador->id_trabajadores;
+        
+        // Obtener las solicitudes filtradas por el ID del trabajador
+        $solicitudes = Solicitud::where('id_trabajadores', $idTrabajador)
+        ->with(['cliente', 'estado']) // Cargar relaciones
+        ->get();
+
+        // Pasar las solicitudes a la vista
+        return view('trabajador.solicitudes', compact('solicitudes'));
+
+    }
+
+    public function actualizarEstado($id_solicitud, $estado)
+    {
+    
+        // Realizar la actualización directamente
+        Solicitud::where('id_solicitudes', $id_solicitud)->update(['id_estado_solicitudes' => $estado]);
+    
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('trabajador.solicitudes')->with('success', 'Estado actualizado correctamente.');
+    }
+    
+    
+     
 
 }

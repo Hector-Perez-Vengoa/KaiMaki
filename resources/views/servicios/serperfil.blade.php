@@ -3,7 +3,7 @@
     <div class="bg-orange-500 text-white p-4">
         <div class="container mx-auto flex items-center">
             <div class="w-16 h-16 rounded-full overflow-hidden">
-                <img src="{{ asset('storage/' . $trabajador->profile_photo_path) }}" alt="Foto de perfil">
+                <img src="{{ $trabajador->profile_photo_path ? asset('storage/' . $trabajador->profile_photo_path) : asset('storage/userDefault.png') }}" alt="Foto de perfil">
             </div>
             <div class="ml-4">
                 <h1 class="text-lg font-semibold">{{ $trabajador->nombres }} {{ $trabajador->apellidos }}</h1>
@@ -55,11 +55,11 @@
                             @endfor
                         </div>
                     </div>
-                    <div class="mt-6 text-center">
+                    <!--div class="mt-6 text-center">
                         <button class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">
                             Solicitar
                         </button>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <!-- Fin Columna Principal -->
@@ -69,10 +69,9 @@
             <!-- Formulario de Reserva -->
             <div class="bg-white shadow-md rounded-md p-6">
                 <h3 class="text-lg font-semibold mb-4">Formulario de Reserva</h3>
-                <form action="{{ route('servicios') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('servicios.solicitar') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_trabajadores" value="{{ $trabajador->id_trabajadores }}">
-                    <input type="hidden" name="id_cliente" value="{{ auth()->user()->id_cliente }}">
                     <!-- Fecha de inicio -->
                     <div class="mb-4">
                         <label for="fech_reserva" class="block text-sm font-medium text-gray-700">Fecha de reserva</label>
@@ -84,13 +83,7 @@
                         <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                         <textarea id="descripcion" name="descripcion" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Escribe una breve descripción" required></textarea>
                     </div>
-                    
-                    <!-- Imagen -->
-                    <div class="mb-4">
-                        <label for="imagen" class="block text-sm font-medium text-gray-700">Subir imagen</label>
-                        <input type="file" id="imagen" name="imagen" accept="image/*" class="mt-1 block w-full text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm">
-                    </div>
-                    
+
                     <!-- Botón de envío -->
                     <div class="mt-6 text-center">
                         <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">Solicitar servicios</button>

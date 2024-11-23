@@ -33,7 +33,7 @@ class Solicitud extends Model
 
     public function trabajador()
     {
-        return $this->belongsTo(Trabajador::class, 'id_trabajadores', 'id_trabajadores');
+        return $this->belongsTo(Trabajadores::class, 'id_trabajadores', 'id_trabajadores');
     }
 
     // Relación muchos a uno con Cliente

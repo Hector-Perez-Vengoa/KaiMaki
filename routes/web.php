@@ -46,8 +46,13 @@ Route::middleware([
 
     // Rutas específicas para clientes
     Route::middleware(['auth','role:3'])->group(function () {
+<<<<<<< HEAD
         //Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
         Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.serperfil');
+=======
+        Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
+        Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.solicitar');
+>>>>>>> 364d9a487a6e198d07c84a0ee43d57ab37d7ac99
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
         Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
@@ -91,10 +96,16 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     // Rutas específicas para trabajadores
     Route::middleware(['auth', 'role:2'])->group(function () {
         Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
+<<<<<<< HEAD
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
         Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario'); 
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
       
+=======
+        Route::get('/trabajador/solicitudes', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
+        Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
+        
+>>>>>>> 364d9a487a6e198d07c84a0ee43d57ab37d7ac99
     });
 });
 
