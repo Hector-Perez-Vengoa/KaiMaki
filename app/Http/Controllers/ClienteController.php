@@ -2,28 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Cliente;
+use App\Models\Ubicacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClienteController extends Controller
 {
+<<<<<<< HEAD
+=======
+    // Mostrar el formulario de registro de cliente
+>>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
     public function formulario()
     {
-        // Aquí puedes devolver una vista o lógica adicional
-        return view('cliente.formulario'); // Suponiendo que tienes una vista llamada 
-    }
-    public function datos()
-    {
-        return view('cliente.datos'); // Crear la vista
+        return view('cliente.formulario');
     }
 
-    public function perfil()
+    // Guardar el perfil de cliente
+    public function guardarFormulario(Request $request)
     {
-        return view('cliente.perfil'); // Crear la vista
-    }
+        $request->validate([
+            'nom_cliente' => 'required|string|max:100',
+            'ape_cliente' => 'required|string|max:100',
+            'telefo_cliente' => 'nullable|string|max:20',
+            'dni' => 'required|string|max:10|unique:clientes',
+            'sexo' => 'required|in:M,F',
+            'ciudad' => 'required|string|max:255',
+            'distrito' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+        ]);
 
-    public function solicitudes()
-    {
-        return view('cliente.solicitudes'); // Crear la vista
+            // Crear la ubicación
+        $ubicacion = Ubicacion::create([
+            'ciudad' => $request->ciudad,
+            'distrito' => $request->distrito,
+            'direccion' => $request->direccion,
+        ]);
+
+        Cliente::create([
+            'id_usuario' => Auth::id(),
+            'id_ubicacion' => $request->id_ubicacion, // Ajustar según la lógica de ubicación
+            'nom_cliente' => $request->nom_cliente,
+            'ape_cliente' => $request->ape_cliente,
+            'telefo_cliente' => $request->telefo_cliente,
+            'dni' => $request->dni,
+            'sexo' => $request->sexo,
+        ]);
+
+        return redirect()->route('cliente.dashboard')->with('success', 'Registro completado.');
     }
 }

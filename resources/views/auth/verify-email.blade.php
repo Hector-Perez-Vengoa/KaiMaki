@@ -1,7 +1,8 @@
+@include('header')
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <img src="{{ asset('storage/inicio/logo3.png') }}" alt="Logo KaiMaki" class="w-20 h-20">
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
@@ -43,3 +44,5 @@
         </div>
     </x-authentication-card>
 </x-guest-layout>
+
+@include('footer')

@@ -2,10 +2,17 @@
 
 
 <!-- Search Bar -->
+<<<<<<< HEAD
 <div class="flex justify-center p-6 items-center border-2">
   <div class="w-full max-w-md border-2">
     <label class="block text-xl font-bold mb-2 items-center" for="search">Buscar por oficio</label>
       <div class="relative border-2">
+=======
+<div class="flex justify-center p-6 items-center">
+  <div class="w-full max-w-md">
+    <label class="block text-xl font-bold mb-2 items-center" for="search">Buscar por oficio</label>
+      <div class="relative">
+>>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
         <form method="GET" action="{{ route('servicios') }}">
           <input type="text" id="search" name="search" placeholder="Buscar oficio..." class="w-full max-w-xs px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" value="{{ request('search') }}">
           <button type="submit" class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -31,11 +38,19 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       @foreach($trabajadores as $trabajador)
       <!-- Individual Card -->
+<<<<<<< HEAD
       <a href="{{ route('servicios', $trabajador->id_trabajador) }}" class="block">
         <div class="bg-white border border-orange-200 rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
           <img src="{{ $trabajador->foto ? asset('storage/' . $trabajador->foto) : asset('storage/userDefault.png') }}" alt="Foto de perfil de {{ $trabajador->nombres_t }}" class="w-18 h-18 mx-auto rounded-full mb-4">
           <h3 class="text-lg font-semibold">{{ $trabajador->nombres_t }} {{ $trabajador->apellidos_t }}</h3>
           <p class="text-gray-500">Especialidad: {{ $trabajador->oficio_tmp }}</p>
+=======
+      <a href="{{ route('servicios.serperfil', ['id_trabajadores' => $trabajador->id_trabajadores]) }}" class="block">
+        <div class="bg-white border border-orange-200 rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
+          <img src="{{ asset('storage/' . ($trabajador->users->profile_photo_path ?? 'userDefault.png')) }}" alt="Foto de perfil de {{ $trabajador->nombres_t }}" class="w-18 h-18 mx-auto object-cover object-center rounded-full mb-4">
+          <h3 class="text-lg font-semibold">{{ $trabajador->nombres}} {{ $trabajador->apellidos}}</h3>
+          <p class="text-gray-500">Especialidad: {{ $trabajador->oficios->first()?->nombre_oficio ?? 'Sin oficio' }}</p>
+>>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
           <p class="text-gray-500">Puntuación:</p>
           <div class="flex justify-center mt-2">
             @for ($i = 0; $i < ($trabajador->puntuacion > 5 ? 5 : max(0, $trabajador->puntuacion)); $i++)

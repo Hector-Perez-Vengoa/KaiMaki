@@ -17,4 +17,10 @@ class Oficios extends Model
     {
         return $this->belongsToMany(Trabajadores::class, 'trabajadores_oficio', 'id_oficios', 'id_trabajadores');
     }
+
+    // Relación con Problemas
+    public function problemas()
+    {
+        return $this->hasMany(Problema::class, 'id_oficios', 'id_oficios');
+    }
 }

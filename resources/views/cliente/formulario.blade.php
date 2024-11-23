@@ -1,64 +1,60 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Registro de Usuario') }}
-        </h2>
-    </x-slot>
-    <div class="flex justify-center items-center min-h-screen bg-gray-100">
-        <div class="w-full max-w-md bg-white shadow-md rounded-md p-6">
-            <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Formulario de Registro</h1>
-            <form action="#" method="POST" class="space-y-4">
-                <!-- Nombres -->
-                <div>
-                    <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres</label>
-                    <input type="text" id="nombres" name="nombres" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                </div>
-    
-                <!-- Apellidos -->
-                <div>
-                    <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos</label>
-                    <input type="text" id="apellidos" name="apellidos" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                </div>
-    
-                <!-- Teléfono -->
-                <div>
-                    <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-                    <input type="tel" id="telefono" name="telefono" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                </div>
-    
-                <!-- Sexo -->
-                <div>
-                    <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
-                    <select id="sexo" name="sexo" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <option value="" disabled selected>Selecciona una opción</option>
-                        <option value="masculino">Masculino</option>
-                        <option value="femenino">Femenino</option>
-                        <option value="otro">Otro</option>
-                    </select>
-                </div>
-    
-                <!-- Ubicación -->
-                <div>
-                    <label for="ubicacion" class="block text-sm font-medium text-gray-700">Ubicación</label>
-                    <input type="text" id="ubicacion" name="ubicacion" required
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        placeholder="Ciudad o dirección completa">
-                </div>
-    
-                <!-- Botón Enviar -->
-                <div class="mt-6">
-                    <button type="submit"
-                        class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        Enviar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
+    <div class="max-w-4xl mx-auto py-10">
+        <h2 class="text-2xl font-bold mb-6">Completa tu Registro de Cliente</h2>
 
+        @if (session('error'))
+            <p class="text-red-500">{{ session('error') }}</p>
+        @endif
+
+        <form action="{{ route('cliente.store') }}" method="POST" class="space-y-4">
+            @csrf
+
+            <div>
+                <label for="nom_cliente" class="block font-medium">Nombre</label>
+                <input type="text" id="nom_cliente" name="nom_cliente" class="form-input w-full" required>
+            </div>
+
+            <div>
+                <label for="ape_cliente" class="block font-medium">Apellidos</label>
+                <input type="text" id="ape_cliente" name="ape_cliente" class="form-input w-full" required>
+            </div>
+
+            <div>
+                <label for="telefo_cliente" class="block font-medium">Teléfono</label>
+                <input type="text" id="telefo_cliente" name="telefo_cliente" class="form-input w-full">
+            </div>
+
+            <div>
+                <label for="dni" class="block font-medium">DNI</label>
+                <input type="text" id="dni" name="dni" class="form-input w-full" required>
+            </div>
+
+            <div>
+                <label for="ciudad" class="block font-medium">Provincia</label>
+                <input type="text" id="ciudad" name="ciudad" class="form-input w-full" required>
+            </div>
+
+            <div>
+                <label for="distrito" class="block font-medium">Distrito</label>
+                <input type="text" id="distrito" name="distrito" class="form-input w-full">
+            </div>
+
+            <div>
+                <label for="direccion" class="block font-medium">Dirección</label>
+                <input type="text" id="direccion" name="direccion" class="form-input w-full" required>
+            </div>
+
+            <div>
+                <label for="sexo" class="block font-medium">Sexo</label>
+                <select id="sexo" name="sexo" class="form-select w-full" required>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                </select>
+            </div>
+
+            <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+                Registrar
+            </button>
+        </form>
+    </div>
 </x-app-layout>

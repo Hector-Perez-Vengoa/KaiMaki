@@ -133,5 +133,12 @@ class User extends Authenticatable
         ];
     }
 
+    // app/Models/User.php
+    public function cliente()
+    {
+        return $this->hasOne(Cliente::class, 'id_usuario', 'id');
+    }
+
+
 
 }

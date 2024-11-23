@@ -19,16 +19,24 @@ class DatabaseSeeder extends Seeder
             EstadoUsersSeeder::class,      // Crear estado: Usersss
             RolesSeeder::class,             // Crear roles
             UserSeeder::class,              // Crear usuarios y asignar roles
+
             EstadoCertificadoSeeder::class,// Crear estados para certificados
             EstadoAntecedentesSeeder::class,// Crear estados para antecedentes
+            EstadoSolicitudesSeeder::class,// Crear estados para solicitudes
     
             OficiosSeeder::class,           // Crear oficios
+            EstadoProblemaSeeder::class,
             UbicacionSeeder::class,       // Crear ubicaciones
             TrabajadorSeeder::class,        // Crear trabajadores
             TrabajadorOficioSeeder::class,// Crear la relación entre trabajadores y oficios
             CertificadosSeeder::class,      // Crear certificados
+<<<<<<< HEAD
             AntecedentesSeeder::class,
             
+=======
+            AntecedentesSeeder::class,      // Crear antecedentes
+
+>>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
         ]);
         
         User::factory()->create([

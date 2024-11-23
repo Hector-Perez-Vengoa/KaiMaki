@@ -7,6 +7,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/css/carousel.css', // Agrega este
+                'resources/js/carousel.js',   // Agrega este
             ],
             refresh: true,
         }),

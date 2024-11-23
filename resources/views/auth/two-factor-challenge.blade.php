@@ -1,7 +1,8 @@
+@include('header')
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <img src="{{ asset('storage/inicio/logo3.png') }}" alt="Logo KaiMaki" class="w-20 h-20">
         </x-slot>
 
         <div x-data="{ recovery: false }">
@@ -19,7 +20,7 @@
                 @csrf
 
                 <div class="mt-4" x-show="! recovery">
-                    <x-label for="code" value="{{ __('Code') }}" />
+                    <x-label for="code" value="{{ __('Codigo') }}" />
                     <x-input id="code" class="block mt-1 w-full" type="text" inputmode="numeric" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
                 </div>
 
@@ -56,3 +57,5 @@
         </div>
     </x-authentication-card>
 </x-guest-layout>
+
+@include('footer')
