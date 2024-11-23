@@ -8,6 +8,7 @@ use App\Models\Certificados;
 use App\Models\Oficios;
 use App\Models\Trabajadores;
 use App\Models\Ubicacion;
+use App\Models\Solicitud;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -139,7 +140,35 @@ class TrabajadorController extends Controller
     }
 
     public function solicitudes()
-    {
-        return view('trabajador.solicitudes'); // Crear la vista
+    {   
+        // Obtener el usuario autenticado
+        $usuario = Auth::user();
+
+        // Obtener el ID del trabajador asociado al usuario autenticado
+        $trabajador = $usuario->trabajadores()->first();
+
+        $idTrabajador = $trabajador->id_trabajadores;
+        
+        // Obtener las solicitudes filtradas por el ID del trabajador
+        $solicitudes = Solicitud::where('id_trabajadores', $idTrabajador)
+        ->with(['cliente', 'estado']) // Cargar relaciones
+        ->get();
+
+        // Pasar las solicitudes a la vista
+        return view('trabajador.solicitudes', compact('solicitudes'));
+
     }
+
+    public function actualizarEstado($id_solicitud, $estado)
+    {
+    
+        // Realizar la actualización directamente
+        Solicitud::where('id_solicitudes', $id_solicitud)->update(['id_estado_solicitudes' => $estado]);
+    
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('trabajador.solicitudes')->with('success', 'Estado actualizado correctamente.');
+    }
+    
+    
+     
 }

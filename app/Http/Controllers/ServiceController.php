@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trabajadores;
+use App\Models\Clientes;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -57,34 +59,28 @@ class ServiceController extends Controller
 
     public function solicitar(Request $request)
     {
-        // Validar los datos del formulario
+        // Validación de los datos del formulario
         $validatedData = $request->validate([
-            'id_trabajadores' => 'required|exists:trabajadores,id_trabajadores',
-            //'id_cliente' => 'required|exists:clientes,id_cliente',
+            'id_trabajadores' => 'required|integer|exists:trabajadores,id_trabajadores',
             'fech_reserva' => 'required|date',
             'descripcion' => 'required|string|max:500',
-            //'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        /*// Guardar la imagen si existe
-        $rutaImagen = null;
-        if ($request->hasFile('imagen')) {
-            $rutaImagen = $request->file('imagen')->store('imagenes_solicitudes', 'public');
-        }*/
+        // Crear la nueva solicitud
+        Solicitud::create([
+            'id_estado_solicitudes' => 1, // Estado inicial "Pendiente"
+            'id_trabajadores' => $validatedData['id_trabajadores'],
+            'id_cliente' => Auth::user()->cliente->id_cliente,
+            'fech_reserva' => $validatedData['fech_reserva'],
+            'descripcion' => $validatedData['descripcion'],
+        ]);
     
-        // Crear una nueva solicitud
-        $solicitud = new Solicitud();
-        $solicitud->id_estado_solicitudes = 1; // Por ejemplo, estado inicial "Pendiente"
-        $solicitud->id_trabajadores = $validatedData['id_trabajadores'];
-        //$solicitud->id_cliente = $validatedData['id_cliente'];
-        $solicitud->fech_reserva = $validatedData['fech_reserva'];
-        $solicitud->descripcion = $validatedData['descripcion'];
-        //$solicitud->imagen = $rutaImagen; // Guardar la ruta de la imagen si se subió
-        $solicitud->save();
-    
-        // Redirigir al usuario con un mensaje de éxito
-        return redirect()->back()->with('success', 'Solicitud enviada con éxito.');
+        // Redirigir a la vista con mensaje de éxito
+        return redirect()->route('servicios')->with('success', 'Solicitud creada correctamente.');
     }
+    
+    
+    
     
     
     
