@@ -24,7 +24,7 @@
             <!-- Logo y nombre envueltos dentro de un solo enlace -->
             <a href="/" class="flex items-center space-x-2">
                 <!-- Imagen del logo -->
-                <img src="/path/to/logo.png" alt="Logo KaiMaki" class="w-10 h-10">
+                <img src="{{ asset('storage/inicio/logo2.png') }}" alt="Logo KaiMaki" class="w-10 h-10">
                 <!-- Nombre del sitio -->
                 <span class="text-xl font-bold">Kai Maki</span>
             </a>
@@ -33,8 +33,7 @@
 
         <!-- Navigation Links -->
         <nav class="ml-auto flex space-x-8">
-            <a href=" {{ url('/servicios') }}" class="hover:underline hover:text-orange-300">Servicios</a>
-            <a href="{{ url('/ayuda') }}" class="hover:underline hover:text-orange-300">Ayuda</a>
+            <a href="#todo-en-3-pasos" class="hover:underline hover:text-orange-300">Ayuda</a>
             <a href="{{ url('about-us') }}" class="hover:underline hover:text-orange-300">Nosotros</a>
         </nav>
         
@@ -73,7 +72,7 @@
 
 <!---------------------------------------------------Carruel-------------------------------------------->
 
-<div class="carousel-container bg-orange-100 py-12">
+<div class="carousel-container bg-orange-100 py-6">
     <h2 class="text-5xl font-bold text-center text-orange-600 mb-6">Nuestros Servicios</h2>
     <p class="text-lg text-center text-gray-600 mb-8 max-w-2xl mx-auto">
         Descubre todo lo que tenemos para ofrecerte. Servicios diseñados pensando en ti.
@@ -85,7 +84,7 @@
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
                     <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Albañilería</p>
+                    <p class="mt-2 font-bold text-gray-800">Obrero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
@@ -103,31 +102,110 @@
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
                     <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Plomería</p>
+                    <p class="mt-2 font-bold text-gray-800">Plomero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
                     <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Albañilería</p>
+                    <p class="mt-2 font-bold text-gray-800">Carpintero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
                     <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Electricista</p>
+                    <p class="mt-2 font-bold text-gray-800">Jardinero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
                     <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Mecánico</p>
+                    <p class="mt-2 font-bold text-gray-800">Pintor</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
                     <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Plomería</p>
+                    <p class="mt-2 font-bold text-gray-800">Cerrajero</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Limpieza profesional</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Técnico en aire acondicionado</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Reparaciones</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Decoración</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Fotografía</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Técnico en electrónica</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Peluquería</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Costurero</p>
+                </div>
+            </div>
+
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Entrenador profesional</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Mudanza</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Asesoría contable</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Paseador de perros</p>
+                </div>
+            </div>
+            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
+                <div class="carousel-slide text-center">
+                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <p class="mt-2 font-bold text-gray-800">Técnico en alarmas</p>
                 </div>
             </div>
         </div>
@@ -140,7 +218,7 @@
 
 
 
-<div class="container mx-auto py-12">
+<div id="todo-en-3-pasos" class=" container mx-auto py-12">
     <div class="flex justify-center items-center">
         <div class="w-full max-w-4xl bg-custom-orange p-10 rounded-lg shadow-xl mx-auto">
             <h2 class="text-3xl text-center font-bold mb-6">TODO EN 3 PASOS</h2>

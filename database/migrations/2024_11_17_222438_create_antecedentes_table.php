@@ -22,13 +22,13 @@ return new class extends Migration
             $table->foreign('id_trabajadores')
                   ->references('id_trabajadores')
                   ->on('trabajadores')
-                  ->onDelete('set null');
+                  ->onDelete('cascade');
         
             // Clave foránea con estado_antecedentes
             $table->foreign('id_estado_antecedentes')
                   ->references('id_estado_antecedentes')
                   ->on('estado_antecedentes')
-                  ->onDelete('set null');
+                  ->onDelete('cascade');
         
             $table->timestamps();
         });        

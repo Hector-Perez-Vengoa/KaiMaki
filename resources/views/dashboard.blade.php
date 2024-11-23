@@ -50,8 +50,27 @@
                             Ver solicitudes
                             </a>
                         </div>
-                        
 
+
+                        <!-- Botón Publicar Problema -->
+                        <div class="bg-orange-100 rounded-lg p-4 shadow">
+                            <h2 class="text-lg font-bold mb-2">Publicar un Problema</h2>
+                            <p class="text-sm text-gray-600 mb-4">Describe el problema para que podamos ayudarte.</p>
+                            <a href="{{ route('problemas.create') }}"
+                               class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-700">
+                                Publicar
+                            </a>
+                        </div>
+
+
+                        <div class="bg-yellow-100 rounded-lg p-4 shadow">
+                            <h2 class="text-lg font-bold mb-2">Mis Publicaciones</h2>
+                            <p class="text-sm text-gray-600 mb-4">Revisa y administra tus problemas publicados.</p>
+                            <a href="{{ route('cliente.problemas.index') }}"
+                               class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-700">
+                                Ver mis problemas
+                            </a>
+                        </div>
 
 
                     </div>

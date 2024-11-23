@@ -19,4 +19,10 @@ class Ubicacion extends Model
     {
     return $this->hasMany(Trabajadores::class, 'id_ubicacion', 'id_ubicacion');
     }
+
+    public function clientes()
+    {
+        return $this->hasMany(Cliente::class, 'id_ubicacion','id_ubicacion');
+    }
+
 }
