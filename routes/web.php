@@ -31,6 +31,8 @@ Route::middleware([
     // Rutas específicas para clientes
     Route::middleware(['auth','role:3'])->group(function () {
         Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
+        Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.serperfil');
+        Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
 
     });

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,              // Crear usuarios y asignar roles
             EstadoCertificadoSeeder::class,// Crear estados para certificados
             EstadoAntecedentesSeeder::class,// Crear estados para antecedentes
+            EstadoSolicitudesSeeder::class,// Crear estados para solicitudes
     
             OficiosSeeder::class,           // Crear oficios
             UbicacionSeeder::class,       // Crear ubicaciones
