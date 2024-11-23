@@ -25,14 +25,14 @@
                             <!-- Botón para aceptar -->
                             <form action="{{ route('solicitudes.actualizarEstado', ['id_solicitud' => $solicitud->id_solicitudes, 'estado' => 2]) }}" method="POST" class="inline-block">
                                 @csrf
-                                <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow">
+                                <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow border-2">
                                     Aceptar
                                 </button>
                             </form>
 
                             <form action="{{ route('solicitudes.actualizarEstado', ['id_solicitud' => $solicitud->id_solicitudes, 'estado' => 4]) }}" method="POST" class="inline-block">
                                 @csrf
-                                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded shadow">
+                                <button type="submit" class="hover:bg-red-600 text-black font-bold py-2 px-4 rounded shadow border-2">
                                     Cancelar
                                 </button>
                             </form>

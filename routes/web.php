@@ -9,15 +9,11 @@ use App\Models\Trabajadores;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-<<<<<<< HEAD
-=======
 // Ruta principal
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-<<<<<<< HEAD
 
 // Rutas para el dashboard genérico (protegido para usuarios autenticados)
 Route::middleware([
@@ -25,12 +21,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-=======
-// Rutas protegidas por autenticación
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 
     // Dashboard genérico
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
+
     Route::get('/dashboard', function () {
         $user = Auth::user();
 
@@ -41,9 +34,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         return view('dashboard');
     })->name('dashboard');
-<<<<<<< HEAD
-    
-=======
+
+    // Ruta para servicios, bloqueado, solo para clientes registrados
 
     Route::get('/servicios', function () {
         $user = Auth::user();
@@ -58,7 +50,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
     // Rutas específicas para clientes
     Route::middleware(['auth','role:3'])->group(function () {
-        Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
+        //Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
         Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.solicitar');
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
@@ -66,7 +58,16 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/cliente/dashboard', function () {
             return view('dashboard');
         })->name('cliente.dashboard');
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
+        Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');
+        Route::post('/cliente/publicar-problema', [ProblemaController::class, 'store'])->name('problemas.store');
+        Route::get('/cliente/mis-problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
+        Route::get('/problemas/{problema}', [ProblemaController::class, 'show'])->name('problemas.show');
+        Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
+        // Ruta para actualizar los datos del problema
+        Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
+    });
+
+
 
     // Rutas específicas para Administrador
 Route::middleware(['auth', 'role:1'])->group(function () {
@@ -98,7 +99,7 @@ Route::middleware(['auth', 'role:3'])->group(function () {
     
     });
     
-<<<<<<< HEAD
+
     // Rutas específicas para trabajadores
 Route::middleware(['auth', 'role:2'])->group(function () {
         Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
@@ -107,8 +108,7 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
       
     });
-=======
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
+
 
     // Rutas específicas para trabajadores
     Route::middleware(['role:2'])->group(function () {

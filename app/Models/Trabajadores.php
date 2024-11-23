@@ -49,10 +49,15 @@ class Trabajadores extends Model
         return $this->belongsToMany(Oficios::class, 'trabajadores_oficio', 'id_trabajadores', 'id_oficios');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'id_usuario', 'id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'id_usuario', 'id');
     }
+
 
     
 

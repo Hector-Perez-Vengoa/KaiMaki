@@ -50,7 +50,6 @@
                             Ver solicitudes
                             </a>
                         </div>
-<<<<<<< HEAD
                                                              <!-- Botón Gestión de Tareas -->
                         <div class="bg-red-100 rounded-lg p-4 shadow">
                            <h2 class="text-lg font-bold mb-2">Busca Servicios</h2>
@@ -59,8 +58,6 @@
                                     Buscar 
                                 </a>
                         </div>
-=======
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
 
 
                         <!-- Botón Publicar Problema -->
