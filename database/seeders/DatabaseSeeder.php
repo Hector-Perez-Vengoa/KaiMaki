@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
 
             EstadoCertificadoSeeder::class,// Crear estados para certificados
             EstadoAntecedentesSeeder::class,// Crear estados para antecedentes
-
+            EstadoSolicitudesSeeder::class,// Crear estados para solicitudes
     
             OficiosSeeder::class,           // Crear oficios
             EstadoProblemaSeeder::class,
