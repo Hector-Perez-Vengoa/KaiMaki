@@ -31,6 +31,7 @@ class UserSeeder extends Seeder
                 'email' => "trabajador$i@example.com",
                 'password' => bcrypt('password'),
                 'id_roles' => 2, // Rol de Trabajador
+                'id_estado_users'=>2
             ]);
         }
 
@@ -41,6 +42,7 @@ class UserSeeder extends Seeder
                 'email' => "cliente$i@example.com",
                 'password' => bcrypt('password'),
                 'id_roles' => 3, // Rol de Cliente
+                'id_estado_users'=>2
             ]);
         }
     }

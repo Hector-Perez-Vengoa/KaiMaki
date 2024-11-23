@@ -1,11 +1,14 @@
+@include('header')
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
+            <img src="{{ asset('storage/inicio/logo3.png') }}" alt="Logo KaiMaki" class="w-20 h-20">
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('¿Olvidaste tu contraseña? Ningún problema. 
+            Simplemente háganos saber su dirección de correo electrónico y le enviaremos 
+            un enlace para restablecer su contraseña que le permitirá elegir una nueva.') }}
         </div>
 
         @session('status')
@@ -26,7 +29,8 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-button>
-                    {{ __('Email Password Reset Link') }}
+                    {{ __('Enlace para restablecer contraseña 
+                    de correo electrónico') }}
                 </x-button>
             </div>
         </form>

@@ -30,12 +30,12 @@
             </div>
 
             <div>
-                <label for="ciudad" class="block font-medium">Ciudad</label>
+                <label for="ciudad" class="block font-medium">Provincia</label>
                 <input type="text" id="ciudad" name="ciudad" class="form-input w-full" required>
             </div>
 
             <div>
-                <label for="distrito" class="block font-medium">Provincia</label>
+                <label for="distrito" class="block font-medium">Distrito</label>
                 <input type="text" id="distrito" name="distrito" class="form-input w-full">
             </div>
 

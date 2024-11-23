@@ -1,63 +1,4 @@
-<head>
-    <!-- Meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>KaiMaki</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Styles / Scripts -->
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @endif
-
-    <link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
-
-</head>
-<body>
-    <header class="bg-orange-500 text-white py-4 px-6 flex justify-between items-center shadow-lg">
-        <!-- Logo -->
-        <div class="flex items-center space-x-4">
-            <!-- Logo y nombre envueltos dentro de un solo enlace -->
-            <a href="/" class="flex items-center space-x-2">
-                <!-- Imagen del logo -->
-                <img src="{{ asset('storage/inicio/logo2.png') }}" alt="Logo KaiMaki" class="w-10 h-10">
-                <!-- Nombre del sitio -->
-                <span class="text-xl font-bold">Kai Maki</span>
-            </a>
-        </div>
-        
-
-        <!-- Navigation Links -->
-        <nav class="ml-auto flex space-x-8">
-            <a href="#todo-en-3-pasos" class="hover:underline hover:text-orange-300">Ayuda</a>
-            <a href="{{ url('about-us') }}" class="hover:underline hover:text-orange-300">Nosotros</a>
-        </nav>
-        
-
-       <!-- Authentication Links -->
-    <div class="flex space-x-4 ml-12">
-        @if (Route::has('login'))
-            @auth
-                <a href="{{ url('/dashboard') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
-                    Ingresar
-                </a>
-            @else
-                <a href="{{ route('login') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
-                    Log in
-                </a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="px-3 py-2 bg-white text-orange-500 rounded-md shadow hover:bg-orange-100">
-                        Register
-                    </a>
-                @endif
-            @endauth
-        @endif
-    </div>
-    </header>
+@include('header')
 
 <div class="relative bg-cover bg-center" style="background-image: url('{{ asset('storage/inicio/pantalla.jpg') }}'); height: 80vh;">
     <div class="absolute inset-0 flex items-center justify-end px-6">
@@ -107,105 +48,99 @@
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/carpintero.jpg') }}" alt="Carpintero" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Carpintero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/jardinero.jpg') }}" alt="Jardinero" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Jardinero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/pintor.jpg') }}" alt="Pintor" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Pintor</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/cerrajero.jpg') }}" alt="Cerrajero" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Cerrajero</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/limpieza.jpg') }}" alt="Limpieza Profesional" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Limpieza profesional</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/t_aire.png') }}" alt="Técnico en aire acondicionado" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Técnico en aire acondicionado</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/reparaciones.jpg') }}" alt="Reparaciones" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Reparaciones</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/decoracion.png') }}" alt="Decoración" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Decoración</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/fotografia.jpg') }}" alt="Fotografía" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Fotografía</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/t_electronica.jpg') }}" alt="Técnico en electrónica" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Técnico en electrónica</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/peluqueria.jpg') }}" alt="Peluquería" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Peluquería</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/costurero.jpg') }}" alt="Costurero" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Costurero</p>
                 </div>
             </div>
 
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/entrenador.jpg') }}" alt="Entrenador profesional" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Entrenador profesional</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/electricista.jpg') }}" alt="Electricista" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/mudanza.jpg') }}" alt="Mudanza" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Mudanza</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/mecanico.jpg') }}" alt="Mecánico" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/a_contable.jpg') }}" alt="Asesoría Contable" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Asesoría contable</p>
                 </div>
             </div>
             <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
                 <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/plomeria.jpg') }}" alt="Plomería" class="carousel-image mx-auto">
+                    <img src="{{ asset('storage/inicio/paseado_perros.jpeg') }}" alt="Paseador de perros" class="carousel-image mx-auto">
                     <p class="mt-2 font-bold text-gray-800">Paseador de perros</p>
-                </div>
-            </div>
-            <div class="carousel-item flex-shrink-0 w-full md:w-1/4 px-2">
-                <div class="carousel-slide text-center">
-                    <img src="{{ asset('storage/inicio/albañileria.jpg') }}" alt="Albañilería" class="carousel-image mx-auto">
-                    <p class="mt-2 font-bold text-gray-800">Técnico en alarmas</p>
                 </div>
             </div>
         </div>
@@ -223,8 +158,8 @@
         <div class="w-full max-w-4xl bg-custom-orange p-10 rounded-lg shadow-xl mx-auto">
             <h2 class="text-3xl text-center font-bold mb-6">TODO EN 3 PASOS</h2>
             <div class="flex items-center justify-end px-6">
-                <!-- Imagen -->
-                <div class="w-1/3">
+                <!-- Imagen solo visible en pantallas grandes -->
+                <div class="w-full lg:w-1/3 hidden lg:block">
                     <img src="{{ asset('storage/inicio/hombreseñalando.png') }}" alt="Imagen ilustrativa" class="mx-auto max-w-xs">
                 </div>
                 <!-- Pasos -->

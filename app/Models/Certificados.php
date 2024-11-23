@@ -9,18 +9,18 @@ class Certificados extends Model
     use HasFactory;
 
     protected $table = 'certificados'; // Nombre de la tabla
+    // Campos que pueden asignarse masivamente
     protected $fillable = [
         'documento_certificado',
         'id_trabajadores',
         'id_estado_certificados',
-         // Agregar este campo para la relación
     ];
     
     public function trabajadores()
     {
         return $this->belongsTo(Trabajadores::class,'id_trabajadores');
     }
-    public function EstadoCertificados()
+    public function estado()
     {
     return $this->belongsTo(EstadoCertificados::class, 'id_estado_certificados', 'id_estado_certificados');
     }

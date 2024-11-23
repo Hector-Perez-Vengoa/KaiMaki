@@ -11,7 +11,11 @@ class EstadoAntecedentes extends Model
 
     protected $table = 'estado_antecedentes'; // Nombre de la tabla
     protected $primaryKey = 'id_estado_antecedentes'; // Clave primaria personalizada
+    protected $fillable = [
 
+        'nombre_estado',
+        'id_estado_antecedentes',
+    ];
     // Relación con Certificados (uno a muchos)
     public function antecedentes()
     {

@@ -1,8 +1,8 @@
 <footer class="bg-black text-white py-10">
-    <div class="container mx-auto flex justify-between">
+    <div class="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-4 text-center">
         <!-- Sección izquierda -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Kai Maki</h3>
+            <h3 class="text-orange-500 font-bold mb-4">Kai Maki</h3>
             <p>Conectamos clientes con profesionales para servicios de calidad en el hogar.</p>
             <p>Fácil, rápido y seguro.</p>
             <p class="mt-4">&copy; 2024 Kai Maki. Todos los derechos reservados.</p>
@@ -10,18 +10,21 @@
 
         <!-- Sección de contacto -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Contáctanos</h3>
+            <h3 class="text-orange-500 font-bold mb-4">Contáctanos</h3>
             <p>Santa Anita - Lima, Perú</p>
-            <p><a href="https://mail.google.com/mail/?view=cm&fs=1&to=hola.kaimaki@gmail.com" 
-                target="_blank" class="hover:underline">hola.kaimaki@gmail.com</a>
+            <p>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hola.kaimaki@gmail.com"
+                   target="_blank" class="hover:underline">hola.kaimaki@gmail.com</a>
             </p>
-            <p><a href="tel:+51927106471" class="hover:underline">+51 927 106 471</a></p>
+            <p>
+                <a href="tel:+51927106471" class="hover:underline">+51 927 106 471</a>
+            </p>
         </div>
 
         <!-- Sección de servicios -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Servicios</h3>
-            <ul>
+            <h3 class="text-orange-500 font-bold mb-4">Servicios</h3>
+            <ul class="space-y-2">
                 <li>Plomería</li>
                 <li>Cerrajería</li>
                 <li>Electricista</li>
@@ -33,12 +36,12 @@
 
         <!-- Sección de la compañía -->
         <div>
-            <h3 class="text-orange-500 font-bold mb-2">Compañía</h3>
-            <ul>
+            <h3 class="text-orange-500 font-bold mb-4">Compañía</h3>
+            <ul class="space-y-2">
                 <li><a href="/about-us" class="hover:underline">Sobre Nosotros</a></li>
-                <li>Siguenos:</li>
+                <li>Síguenos:</li>
             </ul>
-            <div class="flex space-x-3 mt-4">
+            <div class="flex justify-center space-x-4 mt-4">
                 <!-- Redes sociales -->
                 <a href="https://www.facebook.com/profile.php?id=61568658249703" target="_blank">
                     <img src="{{ asset('storage/inicio/logoFacebook.png') }}" alt="Facebook" class="w-6 h-6">

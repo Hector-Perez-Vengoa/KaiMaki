@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\EstadoUsers;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         $this->call([
+            EstadoUsersSeeder::class,      // Crear estado: Usersss
             RolesSeeder::class,             // Crear roles
             UserSeeder::class,              // Crear usuarios y asignar roles
 
@@ -28,8 +30,13 @@ class DatabaseSeeder extends Seeder
             TrabajadorSeeder::class,        // Crear trabajadores
             TrabajadorOficioSeeder::class,// Crear la relación entre trabajadores y oficios
             CertificadosSeeder::class,      // Crear certificados
+<<<<<<< HEAD
+            AntecedentesSeeder::class,
+            
+=======
             AntecedentesSeeder::class,      // Crear antecedentes
 
+>>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
         ]);
         
         User::factory()->create([
