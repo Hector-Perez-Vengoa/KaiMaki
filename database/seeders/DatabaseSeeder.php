@@ -30,13 +30,8 @@ class DatabaseSeeder extends Seeder
             TrabajadorSeeder::class,        // Crear trabajadores
             TrabajadorOficioSeeder::class,// Crear la relación entre trabajadores y oficios
             CertificadosSeeder::class,      // Crear certificados
-<<<<<<< HEAD
             AntecedentesSeeder::class,
             
-=======
-            AntecedentesSeeder::class,      // Crear antecedentes
-
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
         ]);
         
         User::factory()->create([

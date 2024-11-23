@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ClienteController extends Controller
 {
-<<<<<<< HEAD
-=======
-    // Mostrar el formulario de registro de cliente
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
     public function formulario()
     {
         return view('cliente.formulario');

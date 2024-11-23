@@ -21,7 +21,7 @@
                 @if (Auth::user()->id_roles  == 3)
                     <!-- Contenido para Cliente -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Botón Registro de Datos Personales -->
+                        <!-- Botón Registro de Datos Personales 
                         <div class="bg-blue-100 rounded-lg p-4 shadow">
                             <h2 class="text-lg font-bold mb-2">Registro de Datos Personales</h2>
                             <p class="text-sm text-gray-600 mb-4">Actualiza tu información personal para estar al día.</p>
@@ -30,6 +30,7 @@
                             Registrar
                             </a>
                         </div>
+                            -->
 
                         <!-- Botón Mi Perfil -->
                         <div class="bg-green-100 rounded-lg p-4 shadow">
@@ -50,7 +51,6 @@
                             Ver solicitudes
                             </a>
                         </div>
-<<<<<<< HEAD
                                                              <!-- Botón Gestión de Tareas -->
                         <div class="bg-red-100 rounded-lg p-4 shadow">
                            <h2 class="text-lg font-bold mb-2">Busca Servicios</h2>
@@ -59,8 +59,6 @@
                                     Buscar 
                                 </a>
                         </div>
-=======
->>>>>>> 759479876d26d1ab5705ba472776cc7966f8cd8c
 
 
                         <!-- Botón Publicar Problema -->
