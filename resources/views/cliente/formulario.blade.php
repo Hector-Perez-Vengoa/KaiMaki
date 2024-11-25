@@ -21,12 +21,12 @@
 
             <div>
                 <label for="telefo_cliente" class="block font-medium">Teléfono</label>
-                <input type="text" id="telefo_cliente" name="telefo_cliente" class="form-input w-full">
+                <input type="text" id="telefo_cliente"  name="telefo_cliente" maxlength="9" class="form-input w-full">
             </div>
 
             <div>
                 <label for="dni" class="block font-medium">DNI</label>
-                <input type="text" id="dni" name="dni" class="form-input w-full" required>
+                <input type="text" id="dni" name="dni" maxlength="8" class="form-input w-full" required>
             </div>
 
             <div>

@@ -17,19 +17,19 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $role)
     {
-        // Verificar que el usuario esté autenticado
+        // Verifica que el usuario esté autenticado
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión para acceder a esta página.');
         }
 
-        // Comparar el rol del usuario autenticado con el rol requerido
+        // Compara el rol del usuario autenticado con el rol requerido
         $userRole = Auth::user()->id_roles;
 
         if ($userRole != $role) {
             return redirect('/');
         }
 
-        // Continuar con la solicitud si el rol coincide
+        // Continua con la solicitud si el rol coincide
         return $next($request);
     }
 }

@@ -176,9 +176,9 @@
                             </a>
                         </div>
 
-                        <!-- Botón Revicion de Trabajadores -->
+                        <!-- Botón Revisión de Trabajadores -->
                         <div class="bg-indigo-100 rounded-lg p-4 shadow">
-                            <h2 class="text-lg font-bold mb-2">Revicion de Trabajadores</h2>
+                            <h2 class="text-lg font-bold mb-2">Revisión de Trabajadores</h2>
                             <p class="text-sm text-gray-600 mb-4">Revisa los Antecendentes</p>
                             <a href=""
                                 class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
