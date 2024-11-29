@@ -1,7 +1,7 @@
 <?php
 
 use Laravel\Fortify\Features;
-
+use Illuminate\Support\Facades\Auth;
 return [
 
     /*
@@ -73,7 +73,24 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    'home' => function () {
+    $user = Auth::user(); // Obtén el usuario autenticado directamente
+
+    if ($user->id_roles === 1) {
+        return '/admin/dashboard'; // Dashboard para administrador
+    }
+
+    // Rutas para otros roles
+    if ($user->id_roles === 2) {
+        return '/trabajador/dashboard';
+    }
+
+    if ($user->id_roles === 3) {
+        return '/cliente/dashboard';
+    }
+
+    return '/dashboard'; // Ruta genérica si no se encuentra el rol
+},
 
     /*
     |--------------------------------------------------------------------------
@@ -118,7 +135,7 @@ return [
         'login' => 'login',
         'two-factor' => 'two-factor',
     ],
-    
+
 
     /*
     |--------------------------------------------------------------------------

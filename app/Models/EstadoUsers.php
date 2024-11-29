@@ -18,6 +18,6 @@ class EstadoUsers extends Model
     // Relación con Certificados (uno a muchos)
     public function users ()
     {
-        return $this->hasMany(Certificados::class, 'id_estado_users', 'id_estado_users');
+        return $this->hasMany(User::class, 'id_estado_users', 'id_estado_users');
     }
 }

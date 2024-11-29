@@ -21,22 +21,19 @@ class TrabajadorController extends Controller
 
     public function index()
     {   
-        // Obtiene a los usuarios con rol "Trabajador" (ID = 2) y carga relaciones
-        $trabajadores = User::where('id_roles', 2)
-            ->with(['trabajadores', 'rol', 'estado'])
-            ->get();
-
-        return view('administrador.trabajadores', compact('trabajadores'));
+        //
     }
     
     
 
     public function formulario()
     {
+        $userId = Auth::id();
     // Cargar los oficios desde la base de datos
     $oficios = Oficios::all();
+    $trabajadorDetails = Trabajadores::where('id_usuario', $userId)->first();
     // Pasar los oficios a la vista
-    return view('trabajador.formulario', compact('oficios'));
+    return view('trabajador.formulario', compact('oficios','trabajadorDetails'));
     }
 
     public function store(Request $request)
@@ -69,10 +66,12 @@ class TrabajadorController extends Controller
                 'oficios.*' => 'exists:oficios,id_oficios', // Validar que cada ID existe en la tabla oficios
                 ],  
                 [
-                    'antecedente.required' => 'El campo Antecedente es obligatorio. Debes subir un archivo.',
-                    'antecedente.mimes' => 'El archivo debe ser un PDF.',
-                    'antecedente.max' => 'El archivo no debe superar los 2 MB.'
-                ],
+                    'antecedente.required' => 'El archivo de antecedentes es obligatorio.',
+                    'antecedente.mimes' => 'El archivo de antecedentes debe ser un PDF.',
+                    'antecedente.max' => 'El archivo de antecedentes no debe superar los 2 MB.',
+                    'certificado.mimes' => 'El archivo de certificado debe ser un PDF.',
+                    'certificado.max' => 'El archivo de certificado no debe superar los 2 MB.',
+                ]
                 );
     
             // 2. Crear ubicación
@@ -158,14 +157,13 @@ class TrabajadorController extends Controller
                     'certificados.estado',
                     'antecedentes',
                     'oficios',
-                    'user' // Para obtener datos del usuario asociado
+                    'users' // Para obtener datos del usuario asociado
                     ])->findOrFail($id);
 
                     // Retorna la vista con los datos del trabajador
                 return view('trabajador.show', compact('trabajador'));
                 }
 
-            
     
             // Flujo para Trabajadores
             if ($user->id_roles == 2) {
@@ -197,7 +195,7 @@ class TrabajadorController extends Controller
         $usuario = Auth::user();
 
         // Obtener el ID del trabajador asociado al usuario autenticado
-        $trabajador = $usuario->trabajadores()->first();
+        $trabajador = $usuario;//->trabajadores()->first();
 
         $idTrabajador = $trabajador->id_trabajadores;
         

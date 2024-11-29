@@ -15,7 +15,7 @@ class EstadoUsersSeeder extends Seeder
     {
         EstadoUsers::create([
             'id_estado_users' => 1,
-            'nombre_estado' => 'Aprobado',
+            'nombre_estado' => 'Activo',
         ]);
 
         EstadoUsers::create([
@@ -25,7 +25,7 @@ class EstadoUsersSeeder extends Seeder
 
         EstadoUsers::create([
             'id_estado_users' => 3,
-            'nombre_estado' => 'Rechazado',
+            'nombre_estado' => 'Suspendido',
         ]);
     }
 }

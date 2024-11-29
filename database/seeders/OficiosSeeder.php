@@ -43,24 +43,5 @@ class OficiosSeeder extends Seeder
             'nombre_oficio' => 'Cerrajero',
         ]);
 
-        Oficios::create([
-            'id_oficios' => 7,
-            'nombre_oficio' => 'Mecánico',
-        ]);
-
-        Oficios::create([
-            'id_oficios' => 8,
-            'nombre_oficio' => 'Albañil',
-        ]);
-
-        Oficios::create([
-            'id_oficios' => 9,
-            'nombre_oficio' => 'Técnico de electrodomésticos',
-        ]);
-
-        Oficios::create([
-            'id_oficios' => 10,
-            'nombre_oficio' => 'Servicio de limpieza',
-        ]);
     }
 }

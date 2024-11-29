@@ -9,6 +9,10 @@ class Cliente extends Model
 {
     use HasFactory;
 
+    protected $table = 'clientes'; // Nombre de la tabla
+    protected $primaryKey = 'id_cliente'; // Nombre de la clave primaria
+    public $timestamps = true; // Si usas columnas created_at y updated_at
+    
     protected $fillable = [
         'id_usuario',
         'id_ubicacion',

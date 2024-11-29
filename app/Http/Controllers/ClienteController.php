@@ -21,8 +21,8 @@ class ClienteController extends Controller
         $request->validate([
             'nom_cliente' => 'required|string|max:100',
             'ape_cliente' => 'required|string|max:100',
-            'telefo_cliente' => 'nullable|string|max:20',
-            'dni' => 'required|string|max:10|unique:clientes',
+            'telefo_cliente' => 'nullable|string|max:9',
+            'dni' => 'required|string|max:8|unique:clientes',
             'sexo' => 'required|in:M,F',
             'ciudad' => 'required|string|max:255',
             'distrito' => 'required|string|max:255',
@@ -38,7 +38,7 @@ class ClienteController extends Controller
 
         Cliente::create([
             'id_usuario' => Auth::id(),
-            'id_ubicacion' => $request->id_ubicacion, // Ajustar según la lógica de ubicación
+            'id_ubicacion' => $ubicacion->id_ubicacion,    // Ajustar según la lógica de ubicación
             'nom_cliente' => $request->nom_cliente,
             'ape_cliente' => $request->ape_cliente,
             'telefo_cliente' => $request->telefo_cliente,

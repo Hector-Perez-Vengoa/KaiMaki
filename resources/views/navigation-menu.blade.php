@@ -1,9 +1,9 @@
-<nav x-data="{ open: false }" class="bg-orange-500 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-orange-500 border-b border-gray-100 text-white">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                
+
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('welcome') }}">
@@ -13,54 +13,41 @@
 
                 <!-- Navigation Links -->
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex text-white">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
+                    <x-nav-link href="{{ route('dashboard') }}" class="text-white hover:text-gray-300" :active="request()->routeIs('dashboard')">
                         {{ __('Panel') }}
                     </x-nav-link>
+
                              <!-- Enlaces específicos para Clientes -->
                     @if (Auth::user()->id_roles == 3)
-                        <x-nav-link href="" :active="request()->routeIs('cliente.datos')">
+                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('cliente.datos')">
                             {{ __('Mis Datos') }}
                         </x-nav-link>
-                        <x-nav-link href="" :active="request()->routeIs('cliente.solicitudes')">
+                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('cliente.solicitudes')">
                             {{ __('Mis Solicitudes') }}
                         </x-nav-link>
-                        
-                        <x-nav-link href="{{route('servicios')}}" :active="request()->routeIs('servicios')">
+
+                        <x-nav-link href="{{route('servicios')}}" class="text-white hover:text-gray-300" :active="request()->routeIs('servicios')">
                             {{ __('Buscar servicios') }}
                         </x-nav-link>
-                        
+
                     @endif
 
                     <!-- Enlaces específicos para Trabajadores -->
                     @if (Auth::user()->id_roles == 2)
-                        <x-nav-link href="" :active="request()->routeIs('trabajador.tareas')">
+                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('trabajador.tareas')">
                             {{ __('Tareas') }}
                         </x-nav-link>
-                        <x-nav-link href="" :active="request()->routeIs('trabajador.reportes')">
+                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('trabajador.reportes')">
                             {{ __('Reportes') }}
                         </x-nav-link>
-                        <x-nav-link href="{{route('trabajador.formulario')}}" :active="request()->routeIs('trabajador.formulario')">
+                        <x-nav-link href="{{route('trabajador.formulario')}}" class="text-white hover:text-gray-300" :active="request()->routeIs('trabajador.formulario')">
                             {{ __('Registro') }}
                         </x-nav-link>
 
 
 
                     @endif
-                        <!-- Enlaces específicos para Administrador -->
-                        @if (Auth::user()->id_roles == 1)
-                            <x-nav-link href="" :active="request()->routeIs('trabajador.tareas')">
-                                        {{ __('Trabajadores') }}
-                            </x-nav-link>
-                            <x-nav-link href="" :active="request()->routeIs('trabajador.reportes')">
-                                        {{ __('Clientes') }}
-                            </x-nav-link>
-                            <x-nav-link href="" :active="request()->routeIs('trabajador.formulario')">
-                                        {{ __('Reclamos') }}
-                            </x-nav-link>
-                
-                        @endif
-
 
                 </div>
             </div>
@@ -228,7 +215,7 @@
                     </x-responsive-nav-link>
                 </form>
 
-                
+
             </div>
         </div>
     </div>

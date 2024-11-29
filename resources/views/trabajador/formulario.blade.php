@@ -1,10 +1,19 @@
 
 <x-app-layout>
+    <!-- Mensajes de Éxito o Error -->
+@if (session('success'))
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
+        <p>{{ session('success') }}</p>
+    </div>
+@endif
+    
+@if (session('error'))
+    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+        <p>{{ session('error') }}</p>
+    </div>
+@endif
 
-    @php
-    $trabajadorDetails = App\Models\Trabajadores::where('id_usuario',auth()->id())->first();
-    @endphp
-
+<!-- Verificar si el usuario ya completó el registro -->
 @if($trabajadorDetails)
     <div class="text-center text-green-600">
         <p>Ya has registrado tus datos. No es necesario que completes este formulario nuevamente.</p>
@@ -44,7 +53,7 @@
                 <!-- Teléfono -->
                 <div>
                     <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-                    <input type="tel" id="telefono" name="telefono" maxlength="9" required
+                    <input type="text" id="telefono" name="telefono" maxlength="9" required
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
             
@@ -94,27 +103,26 @@
                     <input type="text" id="ciudad" name="ciudad" maxlength="100" required
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
-                
-            
                 <!-- Antecedente (PDF) -->
                 <div>
                     <label for="antecedente" class="block text-sm font-medium text-gray-700">Subir Antecedente (PDF)</label>
                     <input type="file" id="antecedente" name="antecedente" accept=".pdf" required
                         class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                        @error('antecedente')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                    @error('antecedente')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
-            
+                
                 <!-- Certificado (PDF) -->
                 <div>
                     <label for="certificado" class="block text-sm font-medium text-gray-700">Subir Certificado (PDF)</label>
-                    <input type="file" id="certificado" name="certificado" accept=".pdf" 
+                    <input type="file" id="certificado" name="certificado" accept=".pdf"
                         class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                        @error('antecedente')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                    @error('certificado')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
+                
                 <div class="mt-6">
                     <!-- Botón para abrir el modal -->
                     <button type="button" @click="showModal = true"

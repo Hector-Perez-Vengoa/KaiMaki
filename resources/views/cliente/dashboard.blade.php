@@ -1,16 +1,83 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Bienvenido Cliente') }}
-            
+                {{ __('Bienvenido ') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
+<div class="py-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <h1 class="text-2xl font-bold mb-6">Bienvenido, {{ Auth::user()->name }}</h1>
+                <!-- Contenido para Cliente -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Botón Registro de Datos Personales-->
+                            <div class="bg-blue-100 rounded-lg p-4 shadow">
+                                <h2 class="text-lg font-bold mb-2">Registro de Datos Personales</h2>
+                                <p class="text-sm text-gray-600 mb-4">Actualiza tu información personal para estar al día.</p>
+                                <a href="{{route('cliente.formulario')}}"
+                                class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                                Registrar
+                                </a>
+                            </div>
+
+                    <!-- Botón Mi Perfil -->
+                    <div class="bg-green-100 rounded-lg p-4 shadow">
+                        <h2 class="text-lg font-bold mb-2">Mi Perfil</h2>
+                        <p class="text-sm text-gray-600 mb-4">Consulta y edita la información de tu perfil.</p>
+                        <a href="{{route('profile.show')}}"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Configurar
+                        </a>
+                    </div>
+
+                    <!-- Botón Mis Solicitudes -->
+                    <div class="bg-yellow-100 rounded-lg p-4 shadow">
+                        <h2 class="text-lg font-bold mb-2">Mis Solicitudes</h2>
+                        <p class="text-sm text-gray-600 mb-4">Revisa el estado de tus solicitudes.</p>
+                        <a href="" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Ver solicitudes
+                        </a>
+                    </div>
+                    <!-- Botón Gestión de Tareas -->
+                    <div class="bg-red-100 rounded-lg p-4 shadow">
+                        <h2 class="text-lg font-bold mb-2">Busca Servicios</h2>
+                        <p class="text-sm text-gray-600 mb-4">Busca servicios de manera facil.</p>
+                        <a href="{{route('servicios')}}"
+                            class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Buscar
+                        </a>
+                    </div>
+
+
+                    <!-- Botón Publicar Problema -->
+                    <div class="bg-orange-100 rounded-lg p-4 shadow">
+                        <h2 class="text-lg font-bold mb-2">Publicar un Problema</h2>
+                        <p class="text-sm text-gray-600 mb-4">Describe el problema para que podamos ayudarte.</p>
+                        <a href="{{ route('problemas.create') }}"
+                            class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-700">
+                            Publicar
+                        </a>
+                    </div>
+
+
+                    <div class="bg-yellow-100 rounded-lg p-4 shadow">
+                        <h2 class="text-lg font-bold mb-2">Mis Publicaciones</h2>
+                        <p class="text-sm text-gray-600 mb-4">Revisa y administra tus problemas publicados.</p>
+                        <a href="{{ route('cliente.problemas.index') }}"
+                            class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-700">
+                            Ver mis problemas
+                        </a>
+                    </div>
+
+
+                </div>
+
+
             </div>
+
         </div>
     </div>
+    </div>
 </x-app-layout>
+

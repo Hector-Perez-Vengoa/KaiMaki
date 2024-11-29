@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->unsignedBigInteger('id_estado_users')->nullable();
+            $table->boolean('is_online')->default(false);
             $table->foreign('id_estado_users')->references('id_estado_users')->on('estado_users')->onDelete('cascade');
       
             $table->timestamps();

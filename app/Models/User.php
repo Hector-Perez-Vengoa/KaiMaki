@@ -29,8 +29,9 @@ class User extends Authenticatable
         'name',
         'email',
         'id_roles',
-        'id_estado_users',
+
         'password',
+        'is_online',
    
     ];
     // Relación con el modelo Rol (Usuario pertenece a un Rol)
@@ -42,6 +43,11 @@ class User extends Authenticatable
     public function trabajadores()
         {
             return $this->hasOne(Trabajadores::class, 'id_usuario', 'id');
+        }
+
+    public function clientes()
+        {
+            return $this->hasOne(Cliente::class, 'id_usuario', 'id');
         }
     public function estado()
         {

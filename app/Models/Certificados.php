@@ -9,13 +9,14 @@ class Certificados extends Model
     use HasFactory;
 
     protected $table = 'certificados'; // Nombre de la tabla
+    protected $primaryKey = 'id_certificados'; // Clave primaria personalizada
     // Campos que pueden asignarse masivamente
     protected $fillable = [
         'documento_certificado',
         'id_trabajadores',
         'id_estado_certificados',
     ];
-    
+
     public function trabajadores()
     {
         return $this->belongsTo(Trabajadores::class,'id_trabajadores');
@@ -25,4 +26,4 @@ class Certificados extends Model
     return $this->belongsTo(EstadoCertificados::class, 'id_estado_certificados', 'id_estado_certificados');
     }
 }
-    
+

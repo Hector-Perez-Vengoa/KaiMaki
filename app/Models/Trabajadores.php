@@ -53,10 +53,6 @@ class Trabajadores extends Model
     {
         return $this->belongsTo(User::class, 'id_usuario', 'id');
     }
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_usuario', 'id');
-    }
 
 
     

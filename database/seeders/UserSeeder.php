@@ -23,27 +23,88 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'id_roles' => 1,
         ]);
-
         // Crear 5 usuarios trabajadores
-        for ($i = 1; $i <= 5; $i++) {
-            User::create([
-                'name' => "Trabajador $i",
-                'email' => "trabajador$i@example.com",
-                'password' => bcrypt('password'),
-                'id_roles' => 2, // Rol de Trabajador
-                'id_estado_users'=>2
-            ]);
-        }
 
-        // Crear 4 usuarios clientes
-        for ($i = 1; $i <= 5; $i++) {
-            User::create([
-                'name' => "Cliente $i",
-                'email' => "cliente$i@example.com",
-                'password' => bcrypt('password'),
-                'id_roles' => 3, // Rol de Cliente
-                'id_estado_users'=>2
-            ]);
-        }
+        User::create([
+            'name' => 'Trabajador 1',
+            'email' => 'trabajador1@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 2, // Rol de Trabajador
+            'id_estado_users' => 2,
+        ]);
+        
+        User::create([
+            'name' => 'Trabajador 2',
+            'email' => 'trabajador2@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 2, // Rol de Trabajador
+            'id_estado_users' => 2,
+        ]);
+        
+        User::create([
+            'name' => 'Trabajador 3',
+            'email' => 'trabajador3@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 2, // Rol de Trabajador
+            'id_estado_users' => 2,
+        ]);
+        
+        User::create([
+            'name' => 'Trabajador 4',
+            'email' => 'trabajador4@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 2, // Rol de Trabajador
+            'id_estado_users' => 2,
+        ]);
+        
+        User::create([
+            'name' => 'Trabajador 5',
+            'email' => 'trabajador5@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 2, // Rol de Trabajador
+            'id_estado_users' => 2,
+        ]);
+        
+        
+        // Crear 5 usuarios clientes
+        User::create([
+            'name' => 'Cliente 1',
+            'email' => 'cliente1@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 3, // Rol de Cliente
+            'id_estado_users' => 1,
+        ]);
+        
+        User::create([
+            'name' => 'Cliente 2',
+            'email' => 'cliente2@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 3, // Rol de Cliente
+            'id_estado_users' => 1,
+        ]);
+        
+        User::create([
+            'name' => 'Cliente 3',
+            'email' => 'cliente3@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 3, // Rol de Cliente
+            'id_estado_users' => 1,
+        ]);
+        
+        User::create([
+            'name' => 'Cliente 4',
+            'email' => 'cliente4@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 3, // Rol de Cliente
+            'id_estado_users' => 1,
+        ]);
+        
+        User::create([
+            'name' => 'Cliente 5',
+            'email' => 'cliente5@example.com',
+            'password' => bcrypt('password'),
+            'id_roles' => 3, // Rol de Cliente
+            'id_estado_users' => 1,
+        ]);
     }
 }

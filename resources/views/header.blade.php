@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <header class="bg-orange-500 text-white py-4 px-6 shadow-lg">
+    <header class="bg-orange-500 text-white py-4 px-6 shadow-lg " >
         <div class="container mx-auto flex justify-between items-center">
             <!-- Logo -->
             <div class="flex items-center space-x-4">

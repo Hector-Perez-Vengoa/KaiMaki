@@ -11,43 +11,52 @@ class UsuarioController extends Controller
 {
     /**
      * Display a listing of the resource.
+
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Construir la consulta con las relaciones necesarias
+        $query = User::with(['rol', 'trabajadores', 'clientes', 'estado']);
+
+        // Filtro por rol
+        if ($request->filled('role')) {
+            $query->whereHas('rol', function ($query) use ($request) {
+                $query->where('nombre', $request->role);
+            });
+        }
+
+        // Filtro por DNI
+        if ($request->filled('dni')) {
+            $query->whereHas('trabajadores', function ($query) use ($request) {
+                $query->where('dni', $request->dni);
+            })->orWhereHas('clientes', function ($query) use ($request) {
+                $query->where('dni', $request->dni);
+            });
+        }
+
+        // Paginación (10 registros por página)
+        $usuariosPaginated = $query->paginate(6);
+
+        // Transformar los datos de cada usuario
+        $usuariosPaginated->setCollection(
+            $usuariosPaginated->getCollection()->map(function ($usuario) {
+                return [
+                    'id' => $usuario->id,
+                    'rol' => $usuario->rol->nombre ?? 'Sin Rol',
+                    'dni' => optional($usuario->trabajadores)->dni ?? optional($usuario->clientes)->dni ?? 'No definido',
+                    'nombre' => optional($usuario->trabajadores)->nombres ?? optional($usuario->clientes)->nom_cliente ?? $usuario->name,
+                    'estado' => optional($usuario->estado)->nombre_estado ?? 'No definido',
+                    'correo' => $usuario->email,
+                ];
+            })
+        );
+
+        return view('administrador.usuarios.usuarios', compact('usuariosPaginated'));
     }
 
-    public function cambiarEstado($id)
-    {
-        // Buscar el usuario por su ID con su estado actual
-        $usuario = User::with('estado')->findOrFail($id);
 
-        // Obtener todos los estados disponibles
-        $estados = EstadoUsers::all();
 
-        // Retornar la vista con los datos del usuario y los estados
-        return view('administrador.cambiarEstado', compact('usuario', 'estados'));
-    }
-    
-    public function actualizarEstado(Request $request, $id)
-    {
-        // Validar el estado proporcionado
-        $request->validate([
-            'id_estado_users' => 'required|exists:estado_users,id_estado_users',
-        ]);
 
-        // Buscar el usuario por su ID
-        $usuario = User::findOrFail($id);
-
-        // Actualizar el estado del usuario
-        $usuario->id_estado_users = $request->id_estado_users;
-        $usuario->save();
-
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('administrador.trabajador')
-            ->with('success', 'El estado del usuario se actualizó correctamente.');
-    }
-    
 
     /**
      * Show the form for creating a new resource.
