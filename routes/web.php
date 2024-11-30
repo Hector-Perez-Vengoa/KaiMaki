@@ -49,22 +49,32 @@ Route::middleware([
     })->name('servicios');
 
     // Rutas específicas para clientes
-    Route::middleware(['auth','role:3'])->group(function () {
-        //Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
+    // Rutas específicas para clientes
+    Route::middleware(['auth', 'role:3'])->group(function () {
+        // Servicios relacionados con el cliente
         Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.solicitar');
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
+
+        // Formulario de cliente
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
         Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
+
+        // Dashboard del cliente
         Route::get('/cliente/dashboard', function () {
             return view('dashboard');
         })->name('cliente.dashboard');
+
+        // Publicación de problemas
         Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');
         Route::post('/cliente/publicar-problema', [ProblemaController::class, 'store'])->name('problemas.store');
+
+        // Gestión de problemas del cliente
         Route::get('/cliente/mis-problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
         Route::get('/problemas/{problema}', [ProblemaController::class, 'show'])->name('problemas.show');
         Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
-        // Ruta para actualizar los datos del problema
         Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
+        Route::put('/problemas/{id}/marcar-urgente', [ProblemaController::class, 'marcarUrgente'])->name('problemas.marcarUrgente');
+        Route::delete('/problemas/{problema}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
     });
 
 
@@ -87,19 +97,6 @@ Route::middleware(['auth', 'role:3'])->group(function () {
         Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
     });
 
-
-    Route::middleware(['role:3'])->group(function () {
-        Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');
-        Route::post('/cliente/publicar-problema', [ProblemaController::class, 'store'])->name('problemas.store');
-        Route::get('/cliente/mis-problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
-        Route::get('/problemas/{problema}', [ProblemaController::class, 'show'])->name('problemas.show');
-        Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
-        // Ruta para actualizar los datos del problema
-        Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
-    
-    });
-    
-
     // Rutas específicas para trabajadores
 Route::middleware(['auth', 'role:2'])->group(function () {
         Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
@@ -108,7 +105,6 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
       
     });
-
 
     // Rutas específicas para trabajadores
     Route::middleware(['role:2'])->group(function () {
