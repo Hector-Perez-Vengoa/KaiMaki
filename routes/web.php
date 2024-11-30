@@ -77,7 +77,7 @@ Route::middleware([
         Route::get('/admin/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
          // Rutas del dashboard (Material Dashboard)
          Route::get('/administrador/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard.index');
-
+         // Ruta para la gestión de usuarios
          Route::get('/administrador/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
          // Ver detalles del usuario
          Route::get('/administrador/usuarios/{id}/{tipo}', [AdministradorController::class, 'show'])->name('administrador.usuario.show');
@@ -96,10 +96,8 @@ Route::middleware([
             return view('administrador.pages.laravel-examples.user-profile', ['activePage' => 'user-profile']);
         })->name('user-profile');
 
-        // Ruta para la gestión de usuarios
-        Route::get('/admin/user-management', function () {
-            return view('administrador.pages.laravel-examples.user-management', ['activePage' => 'user-management']);
-        })->name('user-management');
+
+
 
         // Ruta para notificaciones
         Route::get('/admin/notifications', function () {
@@ -117,16 +115,9 @@ Route::middleware([
         Route::get('/admin/virtual-reality', function () {
             return view('administrador.pages.virtual-reality', ['activePage' => 'virtual-reality']);
         })->name('virtual-reality');
-
-        Route::get('/admin/rtl', function () {
-            return view('administrador.pages.rtl', ['activePage' => 'rtl']);
-        })->name('rtl');
         Route::get('/admin/profile', function () {
             return view('administrador.pages.profile', ['activePage' => 'profile']);
         })->name('profile');
-        Route::get('/admin/static-sign-in', function () {
-            return view('administrador.pages.static-sign-in', ['activePage' => 'static-sign-in']);
-        })->name('static-sign-in');
         Route::get('/admin/static-sign-up', function () {
             return view('administrador.pages.static-sign-up', ['activePage' => 'static-sign-up']);
         })->name('static-sign-up');

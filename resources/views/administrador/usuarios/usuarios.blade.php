@@ -1,92 +1,148 @@
-<x-app-layout>
-    <div class="container mx-auto p-6">
-        <h1 class="text-2xl font-bold mb-4">Lista de Usuarios</h1>
-        <form action="{{ route('admin.usuarios.index') }}" method="GET" class="mb-4">
-            <div class="flex items-center space-x-4">
-                <!-- Filtro por Rol -->
-                <div>
-                    <label for="role" class="block text-sm font-medium">Rol</label>
-                    <select name="role" id="role" class="form-select">
-                        <option value="">Todos</option>
-                        <option value="Admin" {{ request('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="Trabajador" {{ request('role') == 'Trabajador' ? 'selected' : '' }}>Trabajador</option>
-                        <option value="Cliente" {{ request('role') == 'Cliente' ? 'selected' : '' }}>Cliente</option>
-                    </select>
-                </div>
+<x-layout bodyClass="g-sidenav-show  bg-gray-200">
 
-                <!-- Filtro por DNI -->
-                <div>
-                    <label for="dni" class="block text-sm font-medium">DNI</label>
-                    <input type="text" name="dni" id="dni" value="{{ request('dni') }}" class="form-input" placeholder="Buscar por DNI">
-                </div>
+    <x-navbars.sidebar activePage="user-management"></x-navbars.sidebar>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        <x-navbars.navs.auth titlePage="User Management"></x-navbars.navs.auth>
+        <!-- End Navbar -->
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-3">
+                            <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-white text-center font-weight-bold">Lista de Usuarios</h6>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('admin.usuarios.index') }}" method="GET" class="row">
+                                    <!-- Filtro por Rol -->
+                                    <div class="col-md-4 mb-3">
+                                        <label for="role" class="form-label">Rol</label>
+                                        <select name="role" id="role" class="form-select">
+                                            <option value="">Todos</option>
+                                            <option value="Trabajador" {{ request('role') == 'Trabajador' ? 'selected' : '' }}>Trabajador</option>
+                                            <option value="Cliente" {{ request('role') == 'Cliente' ? 'selected' : '' }}>Cliente</option>
+                                        </select>
+                                    </div>
 
-                <!-- Botón de búsqueda -->
-                <div>
-                    <button type="submit" class="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                        Buscar
-                    </button>
+                                    <!-- Filtro por DNI -->
+                                    <div class="col-md-4 mb-3">
+                                        <label for="dni" class="form-label">DNI</label>
+                                        <input type="text" name="dni" id="dni" value="{{ request('dni') }}" class="form-control" placeholder="Buscar por DNI">
+                                    </div>
+
+                                    <!-- Botón de búsqueda -->
+                                    <div class=" col-md-4 d-flex align-items-end">
+                                        <button type="submit" class="btn btn-dark w-100">Buscar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                ROL
+                                            </th>
+                                            <th
+                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                DNI</th>
+                                            <th
+                                                class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                                NOMBRE</th>
+                                            <th
+                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                EMAIL</th>
+                                            <th
+                                                class=" text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                ESTADO</th>
+
+                                            <th class="text-secondary opacity-7"> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($usuariosPaginated as $usuario)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <p class="mb-0 text-sm">{{ $usuario['rol'] }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $usuario['dni'] }}</h6>
+
+                                                </div>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-xs text-secondary mb-0">{{ $usuario['nombre'] }}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">{{
+                                                    $usuario['correo'] }}</span>
+                                            </td>
+
+                                            <td class="align-middle">
+                                                <span class="inline-flex items-center">
+                                                    @if ($usuario['estado'] === 'Activo')
+                                                    <span
+                                                        style="width: 10px; height: 10px; background-color: green; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
+                                                    Activo
+                                                    @elseif ($usuario['estado'] === 'Pendiente')
+                                                    <span
+                                                        style="width: 10px; height: 10px; background-color: yellow; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
+                                                    Pendiente
+                                                    @elseif ($usuario['estado'] === 'Suspendido')
+                                                    <span
+                                                        style="width: 10px; height: 10px; background-color: red; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
+                                                    Suspendido
+                                                    @else
+                                                    <span
+                                                        style="width: 10px; height: 10px; background-color: gray; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
+                                                    No definido
+                                                    @endif
+                                                </span>
+                                            </td>
+
+                                            <td class="align-middle">
+                                                @if ($usuario['rol'] === 'Trabajador')
+                                                    <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'trabajador']) }}"
+                                                        class="btn btn-warning text-white px-4 py-2 rounded shadow">Ver</a>
+                                                @elseif ($usuario['rol'] === 'Cliente')
+                                                    <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'cliente']) }}"
+                                                        class="btn btn-warning text-white px-4 py-2 rounded shadow">Ver</a>
+                                                @else
+                                                    <span class="text-gray-500">N/A</span>
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <!-- Paginación -->
+                                <div class="mt-4 ">
+                                    {{ $usuariosPaginated->links('pagination::bootstrap-4') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </form>
 
-        <table class="table-auto w-full border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-4 py-2">Rol</th>
-                    <th class="border border-gray-300 px-4 py-2">DNI</th>
-                    <th class="border border-gray-300 px-4 py-2">Nombre</th>
-                    <th class="border border-gray-300 px-4 py-2">Correo</th>
-                    <th class="border border-gray-300 px-4 py-2">Estado</th>
-                    <th class="border border-gray-300 px-4 py-2">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($usuariosPaginated as $usuario)
-                    <tr>
-                        <td class="border border-gray-300 px-4 py-2">{{ $usuario['rol'] }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $usuario['dni'] }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $usuario['nombre'] }}</td>
-                        <td class="border border-gray-300 px-4 py-2">{{ $usuario['correo'] }}</td>
-                        <td class="border border-gray-300 px-4 py-2">
-                            <span class="inline-flex items-center">
-                                @if ($usuario['estado'] === 'Activo')
-                                <span style="width: 10px; height: 10px; background-color: green; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
-                                        Activo
-                                @elseif ($usuario['estado'] === 'Pendiente')
-                                <span style="width: 10px; height: 10px; background-color: yellow; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
-                                        Pendiente
-                                @elseif ($usuario['estado'] === 'Suspendido')
-                                <span style="width: 10px; height: 10px; background-color: red; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
-                                        Suspendido
-                                @else
-                                    <span  style="width: 10px; height: 10px; background-color: gray; display: inline-block; border-radius: 50%; margin-right: 8px;"></span>
-                                    No definido
-                                @endif
-                            </span>
-                        </td>
+        </div>
+    </main>
 
-                        <td class="border border-gray-300 px-4 py-2">
-                            @if ($usuario['rol'] === 'Trabajador')
-                                <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'trabajador']) }}"
-                                   class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-700">Ver</a>
-                            @elseif ($usuario['rol'] === 'Cliente')
-                                <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'cliente']) }}"
-                                   class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Ver</a>
-                            @else
-                                <span class="text-gray-500">N/A</span>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <!-- Paginación -->
-    <div class="mt-4 ">
-            {{ $usuariosPaginated->links() }}
-    </div>
-    </div>
-</x-app-layout>
 
+</x-layout>
 
 
 

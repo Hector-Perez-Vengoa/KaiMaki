@@ -19,40 +19,74 @@
                                     class="material-icons text-sm">add</i>&nbsp;&nbsp;Add New
                                 User</a>
                         </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                PHOTO</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                NOMBRES</th>
-                                            <th
-                                                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                                DNI</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                CORREO</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ROL</th>
-                                            <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                ESTADO
-                                            </th>
-                                            <th class="text-secondary opacity-7"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-
-                                    </tbody>
-                                </table>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Gestión de Usuarios</h4>
+                            </div>
+                            <div class="card-body px-0 pb-2">
+                                <div class="table-responsive p-0">
+                                    <table class="table align-items-center mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nombre</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DNI</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Correo</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Rol</th>
+                                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Estado</th>
+                                                <th class="text-secondary opacity-7">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($usuariosPaginated as $usuario)
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex px-2 py-1">
+                                                            <div>
+                                                                <img src="{{ asset($usuario['photo'] ?? 'default-avatar.png') }}" alt="Usuario" class="avatar avatar-sm me-3">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <p class="text-xs font-weight-bold mb-0">{{ $usuario['nombre'] }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="text-xs text-secondary mb-0">{{ $usuario['dni'] }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <p class="text-xs text-secondary mb-0">{{ $usuario['correo'] }}</p>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-sm bg-gradient-info">{{ $usuario['rol'] }}</span>
+                                                    </td>
+                                                    <td>
+                                                        @if ($usuario['estado'] === 'Activo')
+                                                            <span class="badge badge-sm bg-gradient-success">Activo</span>
+                                                        @elseif ($usuario['estado'] === 'Pendiente')
+                                                            <span class="badge badge-sm bg-gradient-warning">Pendiente</span>
+                                                        @elseif ($usuario['estado'] === 'Suspendido')
+                                                            <span class="badge badge-sm bg-gradient-danger">Suspendido</span>
+                                                        @else
+                                                            <span class="badge badge-sm bg-gradient-secondary">No definido</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => strtolower($usuario['rol'])]) }}"
+                                                           class="btn btn-link text-dark text-sm">
+                                                           <i class="material-icons">visibility</i> Ver
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3">
+                                    {{ $usuariosPaginated->links() }}
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
