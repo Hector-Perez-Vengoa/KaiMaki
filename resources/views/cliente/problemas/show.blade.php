@@ -15,6 +15,12 @@
                 <p><strong>Descripción:</strong> {{ $problema->descripcion }}</p>
                 <p><strong>Monto:</strong> {{ $problema->monto }}</p>
                 <p><strong>Fecha:</strong> {{ $problema->fecha }}</p>
+                @if($problema->imagen)
+                    <div class="mb-4">
+                        <img src="{{ asset('storage/' . $problema->imagen) }}" alt="Imagen del problema" class="max-w-full h-auto rounded-lg">
+                    </div>
+                @endif
+            
             </div>
         </div>
     </div>

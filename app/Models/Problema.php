@@ -17,6 +17,7 @@ class Problema extends Model
         'id_cliente',
         'id_oficios',
         'descripcion',
+        'imagen',
         'monto',
         'fecha',
         'id_estado_problema',

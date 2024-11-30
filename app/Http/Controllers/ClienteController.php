@@ -38,7 +38,7 @@ class ClienteController extends Controller
 
         Cliente::create([
             'id_usuario' => Auth::id(),
-            'id_ubicacion' => $ubicacion->id_ubicacion,    // Ajustar según la lógica de ubicación
+            'id_ubicacion' => $ubicacion->id_ubicacion, // Ajustar según la lógica de ubicación
             'nom_cliente' => $request->nom_cliente,
             'ape_cliente' => $request->ape_cliente,
             'telefo_cliente' => $request->telefo_cliente,
