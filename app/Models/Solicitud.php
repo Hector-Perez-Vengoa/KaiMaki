@@ -41,4 +41,6 @@ class Solicitud extends Model
     {
         return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
     }
+
+
 }

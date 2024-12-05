@@ -13,6 +13,10 @@ class Oficios extends Model
     protected $primaryKey = 'id_oficios'; // Clave primaria personalizada
     public $incrementing = true; // Si la clave primaria es auto-incremental
     protected $keyType = 'int'; // Tipo de clave primaria (entero)
+    // Campos asignables
+    protected $fillable = [
+            'nombre_oficio',
+        ];
     public function trabajadores()
     {
         return $this->belongsToMany(Trabajadores::class, 'trabajadores_oficio', 'id_oficios', 'id_trabajadores');

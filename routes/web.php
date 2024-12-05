@@ -4,10 +4,12 @@ use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProblemaController;
+use App\Http\Controllers\ReclamoController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Middleware\CheckProfileCompletion;
+use App\Models\Administrador;
 use App\Models\Trabajadores;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +73,9 @@ Route::middleware([
         Route::put('/problemas/{id}/marcar-urgente', [ProblemaController::class, 'marcarUrgente'])->name('problemas.marcarUrgente');
         Route::delete('/problemas/{problema}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
 
+        //Realiza reclamo
+        Route::get('/cliente/reclamo', [ReclamoController::class, 'create'])->name('cliente.reclamo.create');
+        Route::post('/cliente/reclamo', [ReclamoController::class, 'store'])->name('cliente.reclamo.store');
     });
 
 
@@ -93,39 +98,42 @@ Route::middleware([
         Route::post('/admin/trabajador/{id}/validar', [TrabajadorController::class, 'validarTrabajador'])->name('administrador.trabajador.validar');
         // Ruta para actualizar el estado de un antecedente
         Route::put('/administrador/documento/{id}/cambiar-estado', [AdministradorController::class, 'cambiarEstadoDocumento'])->name('administrador.actualizar.estado');
+        //Ruta para ver todos los reclamos de los publicados por los usuarios
+        Route::get('/admin/reclamos', [AdministradorController::class, 'indexReclamos'])->name('reclamos.index');
+
+        //Ruta para administrar los reclamos
+        Route::get('administrador/reclamos/{id}', [AdministradorController::class, 'verReclamo'])->name('administrador.reclamos.ver');
+        Route::put('administrador/reclamos/{id}', [AdministradorController::class, 'cambiarReclamo'])->name('administrador.reclamos.update');
+
+        //Ruta para gestionar los oficios
+        Route::get('administrador/oficios', [AdministradorController::class, 'indexOficio'])->name('administrador.oficios.ver');
+        // Ruta para almacenar un nuevo oficio
+        Route::post('/oficios', [AdministradorController::class, 'almacenarOficio'])->name('administrador.almacenar-oficio');
+
+        // Ruta para mostrar el formulario de edición de un oficio
+        Route::get('/oficios/{id_oficios}/editar', [AdministradorController::class, 'editarOficio'])->name('administrador.editar-oficio');
+
+        // Ruta para actualizar un oficio existente
+         Route::put('/oficios/{id_oficios}', [AdministradorController::class, 'actualizarOficio'])->name('administrador.actualizar-oficio');
+
+        // Ruta para eliminar un oficio
+        Route::delete('/oficios/{id_oficios}', [AdministradorController::class, 'eliminarOficio'])->name('administrador.eliminar-oficio');
+
 
         // Ruta para el perfil del usuario
         Route::get('/admin/user-profile', function () {
             return view('administrador.pages.laravel-examples.user-profile', ['activePage' => 'user-profile']);
         })->name('user-profile');
 
-
-
-
         // Ruta para notificaciones
         Route::get('/admin/notifications', function () {
             return view('administrador.pages.notifications', ['activePage' => 'notifications']);
         })->name('notifications');
 
-        // Ruta para configuraciones adicionales
-        Route::get('/admin/billing', function () {
-            return view('administrador.pages.billing', ['activePage' => 'billing']);
-        })->name('billing');
 
-        Route::get('/admin/tables', function () {
-            return view('administrador.pages.tables', ['activePage' => 'tables']);
-        })->name('tables');
-        Route::get('/admin/virtual-reality', function () {
-            return view('administrador.pages.virtual-reality', ['activePage' => 'virtual-reality']);
-        })->name('virtual-reality');
         Route::get('/admin/profile', function () {
             return view('administrador.pages.profile', ['activePage' => 'profile']);
         })->name('profile');
-        Route::get('/admin/static-sign-up', function () {
-            return view('administrador.pages.static-sign-up', ['activePage' => 'static-sign-up']);
-        })->name('static-sign-up');
-
-
 
     });
 
@@ -141,6 +149,9 @@ Route::middleware([
         Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
+        //El trabajador registra su reclamo
+        Route::get('/trabajadores/reclamo', [ReclamoController::class, 'create'])->name('trabajadores.reclamo.create');
+        Route::post('/trabajadores/reclamo', [ReclamoController::class, 'store'])->name('trabajador.reclamo.store');
 
 
     });

@@ -32,7 +32,7 @@ class User extends Authenticatable
 
         'password',
         'is_online',
-   
+
     ];
     // Relación con el modelo Rol (Usuario pertenece a un Rol)
     public function rol()
@@ -65,7 +65,7 @@ class User extends Authenticatable
                 'id_trabajadores' // Local key en la tabla 'trabajadores'
             );
         }
-        
+
     public function antecedentes()
         {
             return $this->hasManyThrough(
@@ -88,7 +88,7 @@ class User extends Authenticatable
                 'id_trabajadores'   // Local key en 'trabajadores'
             );
         }
-        
+
         public function ubicacion()
     {
         return $this->hasOneThrough(
@@ -100,10 +100,17 @@ class User extends Authenticatable
             'id_ubicacion'      // Local key en 'trabajadores'
         );
     }
-        
-    
-    
-        
+
+    public function reclamo()
+    {
+        return $this->hasMany(Reclamos::class, 'id_usuario','id_usuario');
+    }
+
+
+
+
+
+
     /**
      * The attributes that should be hidden for serialization.
      *
