@@ -10,7 +10,9 @@ use App\Models\EstadoCertificados;
 use App\Models\EstadoReclamos;
 use App\Models\EstadoUsers;
 use App\Models\Oficios;
+use App\Models\Problema;
 use App\Models\Reclamos;
+use App\Models\Solicitud;
 use App\Models\Trabajadores;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -236,6 +238,20 @@ class AdministradorController extends Controller
 
         return redirect()->route('administrador.oficios.ver')->with('success', 'Oficio eliminado correctamente.');
     }
+
+
+    public function verSolicitudes()
+    {
+        $solicitudes = Solicitud::with(['cliente', 'trabajador', 'estado'])->get();
+        return view('administrador.solicitud.index', compact('solicitudes'));
+    }
+
+    public function verProblemas()
+    {
+        $problemas = Problema::with(['cliente', 'oficio', 'estadoProblema'])->get();
+        return view('administrador.problema.index', compact('problemas'));
+    }
+
     public function edit(string $id)
     {
         //

@@ -106,15 +106,19 @@ Route::middleware([
         Route::get('administrador/oficios', [AdministradorController::class, 'indexOficio'])->name('administrador.oficios.ver');
         // Ruta para almacenar un nuevo oficio
         Route::post('/oficios', [AdministradorController::class, 'almacenarOficio'])->name('administrador.almacenar-oficio');
-
         // Ruta para mostrar el formulario de edición de un oficio
         Route::get('/oficios/{id_oficios}/editar', [AdministradorController::class, 'editarOficio'])->name('administrador.editar-oficio');
-
         // Ruta para actualizar un oficio existente
          Route::put('/oficios/{id_oficios}', [AdministradorController::class, 'actualizarOficio'])->name('administrador.actualizar-oficio');
-
         // Ruta para eliminar un oficio
         Route::delete('/oficios/{id_oficios}', [AdministradorController::class, 'eliminarOficio'])->name('administrador.eliminar-oficio');
+
+
+        // Ruta para gestionar las solicitudes
+        Route::get('/administrador/solicitud', [AdministradorController::class, 'verSolicitudes'])->name('administrador.ver-solicitudes');
+
+        //Ruta para gstionar los problemas
+        Route::get('/administrador/problemas', [AdministradorController::class, 'verProblemas'])->name('administrador.ver-problemas');
 
 
         // Ruta para el perfil del usuario

@@ -4,7 +4,7 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="Dashboard"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Panel"></x-navbars.navs.auth>
 
         <!-- End Navbar -->
         <div class="container-fluid py-4">
@@ -41,12 +41,12 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h6 class="mb-0 ">Website Views</h6>
-                            <p class="text-sm ">Last Campaign Performance</p>
+                            <h6 class="mb-0 ">Solicitudes</h6>
+                            <p class="text-sm ">Gesion de Solicitudes</p>
                             <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <div class=" col-md-4 d-flex align-items-end">
-                                    <button type="submit" class="btn btn-dark w-100">Ingresar</button>
+                                    <a href="{{route('administrador.ver-solicitudes')}}" class="btn btn-dark w-100">Ingresar</a>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,29 @@
                             <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <div class=" col-md-4 d-flex align-items-end">
-                                    <button type="submit" class="btn btn-dark w-100">Ingresar</button>
+                                    <a href="{{route('admin.usuarios.index')}}" class="btn btn-dark w-100">Ingresar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mb-3">
+                    <div class="card z-index-2 ">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                                <div class="chart">
+                                    <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="mb-0 ">Gestion de problemas</h6>
+                            <p class="text-sm ">Gestiona todos los problemas publicados</p>
+                            <hr class="dark horizontal">
+                            <div class="d-flex ">
+                                <div class=" col-md-4 d-flex align-items-end">
+                                    <a href="{{route('administrador.ver-problemas')}}" class="btn btn-dark w-100">Ingresar</a>
                                 </div>
                             </div>
                         </div>
@@ -102,29 +124,13 @@
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-lg-6 col-7">
-                                    <h6>Projects</h6>
+                                    <h6>Proyectos</h6>
                                     <p class="text-sm mb-0">
                                         <i class="fa fa-check text-info" aria-hidden="true"></i>
                                         <span class="font-weight-bold ms-1">30 done</span> this month
                                     </p>
                                 </div>
-                                <div class="col-lg-6 col-5 my-auto text-end">
-                                    <div class="dropdown float-lg-end pe-4">
-                                        <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-secondary"></i>
-                                        </a>
-                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                                            aria-labelledby="dropdownTable">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
-                                            </li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
-                                                    action</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something
-                                                    else here</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
