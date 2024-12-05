@@ -68,6 +68,9 @@ Route::middleware([
         Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
         // Ruta para actualizar los datos del problema
         Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
+        Route::put('/problemas/{id}/marcar-urgente', [ProblemaController::class, 'marcarUrgente'])->name('problemas.marcarUrgente');
+        Route::delete('/problemas/{problema}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
+
     });
 
 

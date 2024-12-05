@@ -80,7 +80,7 @@
                 </div>                
 
                 <!-- Botón de Publicar -->
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
+                <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
                     Publicar Problema
                 </button>
             </form>
