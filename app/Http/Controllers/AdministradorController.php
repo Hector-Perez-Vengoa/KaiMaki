@@ -7,7 +7,10 @@ use App\Models\Certificados;
 use App\Models\Cliente;
 use App\Models\EstadoAntecedentes;
 use App\Models\EstadoCertificados;
+use App\Models\EstadoReclamos;
 use App\Models\EstadoUsers;
+use App\Models\Oficios;
+use App\Models\Reclamos;
 use App\Models\Trabajadores;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,14 +49,14 @@ class AdministradorController extends Controller
         if ($tipo === 'trabajador') {
             // Buscar por id_usuario en lugar de id_trabajadores
             $usuario = Trabajadores::with(['users', 'oficios', 'certificados.estado', 'antecedentes.estado'])
-            ->where('id_usuario', $id)
+                ->where('id_usuario', $id)
                 ->first();
 
             $rol = 'Trabajador';
         } elseif ($tipo === 'cliente') {
             // Buscar por id_usuario en lugar de id_cliente
             $usuario = Cliente::with(['users', 'ubicacion'])
-            ->where('id_usuario', $id)
+                ->where('id_usuario', $id)
                 ->first();
 
             $rol = 'Cliente';
@@ -89,10 +92,10 @@ class AdministradorController extends Controller
             ];
         }
         $estados = EstadoUsers::all(); // Asegúrate de cargar todos los estados
-           // Obtener estados de las tablas relacionadas
+        // Obtener estados de las tablas relacionadas
         $estadosAntecedentes = EstadoAntecedentes::all(); // Estados de antecedentes
         $estadosCertificados = EstadoCertificados::all(); // Estados de certificado
-        return view('administrador.usuarios.show', compact('usuario', 'rol','estados','estadosAntecedentes', 'estadosCertificados'));
+        return view('administrador.usuarios.show', compact('usuario', 'rol', 'estados', 'estadosAntecedentes', 'estadosCertificados'));
     }
 
 
@@ -127,7 +130,7 @@ class AdministradorController extends Controller
         return redirect()->back();
 
         return redirect()->route('administrador.usuario.show', ['id' => $usuario->id, 'tipo' => $usuario->id_roles == 2 ? 'trabajador' : 'cliente'])
-        ->with('success', 'El estado del usuario ha sido actualizado correctamente.');
+            ->with('success', 'El estado del usuario ha sido actualizado correctamente.');
     }
 
     public function cambiarEstadoDocumento(Request $request, $id)
@@ -161,12 +164,78 @@ class AdministradorController extends Controller
         return redirect()->back()->with('success', $mensaje);
     }
 
+//Funciones para administrar reclamos
 
+    public function indexReclamos()
+    {
+        $reclamos = Reclamos::with(['users', 'estado'])->get();
 
+        return view('administrador.reclamos.index', compact('reclamos'));
+    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    public function verReclamo($id)
+    {
+
+        // Buscamos el reclamo junto con la información del usuario
+        $reclamo = Reclamos::with(['users.clientes', 'users.trabajadores', 'estado'])->findOrFail($id);
+        $estados = EstadoReclamos::all();
+
+        // Retornamos la vista y pasamos la información del reclamo a la misma
+        return view('administrador.reclamos.show', compact('reclamo', 'estados'));
+    }
+
+    public function cambiarReclamo(Request $request, $id)
+    {
+        $request->validate([
+            'estado' => 'required|in:Pendiente,En proceso,Resuelto',
+        ]);
+
+        $reclamo = Reclamos::findOrFail($id);
+        $reclamo->estado = $request->estado;
+        $reclamo->save();
+    }
+
+//Funciones para administrar los Oficios
+    public function indexOficio()
+    {
+        $oficios = Oficios::all();
+
+        return view('administrador.oficios.index', compact('oficios'));
+    }
+
+    // Método para almacenar un nuevo oficio
+    public function almacenarOficio(Request $request)
+    {
+        $request->validate([
+            'nombre_oficio' => 'required|string|max:100',
+        ]);
+
+        Oficios::create($request->all());
+
+        return redirect()->route('administrador.oficios.ver')->with('success', 'Oficio creado correctamente.');
+    }
+
+    // Método para actualizar un oficio existente
+    public function actualizarOficio(Request $request, $id)
+    {
+        $request->validate([
+            'nombre_oficio' => 'required|string|max:100',
+        ]);
+
+        $oficio = Oficios::findOrFail($id);
+        $oficio->update($request->all());
+
+        return redirect()->route('administrador.oficios.ver')->with('success', 'Oficio actualizado correctamente.');
+    }
+
+    // Método para eliminar un oficio
+    public function eliminarOficio($id)
+    {
+        $oficio = Oficios::findOrFail($id);
+        $oficio->delete();
+
+        return redirect()->route('administrador.oficios.ver')->with('success', 'Oficio eliminado correctamente.');
+    }
     public function edit(string $id)
     {
         //

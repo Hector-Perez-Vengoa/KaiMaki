@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             EstadoCertificadoSeeder::class,// Crear estados para certificados
             EstadoAntecedentesSeeder::class,// Crear estados para antecedentes
             EstadoSolicitudesSeeder::class,// Crear estados para solicitudes
-    
+
             OficiosSeeder::class,           // Crear oficios
             EstadoProblemaSeeder::class,
             UbicacionSeeder::class,       // Crear ubicaciones
@@ -31,9 +31,12 @@ class DatabaseSeeder extends Seeder
             TrabajadorOficioSeeder::class,// Crear la relación entre trabajadores y oficios
             CertificadosSeeder::class,      // Crear certificados
             AntecedentesSeeder::class,      // Crear antecedentes
+            Administrador::class,
+            EstadoReclamos::class,
+            Reclamos::class,
 
         ]);
-        
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

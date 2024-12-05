@@ -23,7 +23,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets') }}/img/apple-icon.png">
     <link rel="icon" type="image/png" href="{{ asset('assets') }}/img/favicon.png">
     <title>
-        Material Dashboard 2 by Creative Tim & UPDIVISION
+        Kaimaki
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -37,6 +37,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link href="{{ asset('material-dashboard/css/material-dashboard.css') }}" rel="stylesheet">
+
 </head>
 <body class="{{ $bodyClass }}">
     @include('components.navbars.sidebar', ['activePage' => $activePage ?? '']) <!-- Aquí se incluye el sidebar -->
@@ -44,6 +45,7 @@
     {{ $slot }}
 
 
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.5/dist/cdn.min.js"></script>
 <script src="{{ asset('assets') }}/js/core/popper.min.js"></script>
 <script src="{{ asset('assets') }}/js/core/bootstrap.min.js"></script>
 <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.min.js"></script>

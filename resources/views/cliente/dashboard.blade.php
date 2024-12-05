@@ -11,7 +11,7 @@
                 <h1 class="text-2xl font-bold mb-6">Bienvenido, {{ Auth::user()->name }}</h1>
                 <!-- Contenido para Cliente -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Botón Registro de Datos Personales-->
+                    <!-- Botón Registro de Datos Personales
                             <div class="bg-blue-100 rounded-lg p-4 shadow">
                                 <h2 class="text-lg font-bold mb-2">Registro de Datos Personales</h2>
                                 <p class="text-sm text-gray-600 mb-4">Actualiza tu información personal para estar al día.</p>
@@ -19,7 +19,7 @@
                                 class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
                                 Registrar
                                 </a>
-                            </div>
+                            </div>-->
 
                     <!-- Botón Mi Perfil -->
                     <div class="bg-green-100 rounded-lg p-4 shadow">
@@ -52,11 +52,11 @@
 
                     <!-- Botón Publicar Problema -->
                     <div class="bg-orange-100 rounded-lg p-4 shadow">
-                        <h2 class="text-lg font-bold mb-2">Publicar un Problema</h2>
-                        <p class="text-sm text-gray-600 mb-4">Describe el problema para que podamos ayudarte.</p>
-                        <a href="{{ route('problemas.create') }}"
+                        <h2 class="text-lg font-bold mb-2">Realiza tu reclamo</h2>
+                        <p class="text-sm text-gray-600 mb-4">Escribe tu reclamo para poder ayudarte.</p>
+                        <a href="{{route('cliente.reclamo.create') }}"
                             class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-700">
-                            Publicar
+                            Registrar
                         </a>
                     </div>
 
@@ -64,7 +64,7 @@
                     <div class="bg-yellow-100 rounded-lg p-4 shadow">
                         <h2 class="text-lg font-bold mb-2">Mis Publicaciones</h2>
                         <p class="text-sm text-gray-600 mb-4">Revisa y administra tus problemas publicados.</p>
-                        <a href="{{ route('cliente.problemas.index') }}"
+                        <a href="{{route('cliente.problemas.index')}}"
                             class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-700">
                             Ver mis problemas
                         </a>

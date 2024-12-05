@@ -21,10 +21,10 @@
                     </div>
                     <!-- Botón Gestión de Tareas -->
                     <div class="bg-red-100 rounded-lg p-4 shadow">
-                        <h2 class="text-lg font-bold mb-2">Gestión de Tareas</h2>
-                        <p class="text-sm text-gray-600 mb-4">Administra tus tareas asignadas.</p>
-                        <a href="" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
-                            Gestionar tareas
+                        <h2 class="text-lg font-bold mb-2">Reclamos</h2>
+                        <p class="text-sm text-gray-600 mb-4">Registra tu reclamo.</p>
+                        <a href="{{route('trabajadores.reclamo.create')}}" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Registrar
                         </a>
                     </div>
 
