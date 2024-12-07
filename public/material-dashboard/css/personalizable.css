@@ -1,0 +1,20 @@
+/* Archivo custom.css */
+.btn-orange {
+    background-color: #ff7e00; /* Color Naranja */
+    color: #ffffff; /* Color del texto Blanco */
+    border: none;
+}
+
+.btn-orange:hover {
+    background-color: #ff7e00; /* Un tono más oscuro para el hover */
+}
+
+.bg-gradient-orange {
+    background: linear-gradient(310deg, #ff7e00, #ff7e00); /* Gradiente naranja */
+    color: #ffffff; /* Blanco para el texto */
+}
+
+.bg-gradient-orange:hover {
+    background: linear-gradient(310deg, #ff7e00, #ff7e00); /* Un poco más oscuro al hacer hover */
+}
+

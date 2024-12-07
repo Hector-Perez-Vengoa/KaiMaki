@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -32,7 +33,7 @@ class User extends Authenticatable
 
         'password',
         'is_online',
-   
+
     ];
     // Relación con el modelo Rol (Usuario pertenece a un Rol)
     public function rol()
@@ -48,6 +49,11 @@ class User extends Authenticatable
     public function clientes()
         {
             return $this->hasOne(Cliente::class, 'id_usuario', 'id');
+        }
+
+    public function administrador()
+        {
+            return $this->hasOne(Administrador::class, 'id_usuario', 'id');
         }
     public function estado()
         {
@@ -65,7 +71,7 @@ class User extends Authenticatable
                 'id_trabajadores' // Local key en la tabla 'trabajadores'
             );
         }
-        
+
     public function antecedentes()
         {
             return $this->hasManyThrough(
@@ -88,7 +94,7 @@ class User extends Authenticatable
                 'id_trabajadores'   // Local key en 'trabajadores'
             );
         }
-        
+
         public function ubicacion()
     {
         return $this->hasOneThrough(
@@ -100,10 +106,17 @@ class User extends Authenticatable
             'id_ubicacion'      // Local key en 'trabajadores'
         );
     }
-        
-    
-    
-        
+
+    public function reclamo()
+    {
+        return $this->hasMany(Reclamos::class, 'id_usuario','id');
+    }
+
+
+
+
+
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -140,10 +153,10 @@ class User extends Authenticatable
     }
 
     // app/Models/User.php
-    public function cliente()
-    {
-        return $this->hasOne(Cliente::class, 'id_usuario', 'id');
-    }
+    //public function cliente()
+    //{
+     //   return $this->hasOne(Cliente::class, 'id_usuario', 'id');
+    //}
 
 
 

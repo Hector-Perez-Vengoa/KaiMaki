@@ -31,8 +31,8 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
-            
-            
+
+
 
             <div class="mt-4">
                 <x-label for="password" value="{{ __('Contraseña') }}" />
