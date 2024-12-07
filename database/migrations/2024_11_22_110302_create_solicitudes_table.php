@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_cliente'); // Foreign Key unsigned
             $table->date('fech_reserva');
             $table->text('descripcion');
+            $table->time('hora_inicio_propuesta');
             $table->timestamps();
         
             // Relaciones (Foreign Keys)

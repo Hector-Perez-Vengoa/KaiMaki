@@ -65,11 +65,11 @@
             <!-- Fin Columna Principal -->
         </div>
         
-        <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1">
             <!-- Formulario de Reserva -->
-            <div class="bg-white shadow-md rounded-md p-6">
+            <div class="grid grid-cols-2 bg-white shadow-md rounded-md p-6">
                 <h3 class="text-lg font-semibold mb-4">Formulario de Reserva</h3>
-                <form action="{{ route('servicios.solicitar') }}" method="POST" enctype="multipart/form-data">
+                <form id="formularioReserva" action="{{ route('servicios.solicitar') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_trabajadores" value="{{ $trabajador->id_trabajadores }}">
                     <!-- Fecha de inicio -->
@@ -78,19 +78,61 @@
                         <input type="date" id="fech_reserva" name="fech_reserva" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" required>
                     </div>
 
+                    <!-- Hora de inicio -->
+                    <div class="mb-4">
+                        <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de inicio</label>
+                        <input type="time" id="hora_inicio" name="hora_inicio" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" required>
+                    </div>
+
                     <!-- Descripción -->
                     <div class="mb-4">
                         <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
                         <textarea id="descripcion" name="descripcion" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Escribe una breve descripción" required></textarea>
                     </div>
 
+                    <!-- Subir imágenes -->
+                    <div class="mb-4">
+                        <label for="imagenes" class="block text-sm font-medium text-gray-700">Subir imágenes</label>
+                        <input type="file" id="imagenes" name="imagen_solicitud[]" class="mt-1 block w-full text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" accept="image/*" multiple>
+                        <small class="text-gray-500">Puedes subir varias imágenes (formatos aceptados: JPG, PNG, GIF).</small>
+                    </div>
+
                     <!-- Botón de envío -->
                     <div class="mt-6 text-center">
-                        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">Solicitar servicios</button>
+                        <button type="button" id="solicitarServiciosBtn" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">Solicitar servicios</button>
                     </div>
                 </form>
             </div>
             <!-- Fin Formulario de Reserva -->
+            <!-- Modal de Confirmación -->
+            <div id="modalConfirmacion" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+                <div class="bg-white p-6 rounded-md shadow-lg w-full max-w-md">
+                    <h2 class="text-xl font-bold mb-4">Confirmación</h2>
+                    <p class="mb-6">Estás a punto de solicitar los servicios. ¿Deseas continuar?</p>
+                    <div class="flex justify-end space-x-4">
+                        <button id="cancelarBtn" class="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">Cancelar</button>
+                        <button id="confirmarBtn" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">Sí, solicitar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JavaScript para manejar el Modal -->
+            <script>
+                document.getElementById('solicitarServiciosBtn').addEventListener('click', function () {
+                    // Mostrar el modal de confirmación
+                    document.getElementById('modalConfirmacion').classList.remove('hidden');
+                });
+
+                document.getElementById('cancelarBtn').addEventListener('click', function () {
+                    // Ocultar el modal de confirmación al cancelar
+                    document.getElementById('modalConfirmacion').classList.add('hidden');
+                });
+
+                document.getElementById('confirmarBtn').addEventListener('click', function () {
+                    // Enviar el formulario al confirmar
+                    document.getElementById('formularioReserva').submit();
+                });
+            </script>
         </div>
     </div>
 </x-app-layout>

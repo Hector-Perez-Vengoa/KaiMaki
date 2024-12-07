@@ -18,6 +18,8 @@ class EstadoSolicitudesSeeder extends Seeder
             ['id_estado_solicitudes' => 2, 'nombre_estado' => 'En Proceso'],
             ['id_estado_solicitudes' => 3, 'nombre_estado' => 'Completado'],
             ['id_estado_solicitudes' => 4, 'nombre_estado' => 'Cancelado'],
+            ['id_estado_solicitudes' => 5, 'nombre_estado' => 'Negociacion Cliente'],
+            ['id_estado_solicitudes' => 6, 'nombre_estado' => 'Negociacion Trabajador'],
         ]);
     }
 }

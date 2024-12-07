@@ -68,6 +68,13 @@ Route::middleware([
         Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
         // Ruta para actualizar los datos del problema
         Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
+        Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
+        // Ruta para renegociar una solicitud
+        Route::post('/cliente/renegociar', [ClienteController::class, 'regociaciar'])->name('clientes.renegociar');
+
+        // Ruta para cambiar el estado de una solicitud
+        Route::patch('/cliente/cambiar-estado/{solicitud}/{estado}', [ClienteController::class, 'cambiarEstado'])->name('cliente.cambiarEstado');
+        
     });
 
 
@@ -138,6 +145,7 @@ Route::middleware([
         Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
+        Route::post('/trabajador/solicitudes', [TrabajadorController::class, 'negociacion'])->name('trabajador.negociacion');
 
 
     });

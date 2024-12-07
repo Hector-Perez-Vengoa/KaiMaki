@@ -22,10 +22,10 @@ class Solicitud extends Model
         'id_cliente',
         'fech_reserva',
         'descripcion',
+        'hora_inicio_propuesta',
     ];
 
     // Relaciones
-
     public function estado()
     {
         return $this->belongsTo(EstadoSolicitud::class, 'id_estado_solicitudes', 'id_estado_solicitudes');
@@ -36,9 +36,19 @@ class Solicitud extends Model
         return $this->belongsTo(Trabajadores::class, 'id_trabajadores', 'id_trabajadores');
     }
 
-    // Relación muchos a uno con Cliente
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
     }
+
+    public function imagenes()
+    {
+        return $this->hasMany(ImagenSolicitud::class, 'id_solicitudes', 'id_solicitudes');
+    }
+    
+    public function negociaciones()
+    {
+        return $this->hasMany(Negociacion::class, 'id_solicitudes', 'id_solicitudes');
+    }
+
 }

@@ -35,7 +35,7 @@
                     <div class="bg-yellow-100 rounded-lg p-4 shadow">
                         <h2 class="text-lg font-bold mb-2">Mis Solicitudes</h2>
                         <p class="text-sm text-gray-600 mb-4">Revisa el estado de tus solicitudes.</p>
-                        <a href="" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                        <a href="{{route('cliente.solicitudes')}}" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
                             Ver solicitudes
                         </a>
                     </div>

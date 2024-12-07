@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Trabajadores;
 use App\Models\Clientes;
 use App\Models\Solicitud;
+use App\Models\imagenSolicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,26 +60,38 @@ class ServiceController extends Controller
 
     public function solicitar(Request $request)
     {
-        // Validación de los datos del formulario
-        $validatedData = $request->validate([
-            'id_trabajadores' => 'required|integer|exists:trabajadores,id_trabajadores',
+        $request->validate([
+            'id_trabajadores' => 'required|exists:trabajadores,id_trabajadores',
             'fech_reserva' => 'required|date',
-            'descripcion' => 'required|string|max:500',
+            'hora_inicio' => 'required|date_format:H:i',
+            'descripcion' => 'required|string',
+            'imagen_solicitud.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
-    
-        // Crear la nueva solicitud
-        Solicitud::create([
-            'id_estado_solicitudes' => 1, // Estado inicial "Pendiente"
-            'id_trabajadores' => $validatedData['id_trabajadores'],
-            'id_cliente' => Auth::user()->cliente->id_cliente,
-            'fech_reserva' => $validatedData['fech_reserva'],
-            'descripcion' => $validatedData['descripcion'],
+
+        // Crear solicitud
+        $solicitud = Solicitud::create([
+            'id_estado_solicitudes' => 1, // Asignar estado inicial
+            'id_trabajadores' => $request->id_trabajadores,
+            'id_cliente' => Auth::user()->cliente->id_cliente, // Asumir cliente autenticado
+            'fech_reserva' => $request->fech_reserva,
+            'descripcion' => $request->descripcion,
+            'hora_inicio_propuesta' => $request->hora_inicio,
         ]);
-    
+
+        // Guardar las imágenes
+        if ($request->hasFile('imagen_solicitud')) {
+            foreach ($request->file('imagen_solicitud') as $imagen) {
+                $ruta = $imagen->store('imagenes_solicitudes', 'public');
+                imagenSolicitud::create([
+                    'id_solicitudes' => $solicitud->id_solicitudes,
+                    'ruta_imagen' => $ruta,
+                ]);
+            }
+        }
+
         // Redirigir a la vista con mensaje de éxito
         return redirect()->route('servicios')->with('success', 'Solicitud creada correctamente.');
     }
-    
     
     
     
