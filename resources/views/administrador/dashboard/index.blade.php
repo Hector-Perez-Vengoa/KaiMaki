@@ -33,13 +33,7 @@
             <div class="row mt-4">
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2 ">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                <div class="chart">
-                                    <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="card-body">
                             <h6 class="mb-0 ">Solicitudes</h6>
                             <p class="text-sm ">Gesion de Solicitudes</p>
@@ -54,13 +48,6 @@
                 </div>
                 <div class="col-lg-4 col-md-6 mt-4 mb-4">
                     <div class="card z-index-2  ">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                                <div class="chart">
-                                    <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Oficios </h6>
                             <p class="text-sm ">Gesion
@@ -76,13 +63,6 @@
                 </div>
                 <div class="col-lg-4 mt-4 mb-3">
                     <div class="card z-index-2 ">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                            <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
-                                <div class="chart">
-                                    <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
-                                </div>
-                            </div>
-                        </div>
                         <div class="card-body">
                             <h6 class="mb-0 ">Gestion de Usuarios</h6>
                             <p class="text-sm ">Ve a todos los usuarios conectados</p>
@@ -98,13 +78,14 @@
 
                 <div class="col-lg-4 mt-4 mb-3">
                     <div class="card z-index-2 ">
+                        {{--
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                             <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
                                 <div class="chart">
                                     <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
                                 </div>
                             </div>
-                        </div>
+                        </div>--}}
                         <div class="card-body">
                             <h6 class="mb-0 ">Gestion de problemas</h6>
                             <p class="text-sm ">Gestiona todos los problemas publicados</p>
@@ -127,7 +108,7 @@
                                     <h6>Proyectos</h6>
                                     <p class="text-sm mb-0">
                                         <i class="fa fa-check text-info" aria-hidden="true"></i>
-                                        <span class="font-weight-bold ms-1">30 done</span> this month
+
                                     </p>
                                 </div>
 

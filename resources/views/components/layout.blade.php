@@ -37,6 +37,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link href="{{ asset('material-dashboard/css/material-dashboard.css') }}" rel="stylesheet">
+    <!-- Incluir tu CSS personalizado -->
+    <link rel="stylesheet" href="{{ asset('material-dashboard/css/personalizable.css') }}">
 
 </head>
 <body class="{{ $bodyClass }}">

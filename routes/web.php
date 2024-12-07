@@ -13,6 +13,7 @@ use App\Models\Administrador;
 use App\Models\Trabajadores;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 // Ruta principal
 Route::get('/', function () {
@@ -27,6 +28,7 @@ Route::middleware([
     'verified',
     CheckProfileCompletion::class
 ])->group(function () {
+
 
     // Dashboard genérico
     Route::get('/dashboard', function () {
@@ -81,6 +83,18 @@ Route::middleware([
 
     // Rutas específicas para Administrador
     Route::middleware(['auth', 'role:1'])->group(function () {
+        // Ruta para el perfil y registro
+        // Ruta para mostrar el formulario
+        Route::get('/administrador/formulario', [AdministradorController::class, 'formulario'])->name('administrador.formulario');
+        // Ruta para guardar los datos
+        Route::post('/administrador/store', [AdministradorController::class, 'store'])->name('administrador.store');
+        Route::get('/administrador/profile', [AdministradorController::class, 'showProfile'])->name('admin.perfil');//ver
+        //Para cambiar su imgen
+        Route::post('/admin/update-photo', [AdministradorController::class, 'updatePhoto'])->name('admin.update.photo');
+        Route::post('/admin/update-background', [AdministradorController::class, 'updateBackground'])->name('admin.update.background');
+
+
+
         Route::get('/admin/dashboard', function () { return view('administrador.dashboard.index');})->name('admin.dashboard');
         Route::get('/admin/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
          // Rutas del dashboard (Material Dashboard)
@@ -116,29 +130,15 @@ Route::middleware([
         // Ruta para eliminar un oficio
         Route::delete('/oficios/{id_oficios}', [AdministradorController::class, 'eliminarOficio'])->name('administrador.eliminar-oficio');
 
-
         // Ruta para gestionar las solicitudes
         Route::get('/administrador/solicitud', [AdministradorController::class, 'verSolicitudes'])->name('administrador.ver-solicitudes');
 
-        //Ruta para gstionar los problemas
+        //Ruta para gestionar los problemas
         Route::get('/administrador/problemas', [AdministradorController::class, 'verProblemas'])->name('administrador.ver-problemas');
 
-
-        // Ruta para el perfil del usuario
-        Route::get('/admin/user-profile', function () {
-            return view('administrador.pages.laravel-examples.user-profile', ['activePage' => 'user-profile']);
-        })->name('user-profile');
-
-        // Ruta para notificaciones
-        Route::get('/admin/notifications', function () {
-            return view('administrador.pages.notifications', ['activePage' => 'notifications']);
-        })->name('notifications');
-
-
-        Route::get('/admin/profile', function () {
-            return view('administrador.pages.profile', ['activePage' => 'profile']);
-        })->name('profile');
-
+        //Para ver las notificaciones
+        Route::get('/admin/notifications', [AdministradorController::class, 'verNotificaciones'])->name('notifications');
+        Route::get('/admin/notifications/read/{id}', [AdministradorController::class, 'marcarNotificacionLeida'])->name('admin.markNotificationRead');
     });
 
 
@@ -154,7 +154,7 @@ Route::middleware([
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
         //El trabajador registra su reclamo
-        Route::get('/trabajadores/reclamo', [ReclamoController::class, 'create'])->name('trabajadores.reclamo.create');
+        Route::get('/trabajadores/reclamo', [ReclamoController::class, 'create'])->name('trabajador.reclamo.create');
         Route::post('/trabajadores/reclamo', [ReclamoController::class, 'store'])->name('trabajador.reclamo.store');
 
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reclamos;
+use App\Notifications\ReclamoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 class ReclamoController extends Controller
 {
     /**
@@ -46,31 +48,39 @@ class ReclamoController extends Controller
 
     // Registrar el reclamo en la base de datos
     public function store(Request $request)
-    {
-        $userId = Auth::id();
+{
+    $userId = Auth::id();
 
-        // Validar los datos del formulario
-        $request->validate([
-            'asunto' => 'required|max:100',
-            'descripcion' => 'required|max:500',
-        ]);
+    // Validar los datos del formulario
+    $request->validate([
+        'asunto' => 'required|max:100',
+        'descripcion' => 'required|max:500',
+    ]);
 
-        // Crear el reclamo
-        Reclamos::create([
-            'asunto' => $request->input('asunto'),
-            'descripcion' => $request->input('descripcion'),
-            'fech_reclamo' => now(),
-            'id_usuario' => $userId, // Relacionar con el usuario autenticado
-            'id_estado_reclamo' => 2, // Estado inicial (por ejemplo, "Pendiente")
-        ]);
-        $user = Auth::user();
-        if ($user->id_roles == 3) {
-            return redirect()->route('cliente.reclamo.create')->with('success', '¡Reclamo registrado exitosamente!');
-        } elseif ($user->id_roles == 2) {
-            return redirect()->route('trabajador.reclamo.create')->with('success', '¡Reclamo registrado exitosamente!');
-        }
+    // Crear el reclamo
+    $reclamo = Reclamos::create([
+        'asunto' => $request->input('asunto'),
+        'descripcion' => $request->input('descripcion'),
+        'fech_reclamo' => now(),
+        'id_usuario' => $userId, // Relacionar con el usuario autenticado
+        'id_estado_reclamo' => 2, // Estado inicial (por ejemplo, "Pendiente")
+    ]);
 
+    // Enviar notificación al administrador
+    $adminUsers = User::where('id_roles', 1)->get(); // Suponiendo que el rol '1' es para administradores
+    foreach ($adminUsers as $admin) {
+        $admin->notify(new ReclamoNotification($reclamo));
     }
+
+    // Redirigir según el rol del usuario autenticado
+    $user = Auth::user();
+    if ($user->id_roles == 3) {
+        return redirect()->route('cliente.reclamo.create')->with('success', '¡Reclamo registrado exitosamente!');
+    } elseif ($user->id_roles == 2) {
+        return redirect()->route('trabajador.reclamo.create')->with('success', '¡Reclamo registrado exitosamente!');
+    }
+}
+
 
     /**
      * Display the specified resource.

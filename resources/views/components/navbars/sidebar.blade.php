@@ -19,7 +19,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Funcionalidades</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'dashboard' ? ' active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ $activePage == 'dashboard' ? 'active bg-gradient-orange' : '' }}"
                     href="{{ route('admin.dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
@@ -28,48 +28,50 @@
                 </a>
             </li>
 
+
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'notifications' ? ' active bg-gradient-primary' : '' }}  "
+                <a class="nav-link text-white {{ $activePage == 'notifications' ? ' active bg-gradient-orange' : '' }}  "
                     href="{{ route('notifications') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">notifications</i>
                     </div>
-                    <span class="nav-link-text ms-1">Notifications</span>
+                    <span class="nav-link-text ms-1">Notificaciones</span>
                 </a>
             </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Cuenta</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'profile' ? ' active bg-gradient-primary' : '' }}  "
-                    href="{{ route('profile') }}">
+                <a class="nav-link text-white {{ $activePage == 'profile' ? ' active bg-gradient-orange' : '' }}  "
+                    href="{{ route('admin.perfil') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Perfil</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="javascript:;" class="nav-link text-white  ">
+                <a href="javascript:;" class="nav-link text-white"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="material-icons opacity-10">login</i>
-                    <span class="nav-link-text ms-1"
-                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">Cerrar
-                    sesion</span>
+                    <span class="nav-link-text ms-1">Cerrar sesión</span>
                 </a>
             </li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+
+
 
         </ul>
     </div>
-    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
+    <div class="sidenav-footer position-absolute w-100 bottom-0">
         <div class="mx-3">
-            <a class="btn bg-gradient-warning w-100" href="{{route('reclamos.index')}}">Reclamos</a>
+            <a class="btn btn-orange w-100" href="{{ route('reclamos.index') }}">Reclamos</a>
         </div>
         <div class="mx-3">
-            <a class="btn bg-gradient-warning w-100" href="{{route('admin.usuarios.index')}}">Usuarios</a>
-        </div>
-        <div class="mx-3">
-            <a class="btn bg-gradient-warning  w-100"
-                href="" target="_blank" type="button">Sistema </a>
+            <a class="btn btn-orange w-100" href="{{ route('admin.usuarios.index') }}">Usuarios</a>
         </div>
     </div>
+
 </aside>

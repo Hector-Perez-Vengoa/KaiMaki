@@ -34,6 +34,15 @@ class CheckProfileCompletion
                 ->with('error', 'Por favor, completa tu perfil antes de continuar.');
         }
     }
+     // Validar para administradores
+    if ($user->id_roles === 1 && (!$user->administrador || !$user->administrador->dni)) {
+        // Evitar redirección cíclica
+        if (!$request->routeIs('administrador.formulario', 'administrador.store')) {
+            return redirect()->route('administrador.formulario')
+                ->with('error', 'Por favor, completa tu perfil antes de continuar.');
+        }
+    }
+
 
     return $next($request); // Permitir el acceso si cumple las condiciones
 

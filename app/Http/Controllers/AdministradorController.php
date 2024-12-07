@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrador;
+use Illuminate\Notifications\Notification;
 use App\Models\Antecedentes;
 use App\Models\Certificados;
 use App\Models\Cliente;
@@ -16,6 +18,8 @@ use App\Models\Solicitud;
 use App\Models\Trabajadores;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdministradorController extends Controller
 {
@@ -38,10 +42,67 @@ class AdministradorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+
+     public function formulario()
+     {
+         $user = Auth::user();
+
+         // Verificar si ya tiene un registro en la tabla administrador
+         if ($user->administrador) {
+             return redirect()->route('admin.perfil')->with('error', 'Ya tienes registrado tus datos.');
+         }
+
+         return view('administrador.register.formulario');
+     }
+
+
+     // Guardar datos
+     public function store(Request $request)
+{
+    $user = Auth::user();
+
+    // Verificar si ya tiene un registro
+    if ($user->administrador) {
+        return redirect()->route('admin.perfil')->with('error', 'Ya tienes registrado tus datos.');
     }
+
+    // Validar los datos
+    $request->validate([
+        'dni' => 'required|numeric|digits:8|unique:administrador,dni',
+        'nombres' => 'required|string|max:255',
+        'apellidos' => 'required|string|max:255',
+        'telefono' => 'required|numeric|digits_between:7,15',
+    ]);
+
+    // Crear el registro en la tabla administrador
+    $administrador = new Administrador();
+    $administrador->dni = $request->dni;
+    $administrador->nombres = $request->nombres;
+    $administrador->apellidos = $request->apellidos;
+    $administrador->telefono = $request->telefono;
+    $administrador->id_usuario = $user->id;
+    $administrador->save();
+
+    return redirect()->route('admin.perfil')->with('success', 'Tus datos han sido registrados correctamente.');
+}
+
+
+    //ver perfil
+    public function showProfile()
+{
+    $user = Auth::user();
+
+    // Verificar que el administrador tenga datos registrados
+    if (!$user->administrador) {
+        return redirect()->route('administrador.formulario')->with('error', 'Por favor, completa tu perfil.');
+    }
+
+    return view('administrador.register.show', [
+        'user' => $user,
+        'administrador' => $user->administrador,
+    ]);
+}
+
 
     /**
      * Display the specified resource.
@@ -251,7 +312,75 @@ class AdministradorController extends Controller
         $problemas = Problema::with(['cliente', 'oficio', 'estadoProblema'])->get();
         return view('administrador.problema.index', compact('problemas'));
     }
+    public function verNotificaciones()
+    {
+        $notificaciones = Auth::user()->notifications;
+        return view('administrador.notification.notificacion', compact('notificaciones'))->with('activePage', 'notifications');
+    }
 
+
+
+    public function marcarNotificacionLeida($id)
+    {
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+        // Buscar la notificación en las no leídas
+        $notificacion = $user->unreadNotifications->where('id', $id)->first();
+
+        if ($notificacion) {
+            // Marcar como leída
+            $notificacion->markAsRead();
+        }
+
+        return redirect()->route('notifications')->with('success', 'Notificación marcada como leída.');
+    }
+
+public function updatePhoto(Request $request)
+{
+    $request->validate([
+        'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    $user = Auth::user();
+    $administrador = $user->administrador;
+
+    // Eliminar la foto anterior si existe
+    if ($administrador->profile_photo) {
+        Storage::delete($administrador->profile_photo);
+    }
+
+    // Guardar la nueva foto
+    $path = $request->file('profile_photo')->store('profile_photos');
+
+    $administrador->profile_photo = $path;
+    $administrador->save();
+
+    return redirect()->back()->with('success', 'Foto de perfil actualizada correctamente.');
+}
+
+public function updateBackground(Request $request)
+{
+    $request->validate([
+        'background_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
+
+    $user = Auth::user();
+    $administrador = $user->administrador;
+
+    // Eliminar la imagen anterior si existe
+    if ($administrador->background_image) {
+        Storage::delete($administrador->background_image);
+    }
+
+    // Guardar la nueva imagen de fondo
+    $path = $request->file('background_image')->store('background_images');
+
+    $administrador->background_image = $path;
+    $administrador->save();
+
+    return redirect()->back()->with('success', 'Imagen de fondo actualizada correctamente.');
+}
     public function edit(string $id)
     {
         //

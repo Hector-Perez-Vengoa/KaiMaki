@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -48,6 +49,11 @@ class User extends Authenticatable
     public function clientes()
         {
             return $this->hasOne(Cliente::class, 'id_usuario', 'id');
+        }
+
+    public function administrador()
+        {
+            return $this->hasOne(Administrador::class, 'id_usuario', 'id');
         }
     public function estado()
         {
@@ -103,7 +109,7 @@ class User extends Authenticatable
 
     public function reclamo()
     {
-        return $this->hasMany(Reclamos::class, 'id_usuario','id_usuario');
+        return $this->hasMany(Reclamos::class, 'id_usuario','id');
     }
 
 
@@ -147,10 +153,10 @@ class User extends Authenticatable
     }
 
     // app/Models/User.php
-    public function cliente()
-    {
-        return $this->hasOne(Cliente::class, 'id_usuario', 'id');
-    }
+    //public function cliente()
+    //{
+     //   return $this->hasOne(Cliente::class, 'id_usuario', 'id');
+    //}
 
 
 
