@@ -65,22 +65,24 @@ Route::middleware([
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
         Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
-        Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');
-        Route::post('/cliente/publicar-problema', [ProblemaController::class, 'store'])->name('problemas.store');
-        Route::get('/cliente/mis-problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
-        Route::get('/problemas/{problema}', [ProblemaController::class, 'show'])->name('problemas.show');
-        Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
-        // Ruta para actualizar los datos del problema
-        Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
         Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
         // Ruta para renegociar una solicitud
         Route::post('/cliente/renegociar', [ClienteController::class, 'regociaciar'])->name('clientes.renegociar');
 
         // Ruta para cambiar el estado de una solicitud
         Route::patch('/cliente/cambiar-estado/{solicitud}/{estado}', [ClienteController::class, 'cambiarEstado'])->name('cliente.cambiarEstado');
-        
-        Route::put('/problemas/{id}/marcar-urgente', [ProblemaController::class, 'marcarUrgente'])->name('problemas.marcarUrgente');
-        Route::delete('/problemas/{problema}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
+
+        //Problema
+        Route::get('/cliente/problemas/crear', [ProblemaController::class, 'create'])->name('cliente.problemas.create');
+        Route::post('/cliente/problemas', [ProblemaController::class, 'store'])->name('problemas.store');
+        Route::get('/cliente/problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
+        Route::get('/problemas', [ProblemaController::class, 'index'])->name('problemas.index');
+        Route::get('/cliente/problemas/{id}/editar', [ProblemaController::class, 'edit'])->name('problemas.edit');
+        Route::put('/cliente/problemas/{id}', [ProblemaController::class, 'update'])->name('problemas.update');
+        Route::delete('/cliente/problemas/{id}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
+
+        //Negociaciones
+
 
         //Realiza reclamo
         Route::get('/cliente/reclamo', [ReclamoController::class, 'create'])->name('cliente.reclamo.create');

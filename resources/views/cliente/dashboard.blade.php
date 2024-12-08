@@ -50,7 +50,7 @@
                     </div>
 
 
-                    <!-- Botón Publicar Problema 
+                    <!-- Botón Publicar Problema </div>-->
                     <div class="bg-orange-100 rounded-lg p-4 shadow">
                         <h2 class="text-lg font-bold mb-2">Realiza tu reclamo</h2>
                         <p class="text-sm text-gray-600 mb-4">Escribe tu reclamo para poder ayudarte.</p>
@@ -58,15 +58,25 @@
                             class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-700">
                             Registrar
                         </a>
-                    </div>-->
-
+                    </div>
 
                     <div class="bg-yellow-100 rounded-lg p-4 shadow">
-                        <h2 class="text-lg font-bold mb-2">Mis Publicaciones</h2>
+                        <h2 class="text-lg font-bold mb-2">Mis Problemas</h2>
                         <p class="text-sm text-gray-600 mb-4">Revisa y administra tus problemas publicados.</p>
                         <a href="{{route('cliente.problemas.index')}}"
                             class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-700">
-                            Publicar y ver mis problemas
+                            Ver mis problemas
+                        </a>
+                    </div>
+
+
+
+                    <div class="bg-yellow-100 rounded-lg p-4 shadow">
+                        <h2 class="text-lg font-bold mb-2">Publicar problema</h2>
+                        <p class="text-sm text-gray-600 mb-4">Publica tus problemas</p>
+                        <a href="{{route('cliente.problemas.create')}}"
+                            class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-700">
+                            Publicar problemas
                         </a>
                     </div>
 

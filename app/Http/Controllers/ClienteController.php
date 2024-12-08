@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Negociacion;
 use App\Models\Reclamos;
 use App\Models\Ubicacion;
 use App\Models\Solicitud;
@@ -67,14 +68,14 @@ class ClienteController extends Controller
     public function solicitudes()
     {
         $clienteId = Auth::user()->cliente->id_cliente;
-    
+
         // Obtener las solicitudes del cliente autenticado
         $solicitudes = Solicitud::where('id_cliente', $clienteId)
             ->with(['trabajador', 'estado', 'negociaciones' => function ($query) {
                 $query->latest('created_at'); // Ordenar por la última negociación
             }])
             ->get();
-    
+
         // Pasar las solicitudes a la vista
         return view('cliente.solicitudes', compact('solicitudes'));
     }
@@ -96,7 +97,7 @@ class ClienteController extends Controller
             'monto' => $validatedData['monto'],
             'nueva_fech_reserva' => $validatedData['nueva_fech_reserva'],
             'hora_inicio' => $validatedData['hora_inicio'],
-            'tiempo_estimado' => $validatedData['tiempo_estimado'], 
+            'tiempo_estimado' => $validatedData['tiempo_estimado'],
         ]);
 
         // Realizar la actualización de estado
@@ -110,10 +111,10 @@ class ClienteController extends Controller
     public function cambiarEstado($solicitud, $estado)
     {
         $solicitud->update(['id_estado_solicitudes' => $estado]);
-    
+
         return redirect()->back()->with('success', 'El estado de la solicitud ha sido actualizado.');
     }
-    
-    
+
+
 
 }

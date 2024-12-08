@@ -19,6 +19,8 @@ class Problema extends Model
         'descripcion',
         'imagen',
         'monto',
+        'fecha_reserva',
+        'ubicacion_alternativa',
         'fecha',
         'id_estado_problema',
     ];
