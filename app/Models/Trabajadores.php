@@ -32,7 +32,7 @@ class Trabajadores extends Model
         return $this->belongsTo(Ubicacion::class, 'id_ubicacion', 'id_ubicacion');
     }
 
-    
+
     public function antecedentes()
     {
     return $this->hasMany(Antecedentes::class, 'id_trabajadores', 'id_trabajadores');
@@ -55,7 +55,17 @@ class Trabajadores extends Model
     }
 
 
-    
+    public function solicitud()
+    {
+        return $this->hasMany(Solicitud::class, 'id_trabajadores', 'id_trabajadores');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_usuario', 'id');
+    }
+
+
 
 }
 

@@ -12,7 +12,7 @@ class Cliente extends Model
     protected $table = 'clientes'; // Nombre de la tabla
     protected $primaryKey = 'id_cliente'; // Nombre de la clave primaria
     public $timestamps = true; // Si usas columnas created_at y updated_at
-    
+
     protected $fillable = [
         'id_usuario',
         'id_ubicacion',
@@ -46,4 +46,10 @@ class Cliente extends Model
     {
         return $this->hasMany(Solicitud::class, 'id_cliente', 'id_cliente');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_usuario', 'id');
+    }
+
+
 }

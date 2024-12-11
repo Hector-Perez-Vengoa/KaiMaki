@@ -20,9 +20,14 @@ class Ubicacion extends Model
     return $this->hasMany(Trabajadores::class, 'id_ubicacion', 'id_ubicacion');
     }
 
-    public function clientes()
+    public function cliente()
     {
         return $this->hasMany(Cliente::class, 'id_ubicacion','id_ubicacion');
+    }
+
+    public function getDireccionCompletaAttribute()
+    {
+        return "{$this->direccion}, {$this->distrito}, {$this->ciudad}";
     }
 
 }

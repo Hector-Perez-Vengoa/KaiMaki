@@ -22,6 +22,15 @@ module.exports = {
                 orange: {
                     500: '#e64a19',
                     600: '#d84315',
+                    50: '#fef5ee',
+                    100: '#fde9d7',
+                    200: '#f9cfaf',
+                    300: '#f6ad7b',
+                    400: '#f18146',
+                    700: '#b83416',
+                    800: '#932b19',
+                    900: '#762618',
+                    950: '#40100a',
                 },
                 'custom-orange': '#f5f5dc',  // Aquí se agrega el color personalizado
             },

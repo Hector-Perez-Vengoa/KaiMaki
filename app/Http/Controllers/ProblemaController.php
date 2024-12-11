@@ -9,161 +9,155 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class ProblemaController extends Controller
 {
-    // Crear un problema
-    // Mostrar el formulario para publicar un problema
-    public function create()
-    {
-        // Verificar si el modelo Oficios está correctamente configurado
-        $oficios = Oficios::all();
+       // Mostrar el formulario para publicar un problema
+       public function create()
+       {
+           // Cargar los oficios disponibles para el dropdown
+           $oficios = Oficios::all(); // Suponiendo que tienes un modelo 'Oficio'
 
-        // Depurar los datos de $oficios
-        if ($oficios->isEmpty()) {
-            // Si no hay datos, redirige con un error
-            return redirect()->route('cliente.dashboard')->withErrors('No hay oficios disponibles. Por favor, agrega oficios primero.');
-        }
+           // Obtener la ubicación registrada del cliente autenticado
+           $cliente = Auth::user()->cliente; // Relación entre usuario y cliente
+           $ubicacion = $cliente->ubicacion ?? null;
 
-        // Pasar los oficios a la vista
-        return view('cliente.problemas.create', compact('oficios'));
-    }
+           return view('cliente.problemas.create', compact('oficios', 'ubicacion'));
+       }
 
+       public function store(Request $request)
+       {
+           // Validar los datos
+           $validated = $request->validate([
+               'id_oficios' => 'required|exists:oficios,id_oficios',
+               'descripcion' => 'required|string|max:255',
+               'monto' => 'nullable|numeric|min:0',
+               'fecha_reserva' => 'required|date|after:today',
+               'ubicacion_tipo' => 'required|string|in:registrada,alternativa',
+               'direccion_alternativa' => 'nullable|required_if:ubicacion_tipo,alternativa|string|max:255',
+               'distrito_alternativa' => 'nullable|required_if:ubicacion_tipo,alternativa|string|max:100',
+               'ciudad_alternativa' => 'nullable|required_if:ubicacion_tipo,alternativa|string|max:100',
+               'imagen' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+               'urgente' => 'nullable|boolean',
+           ]);
 
-    // Guardar un problema publicado por el cliente
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'id_oficios' => 'required|exists:oficios,id_oficios',
-            'descripcion' => 'required|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'monto' => 'nullable|numeric|min:0',
-            'urgente' => 'nullable|boolean', // Validar el campo "urgente"
-        ]);
+           // Construir la ubicación alternativa (si aplica)
+           $ubicacionAlternativa = null;
+           if ($request->ubicacion_tipo === 'alternativa') {
+               $ubicacionAlternativa = implode(', ', [
+                   $request->direccion_alternativa,
+                   $request->distrito_alternativa,
+                   $request->ciudad_alternativa,
+               ]);
+           }
 
-        // Manejar la imagen (opcional)
-        $path = null;
-        if ($request->hasFile('imagen')) {
-            $path = $request->file('imagen')->store('problemas', 'public');
-        }
+           // Guardar la imagen (si se sube)
+           $path = $request->hasFile('imagen')
+               ? $request->file('imagen')->store('problemas', 'public')
+               : null;
 
-        // Determinar el estado (Urgente o Pendiente)
-        $estadoProblemaId = $request->boolean('urgente')
-            ? 5 // ID del estado "Urgente"
-            : 1; // ID del estado "Pendiente"
+           // Crear el problema
+           Problema::create([
+               'id_cliente' => Auth::user()->cliente->id_cliente,
+               'id_oficios' => $validated['id_oficios'],
+               'descripcion' => $validated['descripcion'],
+               'monto' => $validated['monto'],
+               'fecha_reserva' => $validated['fecha_reserva'],
+               'ubicacion_alternativa' => $ubicacionAlternativa,
+               'imagen' => $path,
+               'urgente' => $request->boolean('urgente'),
+               'fecha' => now(),
+               'id_estado_problema' => $request->boolean('urgente') ? 5 : 1,
+           ]);
 
-        // Crear el problema
-        Problema::create([
-            'id_cliente' => Auth::user()->cliente->id_cliente,
-            'id_oficios' => $validated['id_oficios'],
-            'descripcion' => $validated['descripcion'],
-            'imagen' => $path,
-            'monto' => $validated['monto'],
-            'fecha' => now(),
-            'id_estado_problema' => $estadoProblemaId,
-        ]);
-
-        return redirect()->route('cliente.problemas.index')->with('success', 'Problema publicado exitosamente.');
-    }
-
-
-
-    // Listar problemas del cliente
-    public function index()
-    {
-        // Obtener el cliente autenticado
-        $clienteId = Auth::user()->cliente->id_cliente;
-
-        // Obtener los problemas relacionados con el cliente
-        $problemas = Problema::where('id_cliente', $clienteId)
-        ->with('oficio', 'estadoProblema')
-        ->orderByRaw("CASE WHEN id_estado_problema = 5 THEN 0 ELSE 1 END") // Coloca urgentes primero
-        ->orderBy('created_at', 'desc') // Ordena por fecha después
-        ->get();
-
-        // Obtener todos los oficios para el modal
-        $oficios = Oficios::all();
-
-        // Pasar las variables a la vista
-        return view('cliente.problemas.index', compact('problemas', 'oficios'));
-    }
+           return redirect()->route('problemas.index')->with('success', 'Problema creado exitosamente.');
+       }
 
 
+       public function index(Request $request)
+       {
+           $cliente = Auth::user()->cliente; // Relación cliente-usuario
+
+           // Construcción de la consulta base
+           $query = Problema::with(['oficio', 'estadoProblema', 'cliente.ubicacion'])
+               ->where('id_cliente', $cliente->id_cliente);
+
+           // Filtrar por estado si se proporciona en la solicitud
+           if ($request->has('estado')) {
+               $query->where('id_estado_problema', $request->estado);
+           }
+
+           // Ordenar problemas: urgentes primero, luego por fecha de creación
+           $problemas = $query->orderByRaw("FIELD(id_estado_problema, 5, 1) ASC")
+               ->orderBy('created_at', 'asc') // Más antiguos primero
+               ->distinct() // Eliminar duplicados
+               ->get();
+
+           return view('cliente.problemas.index', compact('problemas'));
+       }
 
 
-    // Mostrar detalles de un problema
-    public function show($id)
-    {
-        $problema = Problema::with('cliente', 'oficio', 'estadoProblema')->findOrFail($id);
-
-        return view('cliente.problemas.show', compact('problema'));
-    }
-
-    // Editar un problema
-    public function edit($id)
-    {
-        $problema = Problema::findOrFail($id);
-        $oficios = Oficios::all();
-
-        return view('cliente.problemas.edit', compact('problema', 'oficios'));
-    }
-
-    // Actualizar un problema
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'id_oficios' => 'required|exists:oficios,id_oficios',
-            'descripcion' => 'required|string|max:255',
-            'monto' => 'nullable|numeric',
-        ]);
-
-        $problema = Problema::findOrFail($id);
-
-        // Manejar la actualización de imagen (opcional)
-        if ($request->hasFile('imagen')) {
-            $path = $request->file('imagen')->store('problemas', 'public');
-            $problema->imagen = $path;
-        }
-
-        $problema->update([
-            'id_oficios' => $validated['id_oficios'],
-            'descripcion' => $validated['descripcion'],
-            'monto' => $validated['monto'],
-        ]);
-
-        return redirect()->route('cliente.dashboard')->with('success', 'Problema actualizado correctamente.');
-    }
-
-    // Marcar problema como urgente
-    public function marcarUrgente($id)
-    {
-        // Busca el problema
-        $problema = Problema::findOrFail($id);
-
-        // Obtiene el ID del estado "Urgente"
-        $estadoUrgente = DB::table('estado_problema')
-            ->where('nombre_estado', 'Urgente')
-            ->value('id_estado_problema');
-
-        // Actualiza el estado del problema
-        $problema->update(['id_estado_problema' => $estadoUrgente]);
-
-        return redirect()->route('cliente.problemas.index')->with('success', 'El problema ha sido marcado como urgente.');
-    }
-
-    public function destroy($id)
-    {
-        // Buscar el problema
-        $problema = Problema::findOrFail($id);
-
-        // Verificar si el cliente autenticado es el dueño del problema
-        if (Auth::user()->cliente->id_cliente !== $problema->id_cliente) {
-            abort(403, 'No tienes permiso para realizar esta acción.');
-        }
-
-        // Eliminar el problema
-        $problema->delete();
-
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('cliente.problemas.index')->with('success', 'El problema fue eliminado correctamente.');
-    }
 
 
-}
+
+
+       public function edit($id)
+       {
+           // Buscar el problema
+           $problema = Problema::findOrFail($id);
+
+           // Cargar los oficios
+           $oficios = Oficios::all();
+
+           // Obtener la ubicación registrada del cliente
+           $cliente = Auth::user()->cliente;
+           $ubicacion = $cliente->ubicacion ?? null;
+
+           return view('cliente.problemas.edit', compact('problema', 'oficios', 'ubicacion'));
+       }
+
+
+       public function destroy($id)
+       {
+           // Buscar el problema
+           $problema = Problema::findOrFail($id);
+
+           // Eliminar el problema
+           $problema->delete();
+
+           // Redirigir al índice con un mensaje de éxito
+           return redirect()->route('problemas.index')->with('success', 'Problema eliminado correctamente.');
+       }
+
+       public function update(Request $request, $id)
+       {
+           $validated = $request->validate([
+               'id_oficios' => 'required|exists:oficios,id_oficios',
+               'descripcion' => 'required|string|max:255',
+               'monto' => 'nullable|numeric|min:0',
+               'fecha_reserva' => 'nullable|date|after:today',
+               'imagen' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+               'id_estado_problema' => 'required|in:1,5', // Solo permitir Pendiente (1) y Urgente (5)
+           ]);
+
+           $problema = Problema::findOrFail($id);
+
+           // Actualizar la imagen si es necesario
+           if ($request->hasFile('imagen')) {
+               $path = $request->file('imagen')->store('problemas', 'public');
+               $problema->imagen = $path;
+           }
+
+           $problema->update([
+               'id_oficios' => $validated['id_oficios'],
+               'descripcion' => $validated['descripcion'],
+               'monto' => $validated['monto'],
+               'fecha_reserva' => $validated['fecha_reserva'],
+               'id_estado_problema' => $validated['id_estado_problema'], // Actualizar el estado
+           ]);
+
+           return redirect()->route('problemas.index')->with('success', 'Problema actualizado correctamente.');
+       }
+
+
+
+
+
+   }

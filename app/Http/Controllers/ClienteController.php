@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Negociacion;
 use App\Models\Reclamos;
 use App\Models\Ubicacion;
 use App\Models\Trabajadores;
@@ -125,7 +126,7 @@ class ClienteController extends Controller
 
         // Realizar la actualización de estado
         Solicitud::where('id_solicitudes', $validatedData['id_solicitudes'])
-                    ->update(['id_estado_solicitudes' => 6]);
+            ->update(['id_estado_solicitudes' => 6]);
 
         // Redirigir con mensaje de éxito
         return redirect()->back()->with('success', 'La negociación se ha registrado correctamente.');

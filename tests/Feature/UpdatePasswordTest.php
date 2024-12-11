@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Jetstream\Http\Livewire\UpdatePasswordForm;
 use Livewire\Livewire;
 
-test('password can be updated', function () {
+test('la contraseña se puede actualizar
+', function () {
     $this->actingAs($user = User::factory()->create());
 
     Livewire::test(UpdatePasswordForm::class)

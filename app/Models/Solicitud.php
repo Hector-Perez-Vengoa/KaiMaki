@@ -20,6 +20,7 @@ class Solicitud extends Model
         'id_estado_solicitudes',
         'id_trabajadores',
         'id_cliente',
+        'id_problema',
         'fech_reserva',
         'descripcion',
         'hora_inicio_propuesta',
@@ -45,10 +46,18 @@ class Solicitud extends Model
     {
         return $this->hasMany(ImagenSolicitud::class, 'id_solicitudes', 'id_solicitudes');
     }
-    
+
     public function negociaciones()
     {
-        return $this->hasMany(Negociacion::class, 'id_solicitudes', 'id_solicitudes');
+        return $this->hasOne(Negociacion::class, 'id_solicitudes', 'id_solicitudes');
     }
+
+    public function problemas()
+{
+    return $this->belongsTo(Problema::class, 'id_problema', 'id_problemas');
+}
+
+
+
 
 }

@@ -13,35 +13,81 @@
 
 .carousel {
     display: flex;
-    transition: transform 0.5s ease-in-out; /* Suaviza el movimiento entre slides */
+    transition: transform 0.5s ease-in-out;
 }
 
 .carousel-item {
-    flex: 0 0 calc(100% / 4); /* Ocupa exactamente 1/4 del ancho del carrusel en pantallas grandes */
+    flex: 0 0 calc(100% / 4);
+    position: relative;
     text-align: center;
-    box-sizing: border-box; /* Incluye padding/margin dentro del tamaño */
+    box-sizing: border-box;
 }
 
+/* Contenedor de la imagen */
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: 200px; /* Coincide con el tamaño de la imagen */
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 8px; /* Asegura bordes redondeados */
+}
+
+/* Imagen */
 .carousel-image {
     width: 100%;
-    max-width: 200px; /* Tamaño máximo de la imagen */
     height: auto;
     object-fit: cover;
-    border-radius: 8px;
-    margin: 0 auto;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1; /* Imagen debajo de la descripción */
 }
 
-.carousel-slide p {
+/* Efecto zoom en hover */
+.image-container:hover .carousel-image {
+    transform: scale(1.05); /* Acercar la imagen */
+}
+
+/* Descripción dentro del contenedor de la imagen */
+.image-description {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    background: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    color: rgb(255, 255, 255); /* Texto blanco */
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0; /* Oculto por defecto */
+    transition: opacity 0.3s ease-in-out;
+    z-index: 2; /* Encima de la imagen */
+}
+
+.carousel-item:hover .carousel-description {
+    opacity: 1;
+}
+
+/* Mostrar descripción al hover */
+.image-container:hover .image-description {
+    opacity: 1;
+}
+
+/* Título debajo de la imagen */
+.carousel-item p {
     margin-top: 8px;
     font-size: 1rem;
     font-weight: 600;
-    color: #333;
+
 }
 
 /* Botones de control */
 .carousel-btn {
     position: absolute;
-    top: 50%; /* Centrado vertical */
+    top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -72,9 +118,11 @@
     right: 10px;
 }
 
+
+
 /* Responsividad */
 @media (max-width: 767px) {
     .carousel-item {
-        flex: 0 0 100%; /* Cada slide ocupa todo el ancho en pantallas pequeñas */
+        flex: 0 0 100%;
     }
 }

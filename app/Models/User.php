@@ -16,9 +16,10 @@ class User extends Authenticatable
     use HasApiTokens;
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
+    use Notifiable;
     use HasFactory;
     use HasProfilePhoto;
-    use Notifiable;
+
     use TwoFactorAuthenticatable;
 
     /**
@@ -50,6 +51,8 @@ class User extends Authenticatable
         {
             return $this->hasOne(Cliente::class, 'id_usuario', 'id');
         }
+
+
 
     public function administrador()
         {
@@ -114,9 +117,6 @@ class User extends Authenticatable
 
 
 
-
-
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -152,8 +152,16 @@ class User extends Authenticatable
         ];
     }
 
+    // app/Models/User.php
     public function cliente()
     {
        return $this->hasOne(Cliente::class, 'id_usuario', 'id');
     }
+    public function trabajador()
+    {
+        return $this->hasOne(Trabajadores::class, 'id_usuario', 'id');
+    }
+
+
+
 }
