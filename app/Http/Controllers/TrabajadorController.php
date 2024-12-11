@@ -11,6 +11,7 @@ use App\Models\Trabajadores;
 use App\Models\Ubicacion;
 use App\Models\Solicitud;
 use App\Models\Negociacion;
+use App\Models\TrabajoCampo;
 use App\Models\User;
 use Hamcrest\Core\AllOf;
 use Illuminate\Support\Facades\Auth;
@@ -191,40 +192,82 @@ class TrabajadorController extends Controller
     }
 
     public function solicitudes(Request $request)
-    {   
+    {
         // Obtener el usuario autenticado
         $usuario = Auth::user();
 
         // Obtener el ID del trabajador asociado al usuario autenticado
         $trabajador = $usuario->trabajadores()->first();
         $idTrabajador = $trabajador->id_trabajadores;
-        
+
         // Obtener el estado a filtrar desde la solicitud
         $estado = $request->input('estado');
 
-        // Obtener las solicitudes filtradas por el ID del trabajador
-        $solicitudes = Solicitud::where('id_trabajadores', $idTrabajador)
+        // Iniciar la consulta base
+        $query = Solicitud::where('id_trabajadores', $idTrabajador)
             ->with(['cliente', 'estado', 'negociaciones' => function ($query) {
-                $query->latest('created_at'); // Ordenar por la última negociación 
-            }])
-            ->where('id_estado_solicitudes', $estado)
-            ->get(); // Cargar relaciones
+                $query->latest('created_at'); // Ordenar por la última negociación
+            }]);
+
+        // Aplicar la condición para filtrar solicitudes
+        if ($estado == 5) {
+            // Si el estado es 5, buscar solicitudes con estado 5 o 6
+            $query->whereIn('id_estado_solicitudes', [5, 6]);
+        } else {
+            // Filtrar por el estado específico
+            $query->where('id_estado_solicitudes', $estado);
+        }
+
+        // Obtener las solicitudes filtradas
+        $solicitudes = $query->get();
+
         // Pasar las solicitudes a la vista
         return view('trabajador.solicitudes', compact('solicitudes'));
     }
-    
 
 
-    public function actualizarEstado($id_solicitud, $estado)
+
+
+    public function actualizarEstado(Request $request)
     {
-        
-        // Realizar la actualización directamente
-        Solicitud::where('id_solicitudes', $id_solicitud)->update(['id_estado_solicitudes' => $estado]);
-    
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('trabajador.solicitudes')->with('success', 'Estado actualizado correctamente.');
+        // Validar que el estado es válido
+        $validated = $request->validate([
+            'id_solicitudes' => 'required|exists:solicitudes,id_solicitudes',
+            'estado' => 'required|integer',
+        ]);
+
+        // Obtener la solicitud con sus negociaciones
+        $solicitud = Solicitud::with(['negociaciones' => function ($query) {
+            $query->latest('created_at'); // Ordenar por la última negociación
+        }])->findOrFail($validated['id_solicitudes']);
+
+        // Si el estado es igual a 2, crear una instancia en la tabla TrabajoCampo
+        if ($validated['estado'] == 2) {
+            // Obtener la última negociación
+            $ultimaNegociacion = $solicitud->negociaciones->first();
+
+            // Verificar si ya existe un registro para evitar duplicados
+            $trabajoExistente = TrabajoCampo::where('id_solicitudes', $validated['id_solicitudes'])->first();
+
+            if (!$trabajoExistente && $ultimaNegociacion) {
+                TrabajoCampo::create([
+                    'id_solicitudes' => $validated['id_solicitudes'],
+                    'hora_entrada' => $ultimaNegociacion->hora_entrada,
+                    'hora_salida' => null,
+                    'oficio_serv' => null,
+                    'monto' => $ultimaNegociacion->monto,
+                    'puntuacion' => null,
+                ]);
+            }
+        }
+
+        // Actualizar el estado
+        $solicitud->update(['id_estado_solicitudes' => $validated['estado']]);
+
+        return redirect()->back()->with('success', 'El estado de la solicitud se ha actualizado correctamente.');
     }
-      
+
+
     public function negociacion(Request $request)
     {
         // Validar los datos del formulario
@@ -234,6 +277,7 @@ class TrabajadorController extends Controller
             'nueva_fech_reserva' => 'required|date',
             'hora_inicio' => 'required',
             'tiempo_estimado' => 'required',
+            'mensaje' => 'required',
         ]);
 
         // Crear una nueva negociación
@@ -242,7 +286,8 @@ class TrabajadorController extends Controller
             'monto' => $validatedData['monto'],
             'nueva_fech_reserva' => $validatedData['nueva_fech_reserva'],
             'hora_inicio' => $validatedData['hora_inicio'],
-            'tiempo_estimado' => $validatedData['tiempo_estimado'], 
+            'tiempo_estimado' => $validatedData['tiempo_estimado'],
+            'mensaje' => $validatedData['mensaje'],
         ]);
 
         // Realizar la actualización de estado

@@ -73,12 +73,17 @@ Route::middleware([
         // Ruta para actualizar los datos del problema
         Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemas.update');
         Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
-        // Ruta para renegociar una solicitud
-        Route::post('/cliente/renegociar', [ClienteController::class, 'regociaciar'])->name('clientes.renegociar');
 
-        // Ruta para cambiar el estado de una solicitud
-        Route::patch('/cliente/cambiar-estado/{solicitud}/{estado}', [ClienteController::class, 'cambiarEstado'])->name('cliente.cambiarEstado');
-        
+        // Ruta para renegociar una solicitud
+        Route::post('/cliente/solicitudes/renegociar', [ClienteController::class, 'renegociar'])->name('cliente.renegociar');
+        Route::post('/cliente/solicitudes/puntuacion', [ClienteController::class, 'puntuacion'])->name('cliente.puntuacion');
+
+        Route::post('/cliente/solicitudes', [ClienteController::class, 'actualizarEstado'])->name('cliente.actualizarEstado');
+
+
+
+
+
         Route::put('/problemas/{id}/marcar-urgente', [ProblemaController::class, 'marcarUrgente'])->name('problemas.marcarUrgente');
         Route::delete('/problemas/{problema}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
 
@@ -157,7 +162,7 @@ Route::middleware([
         Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
         Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
         Route::get('/trabajador/solicitudes', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
-        Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
+        Route::post('/trabajador/actualizarEstado', [TrabajadorController::class, 'actualizarEstado'])->name('trabajador.actualizarEstado');
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
         Route::post('/trabajador/solicitudes', [TrabajadorController::class, 'negociacion'])->name('trabajador.negociacion');
