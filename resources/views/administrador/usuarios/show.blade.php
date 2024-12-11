@@ -3,7 +3,7 @@
     <x-navbars.sidebar activePage="user-management"></x-navbars.sidebar>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <!-- Navbar -->
-        <x-navbars.navs.auth titlePage="User Management"></x-navbars.navs.auth>
+        <x-navbars.navs.auth titlePage="Perfil Usuario"></x-navbars.navs.auth>
         <!-- End Navbar -->
 
         <!-- Mensaje de éxito -->
@@ -79,7 +79,7 @@
                             @forelse ($usuario->antecedentes as $antecedente)
                                 <p><strong>Documento:</strong> {{ $antecedente->documento_antecedente ?? 'No definido' }}</p>
                                 <p><strong>Estado:</strong> {{ optional($antecedente->estado)->nombre_estado ?? 'No definido' }}</p>
-                                <a href="{{ Storage::url('antecedentes/' . $antecedente->documento_antecedente) }}"
+                                <a href="{{ Storage::url($antecedente->documento_antecedente) }}"
                                     target="_blank"
                                     class="btn btn-orange">
                                      Ver Documento
@@ -101,11 +101,11 @@
                             @forelse ($usuario->certificados as $certificado)
                                 <p><strong>Documento:</strong> {{ $certificado->documento_certificado ?? 'No definido' }}</p>
                                 <p><strong>Estado:</strong> {{ optional($certificado->estado)->nombre_estado ?? 'No definido' }}</p>
-                                <a href="{{ asset('storage/certificados/' . $certificado->documento_certificado) }}"
-                                    target="_blank"
-                                    class="btn btn-orange">
-                                     Ver Documento
-                                 </a>
+                                <a href="{{ Storage::url($certificado->documento_certificado) }}" target="_blank" class="btn btn-orange">
+                                    Ver Documento
+                                </a>
+
+
 
                                 <hr>
                             @empty
@@ -148,7 +148,7 @@
                                         @method('PUT')
                                         <input type="hidden" name="tipo" value="antecedente">
                                         <div class="d-flex justify-content-center align-items-center">
-                                            <select name="estado_id" class="form-select me-3 w-auto">
+                                            <select name="estado_id" class="form-select shadow-sm custom-selects-design me-3">
                                                 <option value="">Seleccione</option>
                                                 @foreach ($estadosAntecedentes as $estado)
                                                 <option value="{{ $estado->id_estado_antecedentes }}" {{ $estado->
@@ -159,7 +159,7 @@
                                                 </option>
                                                 @endforeach
                                             </select>
-                                            <button type="submit" class="btn btn-warning">
+                                            <button type="submit" class="btn btn-orange">
                                                 <i class="material-icons">save</i> Guardar
                                             </button>
                                         </div>
@@ -190,7 +190,7 @@
                                         @method('PUT')
                                         <input type="hidden" name="tipo" value="certificado">
                                         <div class="d-flex justify-content-center align-items-center">
-                                            <select name="estado_id" class="form-select me-3 w-auto">
+                                            <select name="estado_id" class="form-select shadow-sm custom-selects-design me-3">
                                                 <option value="">Seleccione</option>
                                                 @foreach ($estadosCertificados as $estado)
                                                 <option value="{{ $estado->id_estado_certificados }}" {{ $estado->
@@ -201,7 +201,7 @@
                                                 </option>
                                                 @endforeach
                                             </select>
-                                            <button type="submit" class="btn btn-warning">
+                                            <button type="submit" class="btn btn-orange">
                                                 <i class="material-icons">save</i> Guardar
                                             </button>
                                         </div>
@@ -221,7 +221,7 @@
 
             <!-- Botones de Acción -->
             <div class="d-flex justify-content-between mt-4">
-                <a href="{{ route('admin.usuarios.index') }}" class="btn btn-warning text-white px-4 py-2">
+                <a href="{{ route('admin.usuarios.index') }}" class="btn btn-orange text-white px-3 py-3">
                     <i class="material-icons me-2">arrow_back</i>Regresar
                 </a>
 
@@ -232,7 +232,7 @@
                     @csrf
                     @method('PUT')
                     <div class="d-flex align-items-center">
-                        <select name="id_estado_users" class="form-select me-3 w-auto">
+                        <select name="id_estado_users" class="form-select shadow-sm custom-selects-design me-3">
                             <option value="">Seleccione</option>
                             @foreach ($estados as $estado)
                             <option value="{{ $estado->id_estado_users }}" {{ $usuario->id_estado_users ==
@@ -241,10 +241,37 @@
                             </option>
                             @endforeach
                         </select>
-                        <button type="submit" class="btn btn-warning text-white px-4 py-2">
+
+                        <button type="submit" class="btn btn-orange text-white px-5 py-2 ">
                             Aplicar Cambio
                         </button>
                     </div>
+
+                    <!-- CSS para personalización -->
+                    <style>
+                        .custom-selects-design {
+                            background-color: #f8f9fa;
+                            /* Fondo claro */
+                            color: #495057;
+                            /* Texto gris oscuro */
+                            border-width: 3px;
+                            /* Borde más grueso */
+                            border-radius: 6px;
+                            /* Bordes redondeados */
+                            font-size: 1rem;
+                            /* Ajuste del tamaño del texto */
+                            padding: 0.5rem 1rem;
+                            /* Espaciado interno */
+                        }
+
+                        .custom-selects-design:focus {
+                            outline: none;
+                            /* Quita el borde azul por defecto */
+                            box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
+                            /* Sombra azul al enfocarse */
+                        }
+                    </style>
+
                 </form>
                 @endif
             </div>
