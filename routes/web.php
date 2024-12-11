@@ -81,8 +81,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
         Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.solicitar');
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
-        Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
-        Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
         Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');
         Route::post('/cliente/publicar-problema', [ProblemaController::class, 'store'])->name('problemas.store');
         Route::get('/cliente/mis-problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
@@ -220,8 +218,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth','role:2' ,CheckEstadoTrabajador::class])->group(function () {
 
         Route::get('/trabajador/dashboard', function () { return view('trabajador.dashboard');})->name('trabajador.dashboard');
-        Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
-        Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
         Route::get('/trabajador/solicitudes-enviadas', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
         Route::post('/trabajador/actualizarEstado', [TrabajadorController::class, 'actualizarEstado'])->name('trabajador.actualizarEstado');
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');

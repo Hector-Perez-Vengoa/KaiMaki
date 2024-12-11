@@ -54,6 +54,9 @@
                     <li><strong>Nuevo Monto:</strong> {{ $notification->data['monto'] ?? 'No especificado' }}</li>
                 </ul>
 
+
+
+
                 <!-- Botones para aceptar o rechazar -->
                 <div class="flex justify-between">
                     <form
@@ -95,9 +98,39 @@
 
     <!-- Contenido dividido en tres secciones -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- Cambios Propuestos por el Cliente -->
+
         <div class="border border-gray-300 shadow rounded-lg p-6 bg-white">
-            <h2 class="text-lg font-bold text-gray-700 mb-4">Cambios Propuestos por el Cliente</h2>
+            <!-- Publicación del Cliente -->
+            <div>
+                <h3 class="font-semibold mt-4 text-lg">
+                    Negociación con {{ $negociacion->solicitud->cliente->nom_cliente ?? 'Cliente no especificado' }}
+                </h3>
+                <p class="text-md text-gray-600">
+                    <strong>Problema:</strong> {{ $negociacion->solicitud->problemas->descripcion ?? 'No especificado' }}
+                </p>
+                <p class="text-md text-gray-600">
+                    <strong>Monto:</strong> {{ $negociacion->solicitud->problemas->monto ?? 'No especificado' }}
+                </p>
+                <p class="text-md text-gray-600">
+                    <strong>Fecha:</strong> {{ $negociacion->solicitud->problemas->fecha ?? 'No especificado' }}
+                </p>
+                <p class="text-md text-gray-600">
+                    <strong>Ubicación:</strong>
+                    @if ($negociacion->solicitud->problemas->ubicacion_alternativa)
+                        {{ $negociacion->solicitud->problemas->ubicacion_alternativa }}
+                    @else
+                        {{ $negociacion->solicitud->cliente->ubicacion?->direccion ?? 'No especificada' }},
+                        {{ $negociacion->solicitud->cliente->ubicacion?->distrito ?? 'No especificado' }},
+                        {{ $negociacion->solicitud->cliente->ubicacion?->ciudad ?? 'No especificada' }}
+                    @endif
+                </p>
+                <p class="text-md text-gray-600">
+                    <strong>Estado:</strong> {{ $negociacion->estado_negociacion }}
+                </p>
+            </div>
+
+            <!-- Cambios Propuestos por el Cliente -->
+            <h2 class="text-lg font-bold mt-4 text-gray-700 ">Cambios Propuestos por el Cliente</h2>
             <p><strong>Nueva Fecha:</strong> {{ $negociacion->nueva_fech_reserva ?? 'No especificada' }}</p>
             <p><strong>Nueva Hora:</strong> {{ $negociacion->hora_inicio ?? 'No especificada' }}</p>
             <p><strong>Nueva Ubicación:</strong> {{ $negociacion->ubicacion_nueva ?? 'No especificada' }}</p>
@@ -146,7 +179,7 @@
                     <label for="nueva_fecha_reserva" class="block font-bold text-gray-600 mb-2">Nueva Fecha:</label>
                     <input type="date" name="nueva_fecha_reserva" id="nueva_fecha_reserva"
                         value="{{ $negociacion->nueva_fech_reserva }}"
-                        class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-orange-400">
+                        class="w-full border border-gray-300 rounded-lg p-2 focus:ring focus:ring-orange-400" min="{{ now()->toDateString() }}">
                 </div>
                 <div class="mb-4">
                     <label for="hora_inicio" class="block font-bold text-gray-600 mb-2">Nueva Hora:</label>
