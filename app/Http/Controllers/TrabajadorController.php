@@ -11,7 +11,9 @@ use App\Models\Trabajadores;
 use App\Models\Ubicacion;
 use App\Models\Solicitud;
 use App\Models\Negociacion;
+use App\Models\Problema;
 use App\Models\User;
+use App\Notifications\CambiosNegociacion;
 use Hamcrest\Core\AllOf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -183,48 +185,41 @@ class TrabajadorController extends Controller
             }
         }
     }
-
-
-    public function reportes()
-    {
-        return view('trabajador.reportes'); // Crear la vista
-    }
-
     public function solicitudes(Request $request)
-    {   
+    {
         // Obtener el usuario autenticado
-        $usuario = Auth::user();
+        $usuario = Auth::user()->trabajadores;
 
-        // Obtener el ID del trabajador asociado al usuario autenticado
-        $trabajador = $usuario->trabajadores()->first();
+        // Obtener el ID del trabajador asociado al usu ario autenticado
+        $trabajador = $usuario->first();
         $idTrabajador = $trabajador->id_trabajadores;
-        
+
         // Obtener el estado a filtrar desde la solicitud
         $estado = $request->input('estado');
 
         // Obtener las solicitudes filtradas por el ID del trabajador
         $solicitudes = Solicitud::where('id_trabajadores', $idTrabajador)
             ->with(['cliente', 'estado', 'negociaciones' => function ($query) {
-                $query->latest('created_at'); // Ordenar por la última negociación 
+                $query->latest('created_at'); // Ordenar por la última negociación
             }])
             ->where('id_estado_solicitudes', $estado)
             ->get(); // Cargar relaciones
         // Pasar las solicitudes a la vista
         return view('trabajador.solicitudes', compact('solicitudes'));
     }
-    
+
 
 
     public function actualizarEstado($id_solicitud, $estado)
     {
-        
+
         // Realizar la actualización directamente
         Solicitud::where('id_solicitudes', $id_solicitud)->update(['id_estado_solicitudes' => $estado]);
-    
+
         // Redirigir con un mensaje de éxito
         return redirect()->route('trabajador.solicitudes')->with('success', 'Estado actualizado correctamente.');
     }
-      
+
     public function negociacion(Request $request)
     {
         // Validar los datos del formulario
@@ -242,7 +237,7 @@ class TrabajadorController extends Controller
             'monto' => $validatedData['monto'],
             'nueva_fech_reserva' => $validatedData['nueva_fech_reserva'],
             'hora_inicio' => $validatedData['hora_inicio'],
-            'tiempo_estimado' => $validatedData['tiempo_estimado'], 
+            'tiempo_estimado' => $validatedData['tiempo_estimado'],
         ]);
 
         // Realizar la actualización de estado
@@ -252,5 +247,79 @@ class TrabajadorController extends Controller
         // Redirigir con mensaje de éxito
         return redirect()->back()->with('success', 'La negociación se ha registrado correctamente.');
     }
+
+    public function verProblemas()
+    {
+        // Verificar que el usuario autenticado sea un trabajador
+        $trabajador = Auth::user()->trabajadores;
+
+        if (!$trabajador) {
+            return redirect()->route('trabajador.dashboard')->with('error', 'No tienes un perfil completo.');
+        }
+
+        // Obtener todos los problemas sin filtrar por oficios
+        $problemas = Problema::with(['cliente', 'oficio', 'estadoProblema'])->get();
+
+        return view('trabajador.trabajos.trabajos', compact('problemas'));
+    }
+
+    public function verDetalleProblema($id)
+{
+    $problema = Problema::with(['oficio', 'cliente', 'estadoProblema'])->findOrFail($id);
+
+    return view('trabajador.trabajos.detalle_problema', compact('problema'));
+}
+public function solicitarTrabajo($problemaId)
+{
+    $trabajador = Auth::user()->trabajadores;
+
+    if (!$trabajador) {
+        return redirect()->back()->with('error', 'No tienes un perfil completo para realizar esta acción.');
+    }
+
+    $problema = Problema::findOrFail($problemaId);
+
+    // Verificar si el problema tiene un cliente asociado
+    if (!$problema->id_cliente) {
+        return redirect()->back()->with('error', 'El problema no tiene un cliente asociado.');
+    }
+
+    // Crear una solicitud en la tabla `solicitudes`
+    Solicitud::create([
+        'id_estado_solicitudes' => 1, // Estado inicial: Pendiente
+        'id_trabajadores' => $trabajador->id_trabajadores,
+        'id_cliente' => $problema->id_cliente,
+        'id_problema' => $problema->id_problemas, // Guardar la relación con el problema
+        'fech_reserva' => $problema->fecha_reserva,
+        'descripcion' => $problema->descripcion,
+        'hora_inicio_propuesta' => now()->format('H:i:s'),
+    ]);
+
+    return redirect()->route('trabajador.solicitudes')->with('success', 'Has solicitado el trabajo correctamente.');
+}
+
+public function verNegociaciones()
+{
+    $trabajador = Auth::user()->trabajadores;
+
+    if (!$trabajador) {
+        return redirect()->route('trabajador.dashboard')->with('error', 'No tienes un perfil completo.');
+    }
+
+    // Obtener las solicitudes aceptadas que involucran al trabajador
+    $negociaciones = Negociacion::whereHas('solicitud', function ($query) use ($trabajador) {
+        $query->where('id_trabajadores', $trabajador->id_trabajadores)
+              ->where('id_estado_solicitudes', 2); // Estado: Aceptada
+    })->get();
+
+    return view('trabajador.mensajeria.lista', compact('negociaciones'));
+}
+
+
+
+
+
+
+
 
 }

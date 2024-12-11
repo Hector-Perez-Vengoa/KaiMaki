@@ -102,19 +102,93 @@ class ClienteController extends Controller
 
         // Realizar la actualización de estado
         Solicitud::where('id_solicitudes', $validatedData['id_solicitudes'])
-                    ->update(['id_estado_solicitudes' => 6]);
+            ->update(['id_estado_solicitudes' => 6]);
 
         // Redirigir con mensaje de éxito
         return redirect()->back()->with('success', 'La negociación se ha registrado correctamente.');
     }
 
-    public function cambiarEstado($solicitud, $estado)
+    public function cambiarEstado(Solicitud $solicitud, $estado)
     {
+        // Actualizar el estado de la solicitud
         $solicitud->update(['id_estado_solicitudes' => $estado]);
 
         return redirect()->back()->with('success', 'El estado de la solicitud ha sido actualizado.');
     }
 
 
+    //Acepta la solicitud
+
+    public function aceptarSolicitud($idSolicitud)
+    {
+        // Obtener la solicitud
+        $solicitud = Solicitud::findOrFail($idSolicitud);
+
+        // Verificar si la solicitud pertenece al cliente autenticado
+        $cliente = Auth::user()->cliente;
+        if ($solicitud->id_cliente !== $cliente->id_cliente) {
+            return redirect()->back()->with('error', 'No tienes permiso para aceptar esta solicitud.');
+        }
+
+        // Cambiar el estado de la solicitud a "Aceptada"
+        $solicitud->update(['id_estado_solicitudes' => 2]); // Estado 2: Aceptada
+
+        // Crear un nuevo registro en la tabla de negociaciones
+        $negociacion = Negociacion::create([
+            'id_solicitudes' => $solicitud->id_solicitudes,
+            'id_cliente'=> $solicitud->id_cliente,
+            'id_trabajadores'=> $solicitud->id_trabajadores,
+            'monto' => 0, // Monto inicial (puede ser ajustado en la negociación)
+            'nueva_fech_reserva' => $solicitud->fech_reserva,
+            'hora_inicio' => $solicitud->hora_inicio_propuesta,
+            'tiempo_estimado' => '01:00:00', // Tiempo estimado inicial
+            'mensaje' => 'Negociación iniciada. Por favor, comience la conversación.',
+        ]);
+
+        // Redirigir a la vista de negociación
+        return redirect()->route('cliente.solicitudes', $negociacion->id_negociacion)
+        ->with('success', 'Solicitud aceptada y negociación iniciada.');
+    }
+
+    public function rechazarSolicitud($idSolicitud)
+    {
+        // Obtener la solicitud
+        $solicitud = Solicitud::findOrFail($idSolicitud);
+
+        // Verificar si la solicitud pertenece al cliente autenticado
+        $cliente = Auth::user()->cliente;
+        if ($solicitud->id_cliente !== $cliente->id_cliente) {
+            return redirect()->back()->with('error', 'No tienes permiso para rechazar esta solicitud.');
+        }
+
+        // Cambiar el estado de la solicitud a "Rechazada" (estado id = 3, por ejemplo)
+        $solicitud->update(['id_estado_solicitudes' => 3]);
+
+        return redirect()->back()->with('success', 'Has rechazado la solicitud.');
+    }
+
+
+    public function verSolicitudes()
+    {
+        // Obtener el cliente autenticado
+        $cliente = Auth::user()->cliente;
+
+        if (!$cliente) {
+            return redirect()->back()->with('error', 'No tienes un perfil de cliente.');
+        }
+
+        // Obtener todas las solicitudes relacionadas con este cliente
+        $solicitudes = Solicitud::where('id_cliente', $cliente->id_cliente)
+            ->with(['negociaciones', 'trabajador', 'estado', 'problemas.oficio']) // Relaciones necesarias
+            ->get();
+
+        // Extraer todas las negociaciones relacionadas con el cliente
+        $negociaciones = Negociacion::where('id_cliente', $cliente->id_cliente)
+            ->with(['solicitud', 'mensajes', 'trabajador']) // Relaciones necesarias
+            ->get();
+
+        // Pasar tanto las solicitudes como las negociaciones a la vista
+        return view('cliente.solicitudes.solicitudes', compact('solicitudes', 'negociaciones'));
+    }
 
 }

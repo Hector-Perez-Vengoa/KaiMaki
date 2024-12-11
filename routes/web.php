@@ -3,6 +3,9 @@
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MensajeriaController;
+use App\Http\Controllers\NegociacionController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProblemaController;
 use App\Http\Controllers\ReclamoController;
 use App\Http\Controllers\TrabajadorController;
@@ -10,6 +13,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Middleware\CheckProfileCompletion;
 use App\Models\Administrador;
+use App\Models\Negociacion;
 use App\Models\Trabajadores;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +69,8 @@ Route::middleware([
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
         Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
         Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
-        Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
+
+        //Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
         // Ruta para renegociar una solicitud
         Route::post('/cliente/renegociar', [ClienteController::class, 'regociaciar'])->name('clientes.renegociar');
 
@@ -80,13 +85,34 @@ Route::middleware([
         Route::get('/cliente/problemas/{id}/editar', [ProblemaController::class, 'edit'])->name('problemas.edit');
         Route::put('/cliente/problemas/{id}', [ProblemaController::class, 'update'])->name('problemas.update');
         Route::delete('/cliente/problemas/{id}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
-
-        //Negociaciones
-
-
         //Realiza reclamo
         Route::get('/cliente/reclamo', [ReclamoController::class, 'create'])->name('cliente.reclamo.create');
         Route::post('/cliente/reclamo', [ReclamoController::class, 'store'])->name('cliente.reclamo.store');
+        //Aceptacion del cliente
+
+        Route::get('/cliente/solicitudes', [ClienteController::class, 'verSolicitudes'])->name('cliente.solicitudes');
+        Route::patch('/cliente/aceptar-solicitud/{solicitud}', [ClienteController::class, 'aceptarSolicitud'])->name('cliente.aceptarSolicitud');
+        Route::patch('/cliente/rechazar-solicitud/{id}', [ClienteController::class, 'rechazarSolicitud'])->name('cliente.rechazarSolicitud');
+        //Negociacion
+        Route::get('/cliente/negociaciones/{id}/mensajes', [MensajeriaController::class, 'index'])->name('cliente.mensajes.index');
+        Route::post('/cliente/mensajes', [MensajeriaController::class, 'store'])->name('cliente.mensajes.store');
+
+        Route::get('/cliente/negociaciones/{id}', [NegociacionController::class, 'show'])->name('cliente.negociacion.ver');
+
+        Route::put('/cliente/negociaciones/{id}', [NegociacionController::class, 'update'])->name('cliente.negociacion.update');
+        Route::put('/cliente/negociaciones/{id}/proponer-cambios', [NegociacionController::class, 'update'])->name('cliente.negociacion.update');
+        Route::post('/cliente/negociaciones/{id}/responder', [NegociacionController::class, 'responderCambios'])->name('cliente.negociacion.responder');
+        Route::post('/cliente/negociaciones/{id}/responder-notificacion', [NotificationController::class, 'respond'])->name('cliente.negociacion.responder.notificacion');
+        //Notificaciones
+        //Notificaciones
+        Route::post('/cliente/notificaciones/marcar-todas', [NotificationController::class, 'markAllAsRead'])->name('cliente.notifications.markAllAsRead');
+        Route::post('/cliente/notificaciones/marcar/{id}', [NotificationController::class, 'markAsRead'])->name('cliente.notifications.markAsRead');
+
+
+
+
+
+
     });
 
 
@@ -166,6 +192,30 @@ Route::middleware([
         //El trabajador registra su reclamo
         Route::get('/trabajadores/reclamo', [ReclamoController::class, 'create'])->name('trabajador.reclamo.create');
         Route::post('/trabajadores/reclamo', [ReclamoController::class, 'store'])->name('trabajador.reclamo.store');
+        //EL trabajador vee los problemas publicados
+        Route::get('/trabajador/problemas', [TrabajadorController::class, 'verProblemas'])->name('trabajador.problemas');
+
+        Route::get('/trabajador/problema/{problema}', [TrabajadorController::class, 'verDetalleProblema'])->name('trabajador.problema.detalle');
+        Route::post('/trabajador/solicitar/{problema}', [TrabajadorController::class, 'solicitarTrabajo'])->name('trabajador.solicitar');
+
+        // Ver lista de negociaciones del trabajador
+        Route::get('/trabajador/negociaciones', [TrabajadorController::class, 'verNegociaciones'])->name('trabajador.negociaciones');
+
+        // Responder mensaje en una negociación
+        //Route::get('/trabajador/negociacion/{solicitud}', [MensajeriaController::class, 'verNegociacion'])->name('trabajador.negociacion.ver');
+
+        Route::get('/negociaciones/{id}/mensajes', [MensajeriaController::class, 'index'])->name('mensajes.index');
+        Route::post('/mensajes', [MensajeriaController::class, 'store'])->name('mensajes.store');
+
+        Route::get('/trabajador/negociaciones/{id}', [NegociacionController::class, 'show'])->name('trabajador.negociacion.ver');
+        Route::put('/trabajador/negociaciones/{id}', [NegociacionController::class, 'update'])->name('trabajador.negociacion.update');
+
+
+
+        Route::post('/trabajador/notificaciones/marcar-todas', [NotificationController::class, 'markAllAsRead'])->name('trabajador.notifications.markAllAsRead');
+        Route::post('/trabajador/notificaciones/marcar/{id}', [NotificationController::class, 'markAsRead'])->name('trabajador.notifications.markAsRead');
+        Route::post('/trabajador/negociaciones/{id}/responder', [NegociacionController::class, 'responderCambios'])->name('trabajador.negociacion.responder');
+        Route::post('/trabajador/negociaciones/{id}/responder-notificacion', [NotificationController::class, 'respond'])->name('trabajador.negociacion.responder.notificacion');
 
 
     });

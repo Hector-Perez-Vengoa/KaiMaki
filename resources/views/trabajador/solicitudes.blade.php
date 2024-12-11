@@ -8,11 +8,12 @@
                         Pendientes
                     </button>
                 </form>
-                <form action="{{ route('trabajador.solicitudes') }}" method="GET">
-                    <button type="submit" name="estado" value="5" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow">
+                <form action="{{ route('trabajador.negociaciones') }}" method="GET">
+                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow">
                         En negociación
                     </button>
                 </form>
+
                 <form action="{{ route('trabajador.solicitudes') }}" method="GET">
                     <button type="submit" name="estado" value="4" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow">
                         Cancelados
@@ -31,10 +32,10 @@
                     <div class="bg-white shadow-md rounded-lg p-4 border border-gray-200">
                         <h3 class="text-lg font-bold text-gray-800 mb-2">{{ $solicitud->cliente->nom_cliente }} {{ $solicitud->cliente->ape_cliente }}</h3>
                         <p class="text-sm"><span class="font-semibold">Fecha de Reserva:</span> {{ $solicitud->fech_reserva }}</p>
-                        
+
                         @if($solicitud->id_estado_solicitudes == 5)
                             <p class="text-sm">En espera</p>
-                        @endif 
+                        @endif
 
                         @if($solicitud->id_estado_solicitudes == 1 || $solicitud->id_estado_solicitudes == 6)
                             <!-- Botón de acción -->
@@ -57,7 +58,7 @@
                                     &#x2715;
                                 </button>
                             </div>
-                            
+
                             <!-- Modal Body -->
                             <div class="grid grid-cols-2 space-y-4">
                                 <div>
@@ -80,7 +81,7 @@
                                     <form action="{{ route('trabajador.negociacion') }}" method="POST" class="max-w-lg mx-auto bg-white p-6 rounded shadow">
                                         @csrf
                                         <input type="hidden" name="id_solicitudes" value="{{ $solicitud->id_solicitudes }}">
-                                        
+
                                         <div class="space-y-4">
                                             <!-- Campo Monto -->
                                             <div>
@@ -92,7 +93,7 @@
                                             <!-- Campo Fecha de Inicio -->
                                             <div>
                                                 <label for="nueva_fech_reserva" class="block text-sm font-medium">Fecha de inicio:</label>
-                                                <input type="date" name="nueva_fech_reserva" id="nueva_fech_reserva" 
+                                                <input type="date" name="nueva_fech_reserva" id="nueva_fech_reserva"
                                                     class="w-full border border-gray-300 rounded p-2 focus:ring-orange-500 focus:border-orange-500"
                                                     value="{{ $solicitud->fech_reserva }}" required>
                                             </div>
@@ -100,7 +101,7 @@
                                             <!-- Campo Hora de Inicio -->
                                             <div>
                                                 <label for="hora_inicio" class="block text-sm font-medium">Hora de inicio:</label>
-                                                <input type="time" name="hora_inicio" id="hora_inicio" 
+                                                <input type="time" name="hora_inicio" id="hora_inicio"
                                                     class="w-full border border-gray-300 rounded p-2 focus:ring-orange-500 focus:border-orange-500"
                                                     value="{{ $solicitud->hora_inicio_propuesta }}" required>
                                             </div>
@@ -108,7 +109,7 @@
                                             <!-- Campo Tiempo Estimado -->
                                             <div>
                                                 <label for="tiempo_estimado" class="block text-sm font-medium">Tiempo estimado:</label>
-                                                <input type="time" name="tiempo_estimado" id="tiempo_estimado" 
+                                                <input type="time" name="tiempo_estimado" id="tiempo_estimado"
                                                     class="w-full border border-gray-300 rounded p-2 focus:ring-orange-500 focus:border-orange-500"
                                                     placeholder="Ingrese el tiempo estimado" required>
                                             </div>
@@ -116,7 +117,7 @@
                                             <!-- Campo Mensaje Adicional -->
                                             <div>
                                                 <label for="mensaje" class="block text-sm font-medium">Mensaje adicional:</label>
-                                                <textarea name="mensaje" id="mensaje" rows="3" 
+                                                <textarea name="mensaje" id="mensaje" rows="3"
                                                     class="w-full border border-gray-300 rounded p-2 focus:ring-orange-500 focus:border-orange-500"
                                                     placeholder="Escriba un mensaje adicional (opcional)"></textarea>
                                             </div>
@@ -142,9 +143,9 @@
                                                 @endforeach
                                             </div>
                                             <!-- Controles del carrusel -->
-                                            <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-red-600 text-white rounded-full px-3 py-1" 
+                                            <button class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-red-600 text-white rounded-full px-3 py-1"
                                                     onclick="prevSlide('{{ $solicitud->id_solicitudes }}')">&#10094;</button>
-                                            <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-red-600 text-white rounded-full px-3 py-1" 
+                                            <button class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-red-600 text-white rounded-full px-3 py-1"
                                                     onclick="nextSlide('{{ $solicitud->id_solicitudes }}')">&#10095;</button>
                                         </div>
                                     @endif

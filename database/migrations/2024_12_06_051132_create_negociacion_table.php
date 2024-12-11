@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('negociacion', function (Blueprint $table) {
             $table->id('id_negociacion'); // Clave primaria
             $table->unsignedBigInteger('id_solicitudes'); // Foreign Key
-            $table->decimal('monto', 10, 2); // Campo para el monto
-            $table->date('nueva_fech_reserva'); // Nueva fecha de reserva
-            $table->time('hora_inicio'); // Hora de inicio
-            $table->time('tiempo_estimado'); // Tiempo estimado en minutos
+            $table->decimal('monto', 10, 2)->default(0); // Campo para el monto
+            $table->date('nueva_fech_reserva')->nullable(); // Permitir nulos
+            $table->time('hora_inicio')->nullable(); // Permitir nulos
+            $table->time('tiempo_estimado')->nullable(); // Permitir nulos
             $table->text('mensaje');
             $table->timestamps(); // Timestamps para created_at y updated_at
 

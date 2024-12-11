@@ -30,12 +30,12 @@
 
 
 
-                    <!-- Botón Reporte de Actividades -->
+                    <!-- Botón de busqueda de trabajos -->
                     <div class="bg-purple-100 rounded-lg p-4 shadow">
-                        <h2 class="text-lg font-bold mb-2">Reporte de Actividades</h2>
-                        <p class="text-sm text-gray-600 mb-4">Genera reportes sobre tus actividades recientes.</p>
-                        <a href="" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
-                            Generar Reporte
+                        <h2 class="text-lg font-bold mb-2">Trabajos</h2>
+                        <p class="text-sm text-gray-600 mb-4">Busca trabajos de manera sensilla y rapida </p>
+                        <a href="{{route('trabajador.problemas')}}" class="bg-indigo-500 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
+                            Buscar
                         </a>
                     </div>
 

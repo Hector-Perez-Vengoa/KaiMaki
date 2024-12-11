@@ -35,30 +35,31 @@
                     <!-- Botones de acción -->
                     <div class="flex space-x-2">
                         <!-- Botón Aceptar -->
-                        <form action="{{ route('cliente.cambiarEstado', ['solicitud' => $solicitud->id_solicitud, 'estado' => 2]) }}" method="POST">
+                        <form action="{{ route('cliente.cambiarEstado', ['solicitud' => $solicitud->id_solicitudes, 'estado' => 2]) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="px-3 py-1 rounded hover:bg-green-700 bg-green-500 text-white">Aceptar</button>
                         </form>
 
+
                         <!-- Botón Cancelar -->
-                        <form action="{{ route('cliente.cambiarEstado', ['solicitud' => $solicitud->id_solicitud, 'estado' => 4]) }}" method="POST">
+                        <form action="{{ route('cliente.cambiarEstado', ['solicitud' => $solicitud->id_solicitudes, 'estado' => 4]) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="px-3 py-1 rounded hover:bg-red-700 bg-red-500 text-white">Cancelar</button>
                         </form>
                         <!-- Botón Renegociar -->
-                        <button type="button" class="px-3 py-1 rounded hover:bg-yellow-700 bg-yellow-500 text-white" onclick="toggleModal('{{ $solicitud->id_solicitud }}')">Renegociar</button>
+                        <button type="button" class="px-3 py-1 rounded hover:bg-yellow-700 bg-yellow-500 text-white" onclick="toggleModal('{{ $solicitud->id_solicitudes }}')">Renegociar</button>
                     </div>
                 </div>
 
                 <!-- Modal para renegociar -->
-                <div id="modal-{{ $solicitud->id_solicitud }}" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="modal-{{ $solicitud->id_solicitudes }}" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
                     <div class="bg-white p-4 rounded-lg">
                         <form action="{{ route('clientes.renegociar') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="id_solicitudes" value="{{ $solicitud->id_solicitud }}">
-                            
+                            <input type="hidden" name="id_solicitudes" value="{{ $solicitud->id_solicitudes }}">
+
                             <div class="space-y-4">
                                 <!-- Campo Monto -->
                                 <div>

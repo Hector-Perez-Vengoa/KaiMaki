@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,16 +17,35 @@ class Negociacion extends Model
     // Campos asignables
     protected $fillable = [
         'id_solicitudes',
+        'id_cliente',
+        'id_trabajadores',
         'monto',
         'nueva_fech_reserva',
         'hora_inicio',
         'tiempo_estimado',
         'mensaje',
+        'estado_negociacion',
+        'ubicacion_nueva',
     ];
 
     // Relaciones
     public function solicitud()
     {
         return $this->belongsTo(Solicitud::class, 'id_solicitudes', 'id_solicitudes');
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
+    }
+
+    public function trabajador()
+    {
+        return $this->belongsTo(Trabajadores::class, 'id_trabajadores', 'id_trabajadores');
+    }
+
+    public function mensajes()
+    {
+        return $this->hasMany(Mensaje::class, 'id_negociacion');
     }
 }
