@@ -17,34 +17,28 @@ class CheckProfileCompletion
     {
         $user = Auth::user();
 
-    // Redirigir clientes sin perfil completo al formulario
-    if ($user->id_roles === 3 &&  (!$user->clientes || !$user->clientes->dni)) {
-        // Asegúrate de que no redirija en la misma ruta del formulario
-        if (!$request->routeIs('cliente.formulario', 'cliente.store')) {
-            return redirect()->route('cliente.formulario')
-                ->with('error', 'Por favor, completa tu perfil antes de continuar.');
+        // Define roles y rutas de redirección
+        $rolesConValidacion = [
+            3 => ['relation' => 'clientes', 'redirect' => 'cliente.formulario', 'store' => 'cliente.store'],
+            2 => ['relation' => 'trabajadores', 'redirect' => 'trabajador.formulario', 'store' => 'trabajadores.store'],
+            1 => ['relation' => 'administrador', 'redirect' => 'administrador.formulario', 'store' => 'administrador.store'],
+        ];
+
+        if (array_key_exists($user->id_roles, $rolesConValidacion)) {
+            $relation = $rolesConValidacion[$user->id_roles]['relation'];
+            $redirectRoute = $rolesConValidacion[$user->id_roles]['redirect'];
+            $storeRoute = $rolesConValidacion[$user->id_roles]['store'];
+
+            // Verifica si la relación está vacía o el campo requerido no está presente
+            if (!$user->$relation || !$user->$relation->dni) {
+                // Evita redirección cíclica en las rutas del formulario
+                if (!$request->routeIs($redirectRoute, $storeRoute)) {
+                    return redirect()->route($redirectRoute)
+                        ->with('error', 'Por favor, completa tu perfil antes de continuar.');
+                }
+            }
         }
-    }
 
-    // Redirigir trabajadores sin perfil completo al formulario
-    if ($user->id_roles === 2 && (!$user->trabajadores || !$user->trabajadores->dni)) {
-        // Asegúrate de que no redirija en la misma ruta del formulario
-        if (!$request->routeIs('trabajador.formulario', 'trabajadores.store')) {
-            return redirect()->route('trabajador.formulario')
-                ->with('error', 'Por favor, completa tu perfil antes de continuar.');
-        }
-    }
-     // Validar para administradores
-    if ($user->id_roles === 1 && (!$user->administrador || !$user->administrador->dni)) {
-        // Evitar redirección cíclica
-        if (!$request->routeIs('administrador.formulario', 'administrador.store')) {
-            return redirect()->route('administrador.formulario')
-                ->with('error', 'Por favor, completa tu perfil antes de continuar.');
-        }
-    }
-
-
-    return $next($request); // Permitir el acceso si cumple las condiciones
-
+        return $next($request); // Permitir el acceso si cumple las condiciones
     }
 }

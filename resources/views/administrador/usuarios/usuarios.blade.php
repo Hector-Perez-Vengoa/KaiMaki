@@ -10,25 +10,56 @@
                 <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-3">
-                            <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-center font-weight-bold">Lista de Usuarios</h6>
+                            <div class=" shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-black text-center font-weight-bold">Lista de Usuarios</h6>
                             </div>
                             <div class="card-body">
                                 <form action="{{ route('admin.usuarios.index') }}" method="GET" class="row">
                                     <!-- Filtro por Rol -->
                                     <div class="col-md-4 mb-3">
-                                        <label for="role" class="form-label">Rol</label>
-                                        <select name="role" id="role" class="form-select">
+                                        <label for="role" class="form-label fw-bold text-primary">Seleccione Rol</label>
+                                        <select name="role" id="role"
+                                            class="form-select border-primary shadow-sm custom-selects-design">
                                             <option value="">Todos</option>
-                                            <option value="Trabajador" {{ request('role') == 'Trabajador' ? 'selected' : '' }}>Trabajador</option>
-                                            <option value="Cliente" {{ request('role') == 'Cliente' ? 'selected' : '' }}>Cliente</option>
+                                            <option value="Trabajador" {{ request('role')=='Trabajador' ? 'selected'
+                                                : '' }}>Trabajador</option>
+                                            <option value="Cliente" {{ request('role')=='Cliente' ? 'selected' : '' }}>
+                                                Cliente</option>
                                         </select>
                                     </div>
+
+                                    <!-- CSS para personalización -->
+                                    <style>
+                                        .custom-selects-design {
+                                            background-color: #f8f9fa;
+                                            /* Fondo claro */
+                                            color: #495057;
+                                            /* Texto gris oscuro */
+                                            border-width: 2px;
+                                            /* Borde más grueso */
+                                            border-radius: 6px;
+                                            /* Bordes redondeados */
+                                            font-size: 1rem;
+                                            /* Ajuste del tamaño del texto */
+                                            padding: 0.5rem 1rem;
+                                            /* Espaciado interno */
+                                        }
+
+                                        .custom-selects-design:focus {
+                                            outline: none;
+                                            /* Quita el borde azul por defecto */
+                                            box-shadow: 0 0 4px rgba(0, 123, 255, 0.6);
+                                            /* Sombra azul al enfocarse */
+                                        }
+                                    </style>
+
+
 
                                     <!-- Filtro por DNI -->
                                     <div class="col-md-4 mb-3">
                                         <label for="dni" class="form-label">DNI</label>
-                                        <input type="text" name="dni" id="dni" value="{{ request('dni') }}" class="form-control" placeholder="Buscar por DNI">
+                                        <input type="text" name="dni" id="dni" value="{{ request('dni') }}"
+                                            class="form-control" placeholder="Buscar por DNI">
                                     </div>
 
                                     <!-- Botón de búsqueda -->
@@ -114,13 +145,13 @@
 
                                             <td class="align-middle">
                                                 @if ($usuario['rol'] === 'Trabajador')
-                                                    <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'trabajador']) }}"
-                                                        class="btn btn-warning text-white px-4 py-2 rounded shadow">Ver</a>
+                                                <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'trabajador']) }}"
+                                                    class="btn btn-warning text-white px-4 py-2 rounded shadow">Ver</a>
                                                 @elseif ($usuario['rol'] === 'Cliente')
-                                                    <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'cliente']) }}"
-                                                        class="btn btn-warning text-white px-4 py-2 rounded shadow">Ver</a>
+                                                <a href="{{ route('administrador.usuario.show', ['id' => $usuario['id'], 'tipo' => 'cliente']) }}"
+                                                    class="btn btn-warning text-white px-4 py-2 rounded shadow">Ver</a>
                                                 @else
-                                                    <span class="text-gray-500">N/A</span>
+                                                <span class="text-gray-500">N/A</span>
                                                 @endif
                                             </td>
 
@@ -143,7 +174,3 @@
 
 
 </x-layout>
-
-
-
-

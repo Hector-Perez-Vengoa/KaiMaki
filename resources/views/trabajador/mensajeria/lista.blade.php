@@ -10,7 +10,7 @@
                             Negociación con {{ $negociacion->solicitud->cliente->nom_cliente ?? 'Cliente no especificado' }}
                         </h3>
                         <p class="text-sm text-gray-600">
-                            <strong>Problema:</strong> {{ $negociacion->solicitud->problema->descripcion ?? 'No especificado' }}
+                            <strong>Problema:</strong> {{ $negociacion->solicitud->problemas->descripcion ?? 'No especificado' }}
                         </p>
                         <p class="text-sm text-gray-600">
                             <strong>Estado:</strong> {{ $negociacion->estado_negociacion }}

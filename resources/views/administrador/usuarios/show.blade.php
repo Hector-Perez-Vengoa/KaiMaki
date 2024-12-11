@@ -14,212 +14,210 @@
         </div>
         @endif
 
-
         <div class="container mt-4">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="card shadow-sm">
-                        <div class="card-header  text-white text-center py-2 rounded-top">
-                            <h6 class="mb-0 fw-bold">Detalles del Trabajador</h6>
-
+            <!-- Título -->
+            <div class="card mb-4">
+                <div class="card-header      text-white text-center py-3">
+                    <h4 class="mb-0">Detalles del {{ $rol }}</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Información General -->
+                    @if ($usuario->nom_cliente || $usuario->nombres)
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong>Nombre:</strong> {{ $usuario->nombres ?? $usuario->nom_cliente }} {{
+                                $usuario->apellidos ?? $usuario->ape_cliente }}</p>
                         </div>
-                        <div class="card-body">
-                            @if ($usuario->nom_cliente || $usuario->nombres)
-                            <div class="row g-2">
-                                <div class="col-12">
-                                    <p class="mb-1"><strong>Nombre:</strong> {{ $usuario->nombres ??
-                                        $usuario->nom_cliente }} {{ $usuario->apellidos ?? $usuario->ape_cliente }}</p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="mb-1"><strong>DNI:</strong> {{ $usuario->dni ?? 'No definido' }}</p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="mb-1"><strong>Teléfono:</strong> {{ $usuario->telefono ??
-                                        ($usuario->telefo_cliente ?? 'No definido') }}</p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="mb-1"><strong>Sexo:</strong> {{ $usuario->sexo == 'M' ? 'Masculino' :
-                                        ($usuario->sexo == 'F' ? 'Femenino' : 'No definido') }}</p>
-                                </div>
-                                <div class="col-12">
-                                    <p class="mb-1"><strong>Correo:</strong> {{ optional($usuario->users)->email ?? 'No
-                                        definido' }}</p>
-                                </div>
-                            </div>
-                            @else
-                            <p class="text-center text-muted">Este trabajador aún no registra sus datos.</p>
-                            @endif
+                        <div class="col-md-6">
+                            <p><strong>DNI:</strong> {{ $usuario->dni ?? 'No definido' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Teléfono:</strong> {{ $usuario->telefono ?? ($usuario->telefo_cliente ?? 'No
+                                definido') }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Sexo:</strong> {{ $usuario->sexo == 'M' ? 'Masculino' : ($usuario->sexo == 'F' ?
+                                'Femenino' : 'No definido') }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Correo:</strong> {{ optional($usuario->users)->email ?? 'No definido' }}</p>
                         </div>
                     </div>
+                    @else
+                    <p class="text-center text-muted">Este {{ strtolower($rol) }} aún no registra sus datos.</p>
+                    @endif
+
+                    <!-- Ubicación (Solo para Clientes) -->
+                    @if ($rol === 'Cliente')
+                    <h5 class="text-primary mb-3">Ubicación</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Dirección:</strong> {{ optional($usuario->ubicacion)->direccion ?? 'No definida'
+                                }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Distrito:</strong> {{ optional($usuario->ubicacion)->distrito ?? 'No definido' }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Ciudad:</strong> {{ optional($usuario->ubicacion)->ciudad ?? 'No definida' }}</p>
+                        </div>
+                    </div>
+                    @endif
                 </div>
+            </div>
+
+            <!-- Sección: Antecedentes y Certificados (Solo para Trabajadores) -->
+            @if ($rol === 'Trabajador')
+            <div class="row">
                 <div class="col-md-6">
-                    <!-- Antecedentes -->
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-header  text-center py-2 rounded-top">
-                            <h6 class="mb-0 fw-bold">Antecedentes</h6>
+                    <div class="card mb-4">
+                        <div class="card-header text-white ">
+                            <h5 class="mb-0">Antecedentes</h5>
                         </div>
                         <div class="card-body">
                             @forelse ($usuario->antecedentes as $antecedente)
-                            <p class="mb-1"><strong>Documento:</strong> {{ $antecedente->documento_antecedente ?? 'No
-                                definido' }}</p>
-                            <p class="mb-1"><strong>Estado:</strong> {{ optional($antecedente->estado)->nombre_estado ??
-                                'No definido' }}</p>
-                            <hr class="my-2">
+                                <p><strong>Documento:</strong> {{ $antecedente->documento_antecedente ?? 'No definido' }}</p>
+                                <p><strong>Estado:</strong> {{ optional($antecedente->estado)->nombre_estado ?? 'No definido' }}</p>
+                                <a href="{{ Storage::url('antecedentes/' . $antecedente->documento_antecedente) }}"
+                                    target="_blank"
+                                    class="btn btn-orange">
+                                     Ver Documento
+                                 </a>
+                                 <hr>
                             @empty
-                            <p class="text-muted text-center">No tiene antecedentes registrados.</p>
-                            @endforelse
-                        </div>
-                    </div>
-
-                    <!-- Certificados -->
-                    <div class="card shadow-sm">
-                        <div class="card-header text-white text-center py-2 rounded-top">
-                            <h6 class="mb-0 fw-bold">Certificados</h6>
-                        </div>
-                        <div class="card-body">
-                            @forelse ($usuario->certificados as $certificado)
-                            <p class="mb-1"><strong>Documento:</strong> {{ $certificado->documento_certificado ?? 'No
-                                definido' }}</p>
-                            <p class="mb-1"><strong>Estado:</strong> {{ optional($certificado->estado)->nombre_estado ??
-                                'No definido' }}</p>
-                            <hr class="my-2">
-                            @empty
-                            <p class="text-muted text-center">No tiene certificados registrados.</p>
+                                <p class="text-muted">No tiene antecedentes registrados.</p>
                             @endforelse
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header text-white ">
+                            <h5 class="mb-0">Certificados</h5>
+                        </div>
+                        <div class="card-body">
+                            @forelse ($usuario->certificados as $certificado)
+                                <p><strong>Documento:</strong> {{ $certificado->documento_certificado ?? 'No definido' }}</p>
+                                <p><strong>Estado:</strong> {{ optional($certificado->estado)->nombre_estado ?? 'No definido' }}</p>
+                                <a href="{{ asset('storage/certificados/' . $certificado->documento_certificado) }}"
+                                    target="_blank"
+                                    class="btn btn-orange">
+                                     Ver Documento
+                                 </a>
+
+                                <hr>
+                            @empty
+                                <p class="text-muted">No tiene certificados registrados.</p>
+                            @endforelse
+                        </div>
+
+                    </div>
+                </div>
+
+
             </div>
 
             <div class="mt-5">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered align-middle">
-                        <thead>
+                        <thead class="text-white">
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                    Tipo
-                                </th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder ">
-                                    Estado Actual</th>
-                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolderps-2">
-                                    Actualizar Estado</th>
-
+                                <th class="text-center">Tipo</th>
+                                <th class="text-center">Estado Actual</th>
+                                <th class="text-center">Actualizar Estado</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <!-- Fila para Antecedentes -->
                             @forelse ($usuario->antecedentes as $antecedente)
                             <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <p class="mb-0 text-sm">Antecedente</p>
+                                <td class="text-center align-middle"><strong>Antecedente</strong></td>
+                                <td class="text-center align-middle">
+                                    <span
+                                        class="badge bg-{{ optional($antecedente->estado)->color_class ?? 'secondary' }}">
+                                        {{ optional($antecedente->estado)->nombre_estado ?? 'No definido' }}
+                                    </span>
+                                </td>
+                                <td class="align-middle">
+                                    <form
+                                        action="{{ route('administrador.actualizar.estado', ['id' => $antecedente->id_antecedentes]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="tipo" value="antecedente">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <select name="estado_id" class="form-select me-3 w-auto">
+                                                <option value="">Seleccione</option>
+                                                @foreach ($estadosAntecedentes as $estado)
+                                                <option value="{{ $estado->id_estado_antecedentes }}" {{ $estado->
+                                                    id_estado_antecedentes ==
+                                                    optional($antecedente->estado)->id_estado_antecedentes ? 'selected'
+                                                    : '' }}>
+                                                    {{ $estado->nombre_estado }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-warning">
+                                                <i class="material-icons">save</i> Guardar
+                                            </button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </td>
-
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <span
-                                                class="badge bg-{{ optional($antecedente->estado)->color_class ?? 'secondary' }}">
-                                                {{ optional($antecedente->estado)->nombre_estado ?? 'No definido' }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <form action="{{ route('administrador.actualizar.estado', ['id' => $antecedente->id_antecedentes]) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="tipo" value="antecedente">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <select name="estado_id" class="form-select me-3 w-auto">
-                                                    <option value="">Seleccione</option>
-                                                    @foreach ($estadosAntecedentes as $estado)
-                                                    <option value="{{ $estado->id_estado_antecedentes }}"
-                                                        {{ $estado->id_estado_antecedentes == optional($antecedente->estado)->id_estado_antecedentes ? 'selected' : '' }}>
-                                                        {{ $estado->nombre_estado }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="submit" class="btn btn-warning">
-                                                    <i class="material-icons">save</i> Guardar
-                                                </button>
-                                            </div>
-                                        </form>
-
-                                    </div>
-                                </td>
-                                @empty
-
-                                <td colspan="3" class="text-center text-muted">No tiene antecedentes registrados.</td>
-                                @endforelse
                             </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No tiene antecedentes registrados.</td>
+                            </tr>
+                            @endforelse
+
                             <!-- Fila para Certificados -->
                             @forelse ($usuario->certificados as $certificado)
                             <tr>
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <p class="mb-0 text-sm">Certificado</p>
+                                <td class="text-center align-middle"><strong>Certificado</strong></td>
+                                <td class="text-center align-middle">
+                                    <span
+                                        class="badge bg-{{ optional($certificado->estado)->color_class ?? 'secondary' }}">
+                                        {{ optional($certificado->estado)->nombre_estado ?? 'No definido' }}
+                                    </span>
+                                </td>
+                                <td class="align-middle">
+                                    <form
+                                        action="{{ route('administrador.actualizar.estado', ['id' => $certificado->id_certificados]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="tipo" value="certificado">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <select name="estado_id" class="form-select me-3 w-auto">
+                                                <option value="">Seleccione</option>
+                                                @foreach ($estadosCertificados as $estado)
+                                                <option value="{{ $estado->id_estado_certificados }}" {{ $estado->
+                                                    id_estado_certificados ==
+                                                    optional($certificado->estado)->id_estado_certificados ? 'selected'
+                                                    : '' }}>
+                                                    {{ $estado->nombre_estado }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-warning">
+                                                <i class="material-icons">save</i> Guardar
+                                            </button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </td>
-
-                                <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <span
-                                                class="badge bg-{{ optional($certificado->estado)->color_class ?? 'secondary' }}">
-                                                {{ optional($certificado->estado)->nombre_estado ?? 'No definido' }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <form
-                                            action="{{ route('administrador.actualizar.estado', ['id' => $certificado->id_certificados]) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="tipo" value="certificado">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <select name="estado_id" class="form-select me-3 w-auto">
-                                                    <option value="">Seleccione</option>
-                                                    @foreach ($estadosCertificados as $estado)
-                                                    <option value="{{ $estado->id_estado_certificados }}" {{ $estado->
-                                                        id_estado_certificados ==
-                                                        optional($certificado->estado)->id_estado_certificados ?
-                                                        'selected' : '' }}>
-                                                        {{ $estado->nombre_estado }}
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-                                                <button type="submit" class="btn btn-warning">
-                                                    <i class="material-icons">save</i> Guardar
-                                                </button>
-                                            </div>
-                                        </form>
-
-                                    </div>
-                                </td>
-                                @empty
-
-                                <td colspan="3" class="text-center text-muted">No tiene certificado registrado.</td>
-                                @endforelse
                             </tr>
-
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No tiene certificados registrados.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
-
-
                     </table>
                 </div>
             </div>
-
+            @endif
 
             <!-- Botones de Acción -->
             <div class="d-flex justify-content-between mt-4">

@@ -26,8 +26,9 @@ class Negociacion extends Model
         'mensaje',
         'estado_negociacion',
         'ubicacion_nueva',
+        'cambio_fecha',
+        'cambio_ubicacion',
     ];
-
     // Relaciones
     public function solicitud()
     {

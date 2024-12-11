@@ -14,7 +14,7 @@ class CreateNewUser implements CreatesNewUsers
 
     public function create(array $input): User
     {
-        
+
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -28,9 +28,9 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'id_roles' => $input['id_roles'],
             // Activo si es Cliente (id_roles = 3), Pendiente en caso contrario
-            'id_estado_users' => $input['id_roles'] == 3 ? 1 : 2,
+            'id_estado_users' => ($input['id_roles'] == 3) ? 1 : 2,
             'password' => Hash::make($input['password']),
         ]);
-        
+
     }
 }

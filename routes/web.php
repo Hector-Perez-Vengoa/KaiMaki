@@ -11,10 +11,12 @@ use App\Http\Controllers\ReclamoController;
 use App\Http\Controllers\TrabajadorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Middleware\CheckEstadoTrabajador;
 use App\Http\Middleware\CheckProfileCompletion;
 use App\Models\Administrador;
 use App\Models\Negociacion;
 use App\Models\Trabajadores;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -29,7 +31,6 @@ Route::get('/', function () {
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified',
     CheckProfileCompletion::class
 ])->group(function () {
 
@@ -60,6 +61,19 @@ Route::middleware([
         return view('servicios');
     })->name('servicios');
 
+// Rutas para completar perfil
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
+    Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
+
+    Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
+    Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
+
+
+});
+
+
     // Rutas específicas para clientes
     Route::middleware(['auth','role:3'])->group(function ()
     {
@@ -67,8 +81,7 @@ Route::middleware([
         Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
         Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.solicitar');
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
-        Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
-        Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
+
 
         //Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
         // Ruta para renegociar una solicitud
@@ -99,8 +112,8 @@ Route::middleware([
 
         Route::get('/cliente/negociaciones/{id}', [NegociacionController::class, 'show'])->name('cliente.negociacion.ver');
 
-        Route::put('/cliente/negociaciones/{id}', [NegociacionController::class, 'update'])->name('cliente.negociacion.update');
-        Route::put('/cliente/negociaciones/{id}/proponer-cambios', [NegociacionController::class, 'update'])->name('cliente.negociacion.update');
+       //Route::put('/cliente/negociaciones/{id}', [NegociacionController::class, 'update'])->name('cliente.negociacion.update');
+        Route::put('/cliente/negociaciones/{id}/proponer-cambios', [NegociacionController::class, 'proponerCambio'])->name('cliente.negociacion.update');
         Route::post('/cliente/negociaciones/{id}/responder', [NegociacionController::class, 'responderCambios'])->name('cliente.negociacion.responder');
         Route::post('/cliente/negociaciones/{id}/responder-notificacion', [NotificationController::class, 'respond'])->name('cliente.negociacion.responder.notificacion');
         //Notificaciones
@@ -178,12 +191,14 @@ Route::middleware([
 
 
 
+    Route::get('/trabajador/bloqueado', function () { return view('trabajador.bloqueado');})->name('trabajador.bloqueado');
+
 
     // Rutas específicas para trabajadores
-    Route::middleware(['auth','role:2'])->group(function () {
+    Route::middleware(['auth','role:2' ,CheckEstadoTrabajador::class])->group(function () {
+
         Route::get('/trabajador/dashboard', function () { return view('trabajador.dashboard');})->name('trabajador.dashboard');
-        Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
-        Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
+
         Route::get('/trabajador/solicitudes', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
         Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
@@ -208,14 +223,14 @@ Route::middleware([
         Route::post('/mensajes', [MensajeriaController::class, 'store'])->name('mensajes.store');
 
         Route::get('/trabajador/negociaciones/{id}', [NegociacionController::class, 'show'])->name('trabajador.negociacion.ver');
-        Route::put('/trabajador/negociaciones/{id}', [NegociacionController::class, 'update'])->name('trabajador.negociacion.update');
+        Route::put('/trabajador/negociaciones/{id}/proponer-cambios', [NegociacionController::class, 'proponerCambio'])->name('trabajador.negociacion.update');
 
 
+        Route::post('/trabajador/negociaciones/{id}/responder', [NegociacionController::class, 'responderCambios'])->name('trabajador.negociacion.responder');
+        Route::post('/trabajador/negociaciones/{id}/responder-notificacion', [NotificationController::class, 'respond'])->name('trabajador.negociacion.responder.notificacion');
 
         Route::post('/trabajador/notificaciones/marcar-todas', [NotificationController::class, 'markAllAsRead'])->name('trabajador.notifications.markAllAsRead');
         Route::post('/trabajador/notificaciones/marcar/{id}', [NotificationController::class, 'markAsRead'])->name('trabajador.notifications.markAsRead');
-        Route::post('/trabajador/negociaciones/{id}/responder', [NegociacionController::class, 'responderCambios'])->name('trabajador.negociacion.responder');
-        Route::post('/trabajador/negociaciones/{id}/responder-notificacion', [NotificationController::class, 'respond'])->name('trabajador.negociacion.responder.notificacion');
 
 
     });
