@@ -1,7 +1,7 @@
 <div class="bg-white shadow-md rounded-md mb-6 p-4 max-w-xl mx-auto"
      style="
         border-left: 5px solid {{ $problema->id_estado_problema == 5 ? 'red' : 'white' }};
-        background-color: {{ $problema->id_estado_problema == 5 ? '#ffe5e5' : '#f0f0f0' }};
+        background-color: {{ $problema->id_estado_problema == 5 ? 'white' : 'white' }};
      ">
     <!-- Encabezado -->
     <div class="flex justify-between items-center">

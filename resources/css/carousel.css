@@ -1,0 +1,35 @@
+.carousel-item {
+    position: relative;
+}
+
+.carousel-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.carousel-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+    border-radius: 0 0 8px 8px;
+}
+
+.carousel-item:hover .carousel-info {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.carousel-item:hover .carousel-image {
+    transform: scale(1.05);
+}

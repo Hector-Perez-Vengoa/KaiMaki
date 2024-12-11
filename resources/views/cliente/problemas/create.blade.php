@@ -1,5 +1,6 @@
 <x-app-layout>
-    <div class="container mx-auto p-4">
+    <div class="p-4 hover-effect p-6">
+        <div class="max-w-md mx-auto py-2 px-6 bg-white shadow-xl rounded-lg">
         <h1 class="text-2xl font-bold mb-6">Publicar un Problema</h1>
 
         <form action="{{ route('problemas.store') }}" method="POST" enctype="multipart/form-data">
@@ -103,10 +104,11 @@
             </div>
 
             <!-- Botón de Enviar -->
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+            <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                 Publicar Problema
             </button>
         </form>
+        </div>
     </div>
 
     <script>
