@@ -7,41 +7,33 @@
 
     <div class="flex">
         <!-- Barra lateral con botones de filtro -->
-        <aside class="w-1/4 h-screen sticky top-0 bg-gray-100 p-4 border-r border-gray-300">
-            <h3 class="text-lg font-bold mb-4">Filtrar por Estado</h3>
+        <div class="flex pt-6">
+        <aside class="w-1/4 h-screen bg-gray-50 p-4 border-r border-gray-200">
+            <h3 class="text-lg font-semibold mb-4 text-gray-700">Filtrar por Estado</h3>
             <ul class="space-y-2">
-                <li>
-                    <a href="{{ route('problemas.index', ['estado' => '1']) }}" class="block px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
-                        Pendiente
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('problemas.index', ['estado' => '5']) }}" class="block px-4 py-2 bg-red-200 rounded-md hover:bg-red-300">
-                        Urgente
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('problemas.index', ['estado' => '2']) }}" class="block px-4 py-2 bg-yellow-200 rounded-md hover:bg-yellow-300">
-                        En Proceso
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('problemas.index', ['estado' => '3']) }}" class="block px-4 py-2 bg-green-200 rounded-md hover:bg-green-300">
-                        Resuelto
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('problemas.index', ['estado' => '4']) }}" class="block px-4 py-2 bg-gray-400 rounded-md hover:bg-gray-500">
-                        Cancelado
-                    </a>
-                </li>
+                @foreach ([
+                    ['estado' => '1', 'label' => 'Pendiente', 'color' => 'bg-gray-200', 'hover' => 'hover:bg-gray-300'],
+                    ['estado' => '5', 'label' => 'Urgente', 'color' => 'bg-gray-200', 'hover' => 'hover:bg-red-300'],
+                    ['estado' => '2', 'label' => 'En Proceso', 'color' => 'bg-gray-200', 'hover' => 'hover:bg-yellow-300'],
+                    ['estado' => '3', 'label' => 'Resuelto', 'color' => 'bg-gray-200', 'hover' => 'hover:bg-green-300'],
+                    ['estado' => '4', 'label' => 'Cancelado', 'color' => 'bg-gray-200', 'hover' => 'hover:bg-gray-500']
+                ] as $filter)
+                    <li>
+                        <a href="{{ route('problemas.index', ['estado' => $filter['estado']]) }}"
+                           class="block px-4 py-2 rounded-md {{ request('estado') == $filter['estado'] ? 'bg-orange-500 text-white font-bold' : $filter['color'].' '.$filter['hover'] }}">
+                            {{ $filter['label'] }}
+                        </a>
+                    </li>
+                @endforeach
             </ul>
+        </div>
         </aside>
 
+
         <!-- Contenido principal con publicaciones -->
-        <main class="w-3/4 p-4">
+        <main class="w-3/4 p-4 ">
             @if ($problemas->isEmpty())
-                <p class="text-gray-500">No tienes problemas publicados.</p>
+                <p class="text-gray-500 ">No tienes problemas publicados.</p>
             @else
                 @foreach ($problemas as $problema)
                     @include('cliente.problemas.partials.publicacion', compact('problema'))

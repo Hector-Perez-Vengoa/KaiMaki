@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Features;
 
-test('email verification screen can be rendered', function () {
+test('Se puede mostrar la pantalla de verificación de correo electrónico.
+', function () {
     $user = User::factory()->withPersonalTeam()->create([
         'email_verified_at' => null,
     ]);
@@ -16,9 +17,11 @@ test('email verification screen can be rendered', function () {
     $response->assertStatus(200);
 })->skip(function () {
     return ! Features::enabled(Features::emailVerification());
-}, 'Email verification not enabled.');
+}, 'Verificación de correo electrónico no habilitada.
+');
 
-test('email can be verified', function () {
+test('el correo electrónico se puede verificar
+', function () {
     Event::fake();
 
     $user = User::factory()->create([
@@ -39,9 +42,11 @@ test('email can be verified', function () {
     $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
 })->skip(function () {
     return ! Features::enabled(Features::emailVerification());
-}, 'Email verification not enabled.');
+}, 'Verificación de correo electrónico no habilitada.
+');
 
-test('email can not verified with invalid hash', function () {
+test('el correo electrónico no se puede verificar con un hash no válido
+', function () {
     $user = User::factory()->create([
         'email_verified_at' => null,
     ]);
@@ -57,4 +62,5 @@ test('email can not verified with invalid hash', function () {
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
 })->skip(function () {
     return ! Features::enabled(Features::emailVerification());
-}, 'Email verification not enabled.');
+}, 'Verificación de correo electrónico no habilitada.
+');

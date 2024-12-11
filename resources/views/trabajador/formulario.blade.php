@@ -6,7 +6,7 @@
         <p>{{ session('success') }}</p>
     </div>
 @endif
-    
+
 @if (session('error'))
     <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
         <p>{{ session('error') }}</p>
@@ -49,14 +49,14 @@
                     <input type="text" id="apellidos" name="apellidos" maxlength="50" required
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
-            
+
                 <!-- Teléfono -->
                 <div>
                     <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
                     <input type="text" id="telefono" name="telefono" maxlength="9" required
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
-            
+
                 <!-- Sexo -->
                 <div>
                     <label for="sexo" class="block text-sm font-medium text-gray-700">Sexo</label>
@@ -89,14 +89,14 @@
                     <input type="text" id="direccion" name="direccion" maxlength="255" required
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
-            
+
                 <!-- Distrito -->
                 <div>
                     <label for="distrito" class="block text-sm font-medium text-gray-700">Distrito</label>
                     <input type="text" id="distrito" name="distrito" maxlength="100" required
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
-            
+
                 <!-- Ciudad -->
                 <div>
                     <label for="ciudad" class="block text-sm font-medium text-gray-700">Ciudad</label>
@@ -112,7 +112,7 @@
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                
+
                 <!-- Certificado (PDF) -->
                 <div>
                     <label for="certificado" class="block text-sm font-medium text-gray-700">Subir Certificado (PDF)</label>
@@ -122,11 +122,11 @@
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                
+
                 <div class="mt-6">
                     <!-- Botón para abrir el modal -->
                     <button type="button" @click="showModal = true"
-                        class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         Registrar
                     </button>
                 </div>
@@ -134,7 +134,7 @@
         </div>
 
        <!-- Modal de Confirmación -->
-        <div x-show="showModal" 
+        <div x-show="showModal"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-90"
             x-transition:enter-end="opacity-100 scale-100"
@@ -161,7 +161,7 @@
             </button>
             <!-- Botón Confirmar -->
             <button @click="document.getElementById('registro-form').submit()"
-                class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none">
+                class="bg-orange-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none">
                     Confirmar y Enviar
             </button>
             </div>
