@@ -40,7 +40,7 @@
                             <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <div class=" col-md-4 d-flex align-items-end">
-                                    <a href="{{route('administrador.ver-solicitudes')}}" class="btn btn-dark w-100">Ingresar</a>
+                                    <a href="{{route('administrador.ver-solicitudes')}}" class="btn btn-orange   w-100">Ingresar</a>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                             <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <div class=" col-md-4 d-flex align-items-end">
-                                    <a href="{{route('administrador.oficios.ver')}}" class="btn btn-dark w-100">Ingresar</a>
+                                    <a href="{{route('administrador.oficios.ver')}}" class="btn btn-orange w-100">Ingresar</a>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <div class=" col-md-4 d-flex align-items-end">
-                                    <a href="{{route('admin.usuarios.index')}}" class="btn btn-dark w-100">Ingresar</a>
+                                    <a href="{{route('admin.usuarios.index')}}" class="btn btn-orange w-100">Ingresar</a>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                             <hr class="dark horizontal">
                             <div class="d-flex ">
                                 <div class=" col-md-4 d-flex align-items-end">
-                                    <a href="{{route('administrador.ver-problemas')}}" class="btn btn-dark w-100">Ingresar</a>
+                                    <a href="{{route('administrador.ver-problemas')}}" class="btn btn-orange w-100">Ingresar</a>
                                 </div>
                             </div>
                         </div>

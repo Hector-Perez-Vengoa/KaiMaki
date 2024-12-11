@@ -19,7 +19,7 @@
                                     <div class="col-md-4 mb-3">
                                         <label for="role" class="form-label fw-bold text-primary">Seleccione Rol</label>
                                         <select name="role" id="role"
-                                            class="form-select border-primary shadow-sm custom-selects-design">
+                                            class="form-select  shadow-sm custom-selects-design">
                                             <option value="">Todos</option>
                                             <option value="Trabajador" {{ request('role')=='Trabajador' ? 'selected'
                                                 : '' }}>Trabajador</option>
