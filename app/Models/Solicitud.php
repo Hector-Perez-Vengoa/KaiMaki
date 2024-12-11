@@ -56,5 +56,8 @@ class Solicitud extends Model
     {
         return $this->belongsTo(Problema::class, 'id_problema', 'id_problemas');
     }
-
+    public function trabajoCampo()
+    {
+        return $this->hasOne(TrabajoCampo::class, 'id_solicitudes', 'id_solicitudes');
+    }
 }

@@ -12,6 +12,7 @@ use App\Models\Ubicacion;
 use App\Models\Solicitud;
 use App\Models\Negociacion;
 use App\Models\TrabajoCampo;
+use App\Models\Problema;
 use App\Models\User;
 use App\Notifications\CambiosNegociacion;
 use Hamcrest\Core\AllOf;
