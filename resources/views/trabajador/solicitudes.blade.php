@@ -8,12 +8,16 @@
                         Pendientes
                     </button>
                 </form>
-                <form action="{{ route('trabajador.negociaciones') }}" method="GET">
-                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow">
+                <form action="{{ route('trabajador.solicitudes') }}" method="GET">
+                    <button type="submit" name="estado" value="5" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow">
                         En negociación
                     </button>
                 </form>
-
+                <form action="{{ route('trabajador.negociaciones') }}" method="GET">
+                    <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded shadow">
+                        Negociaciones Chat
+                    </button>
+                </form>
                 <form action="{{ route('trabajador.solicitudes') }}" method="GET">
                     <button type="submit" name="estado" value="4" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow">
                         Cancelados

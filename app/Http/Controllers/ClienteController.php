@@ -9,7 +9,6 @@ use App\Models\Ubicacion;
 use App\Models\Trabajadores;
 use App\Models\Solicitud;
 use App\Models\TrabajoCampo;
-use App\Models\Negociacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -216,6 +215,27 @@ class ClienteController extends Controller
 
 
     }
+    public function verSolicitudes()
+    {
+        // Obtener el cliente autenticado
+        $cliente = Auth::user()->cliente;
 
+        if (!$cliente) {
+            return redirect()->back()->with('error', 'No tienes un perfil de cliente.');
+        }
+
+        // Obtener todas las solicitudes relacionadas con este cliente
+        $solicitudes = Solicitud::where('id_cliente', $cliente->id_cliente)
+            ->with(['negociaciones', 'trabajador', 'estado', 'problemas.oficio']) // Relaciones necesarias
+            ->get();
+
+        // Extraer todas las negociaciones relacionadas con el cliente
+        $negociaciones = Negociacion::where('id_cliente', $cliente->id_cliente)
+            ->with(['solicitud', 'mensajes', 'trabajador']) // Relaciones necesarias
+            ->get();
+
+        // Pasar tanto las solicitudes como las negociaciones a la vista
+        return view('cliente.solicitudes.solicitudes', compact('solicitudes', 'negociaciones'));
+    }
 
 }

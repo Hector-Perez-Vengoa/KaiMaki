@@ -4,27 +4,27 @@
             <!-- Navegación por estados -->
             <div class="mb-6 px-4">
                 <div class="flex gap-4 justify-center flex-wrap">
-                    <form action="{{ route('cliente.solicitudes') }}" method="GET">
+                    <form action="{{ route('cliente.solicitud') }}" method="GET">
                         <button type="submit" name="estado" value="1" class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-lg shadow-md transition">
                             Pendientes
                         </button>
                     </form>
-                    <form action="{{ route('cliente.solicitudes') }}" method="GET">
+                    <form action="{{ route('cliente.solicitud') }}" method="GET">
                         <button type="submit" name="estado" value="5" class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-lg shadow-md transition">
                             En negociación
                         </button>
                     </form>
-                    <form action="{{ route('cliente.solicitudes') }}" method="GET">
+                    <form action="{{ route('cliente.solicitud') }}" method="GET">
                         <button type="submit" name="estado" value="4" class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-lg shadow-md transition">
                             Cancelados
                         </button>
                     </form>
-                    <form action="{{ route('cliente.solicitudes') }}" method="GET">
+                    <form action="{{ route('cliente.solicitud') }}" method="GET">
                         <button type="submit" name="estado" value="2" class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-lg shadow-md transition">
                             Aceptados
                         </button>
                     </form>
-                    <form action="{{ route('cliente.solicitudes') }}" method="GET">
+                    <form action="{{ route('cliente.solicitud') }}" method="GET">
                         <button type="submit" name="estado" value="3" class="bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 px-6 rounded-lg shadow-md transition">
                             Completado
                         </button>
@@ -102,7 +102,7 @@
                                     @csrf
                                     <input type="hidden" name="id_solicitudes" value="{{ $solicitud->id_solicitudes }}">
                                     <input type="hidden" name="estado" value="3">
-                                    <button type="submit" class="w-full text-center text-white py-2 rounded-lg font-medium transition">
+                                    <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-center text-white py-2 rounded-lg font-medium transition">
                                         Marcar como completado
                                     </button>
                                 </form>

@@ -188,10 +188,10 @@ class TrabajadorController extends Controller
     public function solicitudes(Request $request)
     {
         // Obtener el usuario autenticado
-        $usuario = Auth::user()->trabajadores;
+        $usuario = Auth::user();
 
         // Obtener el ID del trabajador asociado al usu ario autenticado
-        $trabajador = $usuario->first();
+        $trabajador = $usuario->trabajador()->first();
         $idTrabajador = $trabajador->id_trabajadores;
 
         // Obtener el estado a filtrar desde la solicitud
