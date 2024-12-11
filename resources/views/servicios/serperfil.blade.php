@@ -12,7 +12,7 @@
     </div>
     <div class="container mx-auto p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            
+
             <!-- Columna de Información -->
             <div class="bg-white shadow-md rounded-md p-10">
                 <h3 class="text-lg font-semibold mb-4">Información</h3>
@@ -55,16 +55,11 @@
                             @endfor
                         </div>
                     </div>
-                    <!--div class="mt-6 text-center">
-                        <button class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">
-                            Solicitar
-                        </button>
-                    </div>-->
                 </div>
             </div>
             <!-- Fin Columna Principal -->
         </div>
-        
+
         <div class="grid grid-cols-1">
             <!-- Formulario de Reserva -->
             <div class="grid grid-cols-2 bg-white shadow-md rounded-md p-6">
@@ -72,31 +67,32 @@
                 <form id="formularioReserva" action="{{ route('servicios.solicitar') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_trabajadores" value="{{ $trabajador->id_trabajadores }}">
-                    <!-- Fecha de inicio -->
-                    <div class="mb-4">
-                        <label for="fech_reserva" class="block text-sm font-medium text-gray-700">Fecha de reserva</label>
-                        <input type="date" id="fech_reserva" name="fech_reserva" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" required>
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Fecha de inicio -->
+                        <div class="mb-4">
+                            <label for="fech_reserva" class="block text-sm font-medium text-gray-700">Fecha de reserva</label>
+                            <input type="date" id="fech_reserva" name="fech_reserva" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" min="{{ \Carbon\Carbon::now()->toDateString() }}" required>
+                        </div>
 
-                    <!-- Hora de inicio -->
-                    <div class="mb-4">
-                        <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de inicio</label>
-                        <input type="time" id="hora_inicio" name="hora_inicio" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" required>
-                    </div>
+                        <!-- Hora de inicio -->
+                        <div class="mb-4">
+                            <label for="hora_inicio" class="block text-sm font-medium text-gray-700">Hora de inicio</label>
+                            <input type="time" id="hora_inicio" name="hora_inicio" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" min="08:00" max="20:00" required>
+                        </div>
 
-                    <!-- Descripción -->
-                    <div class="mb-4">
-                        <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
-                        <textarea id="descripcion" name="descripcion" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Escribe una breve descripción" required></textarea>
-                    </div>
+                        <!-- Descripción -->
+                        <div class="mb-4">
+                            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                            <textarea id="descripcion" name="descripcion" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Escribe una breve descripción" required></textarea>
+                        </div>
 
-                    <!-- Subir imágenes -->
-                    <div class="mb-4">
-                        <label for="imagenes" class="block text-sm font-medium text-gray-700">Subir imágenes</label>
-                        <input type="file" id="imagenes" name="imagen_solicitud[]" class="mt-1 block w-full text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" accept="image/*" multiple>
-                        <small class="text-gray-500">Puedes subir varias imágenes (formatos aceptados: JPG, PNG, GIF).</small>
+                        <!-- Subir imágenes -->
+                        <div class="mb-4">
+                            <label for="imagenes" class="block text-sm font-medium text-gray-700">Subir imágenes</label>
+                            <input type="file" id="imagenes" name="imagen_solicitud[]" class="mt-1 block w-full text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm" accept="image/*" multiple>
+                            <small class="text-gray-500">Puedes subir varias imágenes (formatos aceptados: JPG, PNG, GIF).</small>
+                        </div>
                     </div>
-
                     <!-- Botón de envío -->
                     <div class="mt-6 text-center">
                         <button type="button" id="solicitarServiciosBtn" class="bg-orange-500 text-white px-4 py-2 rounded-md hover:bg-orange-600">Solicitar servicios</button>
@@ -119,8 +115,45 @@
             <!-- JavaScript para manejar el Modal -->
             <script>
                 document.getElementById('solicitarServiciosBtn').addEventListener('click', function () {
-                    // Mostrar el modal de confirmación
-                    document.getElementById('modalConfirmacion').classList.remove('hidden');
+                    // Obtener valores del formulario
+                    const fechaReserva = document.getElementById('fech_reserva').value;
+                    const horaInicio = document.getElementById('hora_inicio').value;
+                    const descripcion = document.getElementById('descripcion').value;
+                    const archivos = document.getElementById('imagenes').files;
+
+                    // Limpiar mensajes de error previos
+                    document.querySelectorAll('.error-message').forEach((el) => el.remove());
+
+                    let isValid = true;
+
+                    // Validar Fecha de Reserva
+                    if (!fechaReserva) {
+                        mostrarError('fech_reserva', 'Por favor, selecciona una fecha de reserva.');
+                        isValid = false;
+                    }
+
+                    // Validar Hora de Inicio
+                    if (!horaInicio) {
+                        mostrarError('hora_inicio', 'Por favor, selecciona una hora de inicio.');
+                        isValid = false;
+                    }
+
+                    // Validar Descripción
+                    if (!descripcion.trim()) {
+                        mostrarError('descripcion', 'La descripción es obligatoria.');
+                        isValid = false;
+                    }
+
+                    // Validar imágenes
+                    if (archivos.length > 5) {
+                        mostrarError('imagenes', 'Solo puedes subir un máximo de 5 imágenes.');
+                        isValid = false;
+                    }
+
+                    // Mostrar el modal solo si todas las validaciones pasan
+                    if (isValid) {
+                        document.getElementById('modalConfirmacion').classList.remove('hidden');
+                    }
                 });
 
                 document.getElementById('cancelarBtn').addEventListener('click', function () {
@@ -132,7 +165,17 @@
                     // Enviar el formulario al confirmar
                     document.getElementById('formularioReserva').submit();
                 });
+
+                // Función para mostrar errores
+                function mostrarError(campoId, mensaje) {
+                    const campo = document.getElementById(campoId);
+                    const error = document.createElement('p');
+                    error.className = 'text-red-500 text-sm mt-1 error-message';
+                    error.innerText = mensaje;
+                    campo.parentNode.appendChild(error);
+                }
             </script>
+
         </div>
     </div>
 </x-app-layout>

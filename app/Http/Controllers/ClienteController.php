@@ -6,7 +6,9 @@ use App\Models\Cliente;
 use App\Models\Negociacion;
 use App\Models\Reclamos;
 use App\Models\Ubicacion;
+use App\Models\Trabajadores;
 use App\Models\Solicitud;
+use App\Models\TrabajoCampo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,22 +67,41 @@ class ClienteController extends Controller
         return redirect()->route('cliente.dashboard')->with('success', 'Registro completado.');
     }
 
-    public function solicitudes()
+    public function solicitudes(Request $request)
     {
-        $clienteId = Auth::user()->cliente->id_cliente;
+        // Obtener el usuario autenticado
+        $usuario = Auth::user();
 
-        // Obtener las solicitudes del cliente autenticado
-        $solicitudes = Solicitud::where('id_cliente', $clienteId)
-            ->with(['trabajador', 'estado', 'negociaciones' => function ($query) {
+        // Obtener el ID del trabajador asociado al usuario autenticado
+        $cliente = $usuario->clientes()->first();
+        $idTrabajador = $cliente->id_cliente;
+
+        // Obtener el estado a filtrar desde la solicitud
+        $estado = $request->input('estado');
+
+        // Iniciar la consulta base
+        $query = Solicitud::where('id_cliente', $idTrabajador)
+            ->with(['cliente', 'estado', 'negociaciones' => function ($query) {
                 $query->latest('created_at'); // Ordenar por la última negociación
-            }])
-            ->get();
+            }]);
+
+        // Aplicar la condición para filtrar solicitudes
+        if ($estado == 5) {
+            // Si el estado es 5, buscar solicitudes con estado 5 o 6
+            $query->whereIn('id_estado_solicitudes', [5, 6]);
+        } else {
+            // Filtrar por el estado específico
+            $query->where('id_estado_solicitudes', $estado);
+        }
+
+        // Obtener las solicitudes filtradas
+        $solicitudes = $query->get();
 
         // Pasar las solicitudes a la vista
         return view('cliente.solicitudes', compact('solicitudes'));
     }
 
-    public function regociaciar(Request $request)
+    public function renegociar(Request $request)
     {
         // Validar los datos del formulario
         $validatedData = $request->validate([
@@ -89,6 +110,7 @@ class ClienteController extends Controller
             'nueva_fech_reserva' => 'required|date',
             'hora_inicio' => 'required',
             'tiempo_estimado' => 'required',
+            'mensaje' => 'nullable',
         ]);
 
         // Crear una nueva negociación
@@ -98,6 +120,7 @@ class ClienteController extends Controller
             'nueva_fech_reserva' => $validatedData['nueva_fech_reserva'],
             'hora_inicio' => $validatedData['hora_inicio'],
             'tiempo_estimado' => $validatedData['tiempo_estimado'],
+            'mensaje' => $validatedData['mensaje'] ?? null,
         ]);
 
         // Realizar la actualización de estado
@@ -108,66 +131,90 @@ class ClienteController extends Controller
         return redirect()->back()->with('success', 'La negociación se ha registrado correctamente.');
     }
 
-    public function cambiarEstado(Solicitud $solicitud, $estado)
+    public function actualizarEstado(Request $request)
     {
-        // Actualizar el estado de la solicitud
-        $solicitud->update(['id_estado_solicitudes' => $estado]);
-
-        return redirect()->back()->with('success', 'El estado de la solicitud ha sido actualizado.');
-    }
-
-
-    //Acepta la solicitud
-
-    public function aceptarSolicitud($idSolicitud)
-    {
-        // Obtener la solicitud
-        $solicitud = Solicitud::findOrFail($idSolicitud);
-
-        // Verificar si la solicitud pertenece al cliente autenticado
-        $cliente = Auth::user()->cliente;
-        if ($solicitud->id_cliente !== $cliente->id_cliente) {
-            return redirect()->back()->with('error', 'No tienes permiso para aceptar esta solicitud.');
-        }
-
-        // Cambiar el estado de la solicitud a "Aceptada"
-        $solicitud->update(['id_estado_solicitudes' => 2]); // Estado 2: Aceptada
-
-        // Crear un nuevo registro en la tabla de negociaciones
-        $negociacion = Negociacion::create([
-            'id_solicitudes' => $solicitud->id_solicitudes,
-            'id_cliente'=> $solicitud->id_cliente,
-            'id_trabajadores'=> $solicitud->id_trabajadores,
-            'monto' => 0, // Monto inicial (puede ser ajustado en la negociación)
-            'nueva_fech_reserva' => $solicitud->fech_reserva,
-            'hora_inicio' => $solicitud->hora_inicio_propuesta,
-            'tiempo_estimado' => '01:00:00', // Tiempo estimado inicial
-            'mensaje' => 'Negociación iniciada. Por favor, comience la conversación.',
+        // Validar que el estado es válido
+        $validated = $request->validate([
+            'id_solicitudes' => 'required|exists:solicitudes,id_solicitudes',
+            'estado' => 'required|integer',
         ]);
 
-        // Redirigir a la vista de negociación
-        return redirect()->route('cliente.solicitudes', $negociacion->id_negociacion)
-        ->with('success', 'Solicitud aceptada y negociación iniciada.');
-    }
+        // Obtener la solicitud con sus negociaciones
+        $solicitud = Solicitud::with(['negociaciones' => function ($query) {
+            $query->latest('created_at'); // Ordenar por la última negociación
+        }])->findOrFail($validated['id_solicitudes']);
 
-    public function rechazarSolicitud($idSolicitud)
-    {
-        // Obtener la solicitud
-        $solicitud = Solicitud::findOrFail($idSolicitud);
+        // Si el estado es igual a 2, crear una instancia en la tabla TrabajoCampo
+        if ($validated['estado'] == 2) {
+            // Obtener la última negociación
+            $ultimaNegociacion = $solicitud->negociaciones->first();
 
-        // Verificar si la solicitud pertenece al cliente autenticado
-        $cliente = Auth::user()->cliente;
-        if ($solicitud->id_cliente !== $cliente->id_cliente) {
-            return redirect()->back()->with('error', 'No tienes permiso para rechazar esta solicitud.');
+            // Verificar si ya existe un registro para evitar duplicados
+            $trabajoExistente = TrabajoCampo::where('id_solicitudes', $validated['id_solicitudes'])->first();
+
+            if (!$trabajoExistente && $ultimaNegociacion) {
+                TrabajoCampo::create([
+                    'id_solicitudes' => $validated['id_solicitudes'],
+                    'hora_entrada' => $ultimaNegociacion->hora_entrada,
+                    'hora_salida' => null,
+                    'oficio_serv' => null,
+                    'monto' => $ultimaNegociacion->monto,
+                    'puntuacion' => null,
+                ]);
+            }
         }
 
-        // Cambiar el estado de la solicitud a "Rechazada" (estado id = 3, por ejemplo)
-        $solicitud->update(['id_estado_solicitudes' => 3]);
+        // Actualizar el estado
+        $solicitud->update(['id_estado_solicitudes' => $validated['estado']]);
 
-        return redirect()->back()->with('success', 'Has rechazado la solicitud.');
+        return redirect()->back()->with('success', 'El estado de la solicitud se ha actualizado correctamente.');
     }
 
 
+
+    public function puntuacion(Request $request)
+    {
+        $validated = $request->validate([
+            'id_solicitudes' => 'required',
+            'puntuacion' => 'required',
+        ]);
+        // Puntuacion en la tabla
+        // Buscar el registro asociado a la solicitud
+        $trabajoCampo = TrabajoCampo::where('id_solicitudes', $validated['id_solicitudes'])->first();
+
+        if (!$trabajoCampo) {
+            return redirect()->back()->withErrors(['error' => 'El registro de trabajo no existe.']);
+        }
+
+        // Actualizar la puntuación
+        $trabajoCampo->puntuacion = $validated['puntuacion'];
+        $trabajoCampo->save();
+
+        //Actualizar la puntuacion del trabajador
+
+        // Obtener la solicitud asociada
+        $solicitud = Solicitud::findOrFail($validated['id_solicitudes']);
+
+        // Verificar si la solicitud tiene un trabajador asociado
+        if ($solicitud->trabajador) {
+            // Obtener los trabajos en campo relacionados al trabajador
+            // Calcular el promedio de puntuaciones de los trabajos
+            $promedio = $trabajoCampo->avg('puntuacion');
+
+            if ($promedio !== null) {
+                // Redondear el promedio a 2 decimales
+                $promedioRedondeado = round($promedio, 2);
+
+                // Actualizar el valor de la puntuación en el trabajador
+                Trabajadores::where('id_trabajadores', $solicitud->id_trabajadores)->update(['puntuacion' => $promedioRedondeado]);
+            }
+        }
+
+        // Redirigir con mensaje de éxito
+        return redirect()->back()->with('success', '¡Calificación enviada con éxito!');
+
+
+    }
     public function verSolicitudes()
     {
         // Obtener el cliente autenticado

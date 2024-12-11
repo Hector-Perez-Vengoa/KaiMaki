@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -26,13 +27,14 @@ class FortifyServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {   
-        
+    {
+
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-        
+        Fortify::verifyEmailView(VerifyEmail::class);
+
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
@@ -46,12 +48,17 @@ class FortifyServiceProvider extends ServiceProvider
             $roles = \App\Models\Rol::whereIn('id', [2, 3])->get(); // Solo Trabajador y Cliente
             return view('auth.register', compact('roles'));
         });
-        
-    }      
+
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify-email');
+        });
+
+
+    }
 }
 
 
-        
-        
-    
+
+
+
 

@@ -38,7 +38,7 @@ class NegociacionController extends Controller
         abort(403, 'No tienes permiso para acceder a esta negociación.');
     }
 
-    public function update(Request $request, $idNegociacion)
+    public function proponerCambio(Request $request, $idNegociacion)
 {
     $negociacion = Negociacion::findOrFail($idNegociacion);
 
@@ -69,6 +69,7 @@ class NegociacionController extends Controller
         'ubicacion_nueva' => $request->ubicacion_nueva,
         'estado_negociacion' => 'En proceso', // Propuesta en curso
     ]);
+
 
     // Notificar a la otra parte
     if ($esCliente) {

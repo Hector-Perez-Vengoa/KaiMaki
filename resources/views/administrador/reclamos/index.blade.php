@@ -10,8 +10,8 @@
                 <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-3">
-                            <div class="bg-gradient-warning shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-center font-weight-bold">Reclamos</h6>
+                            <div class=" shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-black text-center font-weight-bold">Reclamos</h6>
                             </div>
                             <div class="card-body px-0 pb-2">
                                 <div class="table-responsive p-0">
