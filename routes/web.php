@@ -81,7 +81,29 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/servicios', [ServiceController::class, 'servicios'])->name('servicios');
         Route::post('/servicios', [ServiceController::class, 'solicitar'])->name('servicios.solicitar');
         Route::get('/servicios/{id_trabajadores}', [ServiceController::class, 'elegir'])->name('servicios.serperfil');
+        Route::get('/cliente/formulario', [ClienteController::class, 'formulario'])->name('cliente.formulario');
+        Route::post('/cliente/formulario', [ClienteController::class, 'guardarFormulario'])->name('cliente.store');
+        Route::get('/cliente/publicar-problema', [ProblemaController::class, 'create'])->name('problemas.create');
+        Route::post('/cliente/publicar-problema', [ProblemaController::class, 'store'])->name('problemas.store');
+        Route::get('/cliente/mis-problemas', [ProblemaController::class, 'index'])->name('cliente.problemas.index');
+        Route::get('/problemas/{problema}', [ProblemaController::class, 'show'])->name('problemas.show');
+        Route::get('/problemas/{problema}/edit', [ProblemaController::class, 'edit'])->name('problemas.edit');
+        // Ruta para actualizar los datos del problema
+        Route::put('/problemas/{problema}', [ProblemaController::class, 'update'])->name('problemaphp s.update');
 
+        Route::get('/cliente/solicitud', [ClienteController::class, 'solicitudes'])->name('cliente.solicitud');
+
+        // Ruta para renegociar una solicitud
+        Route::post('/cliente/solicitudes/renegociar', [ClienteController::class, 'renegociar'])->name('cliente.renegociar');
+        Route::post('/cliente/solicitudes/puntuacion', [ClienteController::class, 'puntuacion'])->name('cliente.puntuacion');
+        Route::post('/cliente/solicitudes', [ClienteController::class, 'actualizarEstado'])->name('cliente.actualizarEstado');
+
+
+
+
+
+        Route::put('/problemas/{id}/marcar-urgente', [ProblemaController::class, 'marcarUrgente'])->name('problemas.marcarUrgente');
+        Route::delete('/problemas/{problema}', [ProblemaController::class, 'destroy'])->name('problemas.destroy');
 
         //Route::get('/cliente/solicitudes', [ClienteController::class, 'solicitudes'])->name('cliente.solicitudes');
         // Ruta para renegociar una solicitud
@@ -198,12 +220,13 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth','role:2' ,CheckEstadoTrabajador::class])->group(function () {
 
         Route::get('/trabajador/dashboard', function () { return view('trabajador.dashboard');})->name('trabajador.dashboard');
-
-        Route::get('/trabajador/solicitudes', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
-        Route::post('/solicitudes/{id_solicitud}/{estado}', [TrabajadorController::class, 'actualizarEstado'])->name('solicitudes.actualizarEstado');
+        Route::get('/trabajador/formulario', [TrabajadorController::class, 'formulario'])->name('trabajador.formulario');
+        Route::post('/trabajadores', [TrabajadorController::class, 'store'])->name('trabajadores.store');
+        Route::get('/trabajador/solicitudes-enviadas', [TrabajadorController::class, 'solicitudes'])->name('trabajador.solicitudes');
+        Route::post('/trabajador/actualizarEstado', [TrabajadorController::class, 'actualizarEstado'])->name('trabajador.actualizarEstado');
         //Route::view('/trabajador/formulario', 'trabajador.formulario')->name('trabajador.formulario');
         Route::get('/trabajador/show', [TrabajadorController::class, 'show'])->name('trabajador.show');
-        Route::post('/trabajador/solicitudes', [TrabajadorController::class, 'negociacion'])->name('trabajador.negociacion');
+        Route::post('/trabajador/solicitudes-enviadas', [TrabajadorController::class, 'negociacion'])->name('trabajador.negociacion');
         //El trabajador registra su reclamo
         Route::get('/trabajadores/reclamo', [ReclamoController::class, 'create'])->name('trabajador.reclamo.create');
         Route::post('/trabajadores/reclamo', [ReclamoController::class, 'store'])->name('trabajador.reclamo.store');

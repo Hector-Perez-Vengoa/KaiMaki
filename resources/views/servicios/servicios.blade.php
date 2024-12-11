@@ -1,57 +1,121 @@
 <x-app-layout>
 
-
-<!-- Search Bar -->
-<div class="flex justify-center p-6 items-center">
-  <div class="w-full max-w-md">
-    <label class="block text-xl font-bold mb-2 items-center" for="search">Buscar por oficio</label>
-      <div class="relative">
-        <form method="GET" action="{{ route('servicios') }}">
-          <input type="text" id="search" name="search" placeholder="Buscar oficio..." class="w-full max-w-xs px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" value="{{ request('search') }}">
-          <button type="submit" class="absolute inset-y-0 right-0 flex items-center pr-3">
-            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.9 14.32a7 7 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 7a5 5 0 11-10 0 5 5 0 0110 0z" clip-rule="evenodd"></path></svg>
-          </button>
-        </form>
-      </div>
-  </div>
-</div>
-<!-- Search Bar -->
- 
-<!-- Main Content -->
-@if($trabajadores->isEmpty())
-  <div class="w-full p-36">
-    <div class="w-full p-6 flex justify-center items-center">
-      <p class="text-center text-gray-500 text-xl">No se encontraron trabajadores para esa búsqueda.</p>
-      <a href="{{ route('servicios') }}" class="mt-4 inline-block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Intentar de nuevo</a>
-    </div>
-  </div>
-@else
-  <div class="w-full p-6">
-    <!-- Card Container -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      @foreach($trabajadores as $trabajador)
-      <!-- Individual Card -->
-      <a href="{{ route('servicios.serperfil', ['id_trabajadores' => $trabajador->id_trabajadores]) }}" class="block">
-        <div class="bg-white border border-orange-200 rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
-          <img src="{{ asset('storage/' . ($trabajador->users->profile_photo_path ?? 'userDefault.png')) }}" alt="Foto de perfil de {{ $trabajador->nombres_t }}" class="w-18 h-18 mx-auto object-cover object-center rounded-full mb-4">
-          <h3 class="text-lg font-semibold">{{ $trabajador->nombres}} {{ $trabajador->apellidos}}</h3>
-          <p class="text-gray-500">Especialidad: {{ $trabajador->oficios->first()?->nombre_oficio ?? 'Sin oficio' }}</p>
-          <p class="text-gray-500">Puntuación:</p>
-          <div class="flex justify-center mt-2">
-            @for ($i = 0; $i < ($trabajador->puntuacion > 5 ? 5 : max(0, $trabajador->puntuacion)); $i++)
-              <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.167c.969 0 1.371 1.24.588 1.81l-3.363 2.456a1 1 0 00-.364 1.118l1.286 3.966c.3.921-.755 1.688-1.539 1.118L10 13.347l-3.363 2.456c-.784.57-1.838-.197-1.539-1.118l1.286-3.966a1 1 0 00-.364-1.118L2.657 9.393c-.783-.57-.38-1.81.588-1.81h4.167a1 1 0 00.95-.69l1.286-3.966z"/>
-              </svg>
-            @endfor
-          </div>
+    <!-- Search Bar -->
+    <div class="flex justify-center p-6 items-center">
+      <div class="w-full max-w-md">
+        <label class="block text-xl font-bold mb-2 items-center" for="search">Buscar por oficio</label>
+        <div class="relative">
+          <form method="GET" action="{{ route('servicios') }}">
+            <input type="text" id="search" name="search" placeholder="Buscar oficio..." class="w-full max-w-xs px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2" value="{{ request('search') }}">
+            <button type="submit" class="absolute inset-y-0 right-0 flex items-center pr-3">
+              <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.9 14.32a7 7 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 7a5 5 0 11-10 0 5 5 0 0110 0z" clip-rule="evenodd"></path></svg>
+            </button>
+          </form>
         </div>
-      </a>
-      <!-- End Individual Card -->
-      @endforeach
+      </div>
     </div>
-    <!-- End card Container -->
-  </div>
-@endif
-<!-- End Main Content -->
+    <!-- Search Bar -->
 
-</x-app-layout>
+    <!-- Main Content -->
+    @if($trabajadores->isEmpty())
+      <div class="w-full p-36">
+        <div class="w-full p-6 flex justify-center items-center">
+          <p class="text-center text-gray-500 text-xl">No se encontraron trabajadores para esa búsqueda.</p>
+          <a href="{{ route('servicios') }}" class="mt-4 inline-block bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">Intentar de nuevo</a>
+        </div>
+      </div>
+    @else
+      <div class="w-full p-6">
+        <!-- Card Container -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-6">
+          @foreach($trabajadores as $trabajador)
+          <!-- Individual Card -->
+          <a href="{{ route('servicios.serperfil', ['id_trabajadores' => $trabajador->id_trabajadores]) }}" class="block">
+            <div class="bg-white border border-orange-200 rounded-lg shadow-md p-4 text-center hover:shadow-lg transition-shadow duration-300">
+                <div class="flex justify-center items-center pt-6">
+                    <img
+                      src="{{ asset('storage/' . ($trabajador->users->profile_photo_path ?? 'userDefault.png')) }}"
+                      alt="Foto de perfil de {{ $trabajador->nombres_t }}"
+                      class="profile-image w-48 h-48 rounded-lg mb-4 shadow-lg">
+                </div>
+                <h3 class="text-lg font-semibold">{{ $trabajador->nombres}} {{ $trabajador->apellidos}}</h3>
+                <p class="text-gray-500">Especialidad: {{ $trabajador->oficios->first()?->nombre_oficio ?? 'Sin oficio' }}</p>
+                <p class="text-gray-500">Puntuación:</p>
+                <div class="flex justify-center mt-2">
+                @for ($i = 0; $i < ($trabajador->puntuacion > 5 ? 5 : max(0, $trabajador->puntuacion)); $i++)
+                  <svg class="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.167c.969 0 1.371 1.24.588 1.81l-3.363 2.456a1 1 0 00-.364 1.118l1.286 3.966c.3.921-.755 1.688-1.539 1.118L10 13.347l-3.363 2.456c-.784.57-1.838-.197-1.539-1.118l1.286-3.966a1 1 0 00-.364-1.118L2.657 9.393c-.783-.57-.38-1.81.588-1.81h4.167a1 1 0 00.95-.69l1.286-3.966z"/>
+                  </svg>
+                @endfor
+              </div>
+            </div>
+          </a>
+          <!-- End Individual Card -->
+          @endforeach
+        </div>
+        <!-- End Card Container -->
+      </div>
+    @endif
+    <!-- End Main Content -->
+
+    <script>
+      window.addEventListener('load', () => {
+        const images = document.querySelectorAll('.profile-image'); // Selecciona todas las imágenes
+
+        images.forEach((imgElement) => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+
+          const targetWidth = 200; // Ancho deseado
+          const targetHeight = 300; // Alto deseado
+
+          // Cargar la imagen original
+          const originalImage = new Image();
+          originalImage.crossOrigin = 'anonymous';
+          originalImage.src = imgElement.src;
+
+          originalImage.onload = () => {
+            // Calcular recorte
+            const aspectRatio = originalImage.width / originalImage.height;
+            let sourceWidth, sourceHeight, startX, startY;
+
+            if (aspectRatio > targetWidth / targetHeight) {
+              // Imagen más ancha
+              sourceHeight = originalImage.height;
+              sourceWidth = sourceHeight * (targetWidth / targetHeight);
+              startX = (originalImage.width - sourceWidth) / 2;
+              startY = 0;
+            } else {
+              // Imagen más alta
+              sourceWidth = originalImage.width;
+              sourceHeight = sourceWidth * (targetHeight / targetWidth);
+              startX = 0;
+              startY = (originalImage.height - sourceHeight) / 2;
+            }
+
+            // Ajustar el tamaño del canvas
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+
+            // Dibujar imagen recortada en el canvas
+            ctx.drawImage(
+              originalImage,
+              startX, startY, sourceWidth, sourceHeight,
+              0, 0, targetWidth, targetHeight
+            );
+
+            // Obtener la URL de datos recortada
+            const croppedImage = canvas.toDataURL('image/png');
+
+            // Actualizar el src de la imagen
+            imgElement.src = croppedImage;
+          };
+
+          originalImage.onerror = () => {
+            console.error('Error al cargar la imagen.');
+          };
+        });
+      });
+    </script>
+
+    </x-app-layout>

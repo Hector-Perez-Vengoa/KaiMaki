@@ -28,30 +28,6 @@
                             Registrar
                         </a>
                     </div> -->
-
-                    <!-- Botón Perfil -->
-                    <div class="bg-white hover-effect p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div class="flex items-center mb-4">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-orange-500 mr-3"
-                                viewBox="0 0 24 24" fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <h2 class="text-xl font-semibold text-gray-800">Datos Personales</h2>
-                        </div>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Ver datos Personales
-                        </p>
-                        <a href="{{ route('trabajador.show') }}"
-                            class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 transition">
-                            Ingresar
-                        </a>
-                    </div>
-
-
-
                     <!-- Botón de busqueda de trabajos -->
 
                     <div class="bg-white hover-effect p-6 rounded-lg shadow-sm border border-gray-200">
@@ -72,6 +48,27 @@
                         <a href="{{route('trabajador.problemas')}} "
                             class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 transition">
                             Buscar
+                        </a>
+                    </div>
+
+                    <!-- Botón Perfil -->
+                    <div class="bg-white hover-effect p-6 rounded-lg shadow-sm border border-gray-200">
+                        <div class="flex items-center mb-4">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-orange-500 mr-3"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            <h2 class="text-xl font-semibold text-gray-800">Datos Personales</h2>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Ver datos Personales
+                        </p>
+                        <a href="{{ route('trabajador.show') }}"
+                            class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 transition">
+                            Ingresar
                         </a>
                     </div>
 
