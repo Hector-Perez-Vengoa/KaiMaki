@@ -55,7 +55,7 @@
     @endif
 
     <!-- Fecha de Reserva -->
-    <p class="text-gray-600 mt-4 text-sm"><strong>Fecha de reserva:</strong> {{ $problema->fecha_reserva ?? 'No especificada' }}</p>
+    <p class="text-gray-600 mt-2"><strong>Fecha de reserva:</strong> {{ $problema->fecha_reserva ?? 'No especificada' }}</p>
 
     <!-- Ubicación -->
     <p class="text-gray-600 mt-2 text-sm">

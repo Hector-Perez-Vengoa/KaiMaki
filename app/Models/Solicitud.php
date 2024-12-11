@@ -53,11 +53,8 @@ class Solicitud extends Model
     }
 
     public function problemas()
-{
-    return $this->belongsTo(Problema::class, 'id_problema', 'id_problemas');
-}
-
-
-
+    {
+        return $this->belongsTo(Problema::class, 'id_problema', 'id_problemas');
+    }
 
 }
