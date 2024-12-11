@@ -41,35 +41,21 @@
                             <p class="text-lg font-semibold text-gray-700">Trabajador:</p>
                             <p class="text-gray-600">{{ $solicitud->trabajador->nombres }} {{ $solicitud->trabajador->apellidos }}</p>
                         </div>
-                        @if($solicitud->id_estado_solicitudes == 1 || $solicitud->id_estado_solicitudes == 2) <!-- Estado: pendiente -->
-                            <div class="mb-4 text-sm">
-                                <p class="text-gray-500">📅 Fecha de Reserva: <span class="text-gray-700">{{ $solicitud->fech_reserva }}</span></p>
-                                <p class="text-gray-500">⏰ Hora de Inicio: <span class="text-gray-700">{{ $solicitud->hora_inicio_propuesta }}</span></p>
-                                <p class="text-gray-500">👤 Trabajador: <span class="text-gray-700">{{ $solicitud->trabajador->nombres ?? 'N/A' }} {{ $solicitud->trabajador->apellidos ?? '' }}</span></p>
-                                <p class="text-gray-500">📌 Estado: <span class="text-gray-700">En espera</span></p>
-                            </div>
-                        @elseif($solicitud->id_estado_solicitudes == 5 || $solicitud->id_estado_solicitudes == 6) <!-- Estado: negociacion -->
+                        <div class="mb-4 text-sm">
+                            <p class="font-semibold text-gray-700">Solicitud enviada:</p>
+                            <p class="text-gray-500">Fecha de Reserva: <span class="text-gray-700">{{ $solicitud->fech_reserva }}</span></p>
+                            <p class="text-gray-500">Hora de Inicio: <span class="text-gray-700">{{ $solicitud->hora_inicio_propuesta }}</span></p>
+                            <p class="text-gray-500">Descripcion: <span class="text-gray-700">{{ $solicitud->descripcion ?? 'N/A' }}</span></p>
+                        </div>
+                        @if($solicitud->id_estado_solicitudes !== 1 ) <!-- Estado: negociacion -->
                         <!-- Última negociación -->
-                            @php
-                                $ultimaNegociacion = $solicitud->negociaciones->first();
-                            @endphp
                             <div class="mb-4 text-sm">
-                                <p class="text-gray-500">💵 Monto Negociado: <span class="text-gray-700">{{ $ultimaNegociacion->monto ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">📅 Fecha Reserva: <span class="text-gray-700">{{ $ultimaNegociacion->nueva_fech_reserva ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">📅 Hora de inicio: <span class="text-gray-700">{{ $ultimaNegociacion->hora_inicio ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">📅 Tiempo estimado: <span class="text-gray-700">{{ $ultimaNegociacion->tiempo_estimado ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">✉️ Mensaje: <span class="text-gray-700">{{ $ultimaNegociacion->mensaje ?? 'En espera' }}</span></p>
-                            </div>
-                        @elseif($solicitud->id_estado_solicitudes == 3)
-                            @php
-                                $ultimaNegociacion = $solicitud->negociaciones->first();
-                            @endphp
-                            <div class="mb-4 text-sm">
-                                <p class="text-gray-500">💵 Monto Negociado: <span class="text-gray-700">{{ $ultimaNegociacion->monto ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">💵 Hora de inicio: <span class="text-gray-700">{{ $ultimaNegociacion->hora_inicio ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">📅 Nueva Fecha Reserva: <span class="text-gray-700">{{ $ultimaNegociacion->nueva_fech_reserva ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">✉️ Mensaje: <span class="text-gray-700">{{ $ultimaNegociacion->mensaje ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">✉️ Mensaje: <span class="text-gray-700">{{ $solicitud->id_solicitudes ?? 'En espera' }}</span></p>
+                                <p class="font-semibold text-gray-700">Ultima negociacion:</p>
+                                <p class="text-gray-500">Monto Negociado: <span class="text-gray-700">{{ $solicitud->negociaciones->monto ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Fecha Reserva: <span class="text-gray-700">{{ $solicitud->negociaciones->nueva_fech_reserva ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Hora de inicio: <span class="text-gray-700">{{ $solicitud->negociaciones->hora_inicio ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Tiempo estimado: <span class="text-gray-700">{{ $solicitud->negociaciones->tiempo_estimado ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Mensaje: <span class="text-gray-700">{{ $solicitud->negociaciones->mensaje ?? 'En espera' }}</span></p>
                             </div>
                         @endif
                         <!-- Botones de acción -->
@@ -106,18 +92,20 @@
                                         Marcar como completado
                                     </button>
                                 </form>
-                            @elseif( $solicitud->id_estado_solicitudes == 3 )
+                            @elseif($solicitud->id_estado_solicitudes == 3 && (!$solicitud->trabajoCampo || is_null($solicitud->trabajoCampo->puntuacion)))
                                 <button type="button" class="w-full bg-yellow-500 text-white py-2 rounded-lg font-medium transition" onclick="toggleModalCalificacion('{{ $solicitud->id_solicitudes }}')">
                                     Calificar servicio
                                 </button>
+                                <p>Puntuación: {{ $solicitud->trabajoCampo->puntuacion }}</p>
                             @endif
+
                         </div>
                     </div>
                     @if($solicitud->id_estado_solicitudes == 5)
                         <!-- Modal para renegociar -->
                         <div id="modal-{{ $solicitud->id_solicitudes }}" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                             <div class="bg-white p-6 rounded-lg shadow-xl w-96">
-                                <h3 class="text-xl font-semibold mb-4 text-gray-800">Renegociar Solicitud</h3>
+                                <h3 class="text-xl font-semibold mb-4 text-gray-800">Negociar Solicitud</h3>
                                 <form action="{{ route('cliente.renegociar') }}" method="POST">
                                     @csrf
                                     @php
@@ -131,14 +119,14 @@
                                         </div>
                                         <div>
                                             <label for="nueva_fech_reserva" class="block text-sm font-medium text-gray-600">Fecha de inicio:</label>
-                                            <input type="date" name="nueva_fech_reserva" id="nueva_fech_reserva" value="{{$ultimaNegociacion->nueva_fech_reserva}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
+                                            <input type="date" name="nueva_fech_reserva" id="nueva_fech_reserva" value="{{$solicitud->negociaciones->nueva_fech_reserva}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
                                         </div>
                                         <div>
                                             <label for="hora_inicio" class="block text-sm font-medium text-gray-600">Hora de inicio:</label>
-                                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{$ultimaNegociacion->hora_inicio}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
+                                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{$solicitud->negociaciones->hora_inicio}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
                                         </div>
 
-                                        <input type="hidden" name="tiempo_estimado" value="{{ $ultimaNegociacion->tiempo_estimado }}">
+                                        <input type="hidden" name="tiempo_estimado" value="{{ $solicitud->negociaciones->tiempo_estimado }}">
                                         <div>
                                             <label for="mensaje" class="block text-sm font-medium text-gray-600">Mensaje adicional:</label>
                                             <textarea name="mensaje" id="mensaje" rows="3" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="Escriba un mensaje adicional (opcional)"></textarea>
@@ -157,14 +145,38 @@
                         <div class="bg-white rounded-lg shadow-lg w-96 p-6">
                             <form action="{{ route('cliente.puntuacion') }}" method="POST" class="mt-4">
                                 @csrf
-                                <!-- Campo para seleccionar estrellas -->
-                                <input type="hidden" name="id_solicitudes" value="{{ $solicitud->id_solicitudes }}" >
-                                <label for="id_solicitudes" class="block text-sm font-medium text-gray-600">id_solicitudes: {{ $solicitud->id_solicitudes }} </label>
-                                <input type="number" name="puntuacion" id="puntuacion" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="Ingrese la puntuacion" min="0" required>
+                                <!-- Campo oculto para id_solicitudes -->
+                                <input type="hidden" name="id_solicitudes" value="{{ $solicitud->id_solicitudes }}">
+                                <!-- Campo de estrellas interactivas -->
+                                <label for="puntuacion" class="block text-sm font-medium text-gray-600 mt-4">
+                                    Califica al trabajador:
+                                </label>
+
+                                <div class="flex items-center space-x-1" id="star-rating">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <button type="button" class="star text-gray-300 text-2xl focus:outline-none" data-value="{{ $i }}">
+                                            ★
+                                        </button>
+                                    @endfor
+                                </div>
+                                <input type="hidden" name="puntuacion" id="puntuacion" value="0">
+
+                                <!-- Campo para hora de salida -->
+                                <label for="hora_salida" class="block text-sm font-medium text-gray-600 mt-4">
+                                    ¿A que hora termino?:
+                                </label>
+                                <input type="time" name="hora_salida" id="hora_salida" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
+
+                                <!-- Botón de envío -->
                                 <div class="mt-4 flex justify-end">
-                                    <button type="submit" class="px-4 py-2 rounded hover:bg-blue-600">Enviar</button>
+                                    <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded ">
+                                        Enviar
+                                    </button>
                                 </div>
                             </form>
+
+
+
                         </div>
                     </div>
                     <!-- Modal de calificación -->
@@ -184,5 +196,28 @@
                 const modal = document.getElementById(`modalC-${id}`);
                 modal.classList.toggle('hidden');
             }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const stars = document.querySelectorAll("#star-rating .star");
+                const puntuacionInput = document.getElementById("puntuacion");
+
+                stars.forEach(star => {
+                    star.addEventListener("click", function() {
+                        const value = this.dataset.value;
+                        puntuacionInput.value = value;
+
+                        // Actualizar las estrellas visualmente
+                        stars.forEach(s => {
+                            if (s.dataset.value <= value) {
+                                s.classList.add("text-yellow-500");
+                                s.classList.remove("text-gray-300");
+                            } else {
+                                s.classList.add("text-gray-300");
+                                s.classList.remove("text-yellow-500");
+                            }
+                        });
+                    });
+                });
+            });
         </script>
 </x-app-layout>

@@ -96,14 +96,11 @@
                                 <p><label class="font-semibold">Hora de inicio:</label> {{ $solicitud->hora_inicio_propuesta }}</p>
                                 <p><label class="font-semibold">Descripción:</label> {{ $solicitud->descripcion }}</p>
                                 @elseif($solicitud->id_estado_solicitudes == 6)
-                                    @php
-                                        $ultimaNegociacion = $solicitud->negociaciones->first();
-                                    @endphp
                                     <p><label class="font-semibold">Cliente:</label> {{ $solicitud->cliente->nom_cliente }} {{ $solicitud->cliente->ape_cliente }}</p>
-                                    <p><label class="font-semibold">Monto:</label> {{ $ultimaNegociacion->monto }}</p>
-                                    <p><label class="font-semibold">Fecha de reserva:</label> {{ $ultimaNegociacion->nueva_fech_reserva }}</p>
-                                    <p><label class="font-semibold">Hora de inicio:</label> {{ $ultimaNegociacion->hora_inicio }}</p>
-                                    <p><label class="font-semibold">Mensaje:</label> {{ $ultimaNegociacion->mensaje }}</p>
+                                    <p><label class="font-semibold">Monto:</label> {{ $solicitud->negociaciones->monto }}</p>
+                                    <p><label class="font-semibold">Fecha de reserva:</label> {{ $solicitud->negociaciones->nueva_fech_reserva }}</p>
+                                    <p><label class="font-semibold">Hora de inicio:</label> {{ $solicitud->negociaciones->hora_inicio }}</p>
+                                    <p><label class="font-semibold">Mensaje:</label> {{ $solicitud->negociaciones->mensaje }}</p>
                                 @endif
                             </div>
                             <!-- Modal Body -->

@@ -74,14 +74,14 @@ class ClienteController extends Controller
 
         // Obtener el ID del trabajador asociado al usuario autenticado
         $cliente = $usuario->clientes()->first();
-        $idTrabajador = $cliente->id_cliente;
+        $idCliente = $cliente->id_cliente;
 
         // Obtener el estado a filtrar desde la solicitud
         $estado = $request->input('estado');
 
         // Iniciar la consulta base
-        $query = Solicitud::where('id_cliente', $idTrabajador)
-            ->with(['cliente', 'estado', 'negociaciones' => function ($query) {
+        $query = Solicitud::where('id_cliente', $idCliente)
+            ->with(['cliente', 'estado', 'trabajoCampo', 'negociaciones' => function ($query) {
                 $query->latest('created_at'); // Ordenar por la última negociación
             }]);
 
@@ -155,7 +155,7 @@ class ClienteController extends Controller
             if (!$trabajoExistente && $ultimaNegociacion) {
                 TrabajoCampo::create([
                     'id_solicitudes' => $validated['id_solicitudes'],
-                    'hora_entrada' => $ultimaNegociacion->hora_entrada,
+                    'hora_entrada' => $ultimaNegociacion->hora_inicio,
                     'hora_salida' => null,
                     'oficio_serv' => null,
                     'monto' => $ultimaNegociacion->monto,
@@ -177,6 +177,7 @@ class ClienteController extends Controller
         $validated = $request->validate([
             'id_solicitudes' => 'required',
             'puntuacion' => 'required',
+            'hora_salida' => 'required'
         ]);
         // Puntuacion en la tabla
         // Buscar el registro asociado a la solicitud
@@ -188,6 +189,7 @@ class ClienteController extends Controller
 
         // Actualizar la puntuación
         $trabajoCampo->puntuacion = $validated['puntuacion'];
+        $trabajoCampo->hora_salida = $validated['hora_salida'];
         $trabajoCampo->save();
 
         //Actualizar la puntuacion del trabajador
@@ -206,7 +208,10 @@ class ClienteController extends Controller
                 $promedioRedondeado = round($promedio, 2);
 
                 // Actualizar el valor de la puntuación en el trabajador
-                Trabajadores::where('id_trabajadores', $solicitud->id_trabajadores)->update(['puntuacion' => $promedioRedondeado]);
+                Trabajadores::where('id_trabajadores', $solicitud->id_trabajadores)->update([
+                    'puntuacion' => $promedioRedondeado,
+                ]);
+
             }
         }
 

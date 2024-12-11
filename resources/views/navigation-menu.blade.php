@@ -20,32 +20,10 @@
 
                              <!-- Enlaces específicos para Clientes -->
                     @if (Auth::user()->id_roles == 3)
-                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('cliente.datos')">
-                            {{ __('Mis Datos') }}
-                        </x-nav-link>
-                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('cliente.solicitudes')">
-                            {{ __('Mis Solicitudes') }}
-                        </x-nav-link>
 
                         <x-nav-link href="{{route('servicios')}}" class="text-white hover:text-gray-300" :active="request()->routeIs('servicios')">
                             {{ __('Buscar servicios') }}
                         </x-nav-link>
-
-                    @endif
-
-                    <!-- Enlaces específicos para Trabajadores -->
-                    @if (Auth::user()->id_roles == 2)
-                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('trabajador.tareas')">
-                            {{ __('Tareas') }}
-                        </x-nav-link>
-                        <x-nav-link href="" class="text-white hover:text-gray-300" :active="request()->routeIs('trabajador.reportes')">
-                            {{ __('Reportes') }}
-                        </x-nav-link>
-                        <x-nav-link href="{{route('trabajador.formulario')}}" class="text-white hover:text-gray-300" :active="request()->routeIs('trabajador.formulario')">
-                            {{ __('Registro') }}
-                        </x-nav-link>
-
-
 
                     @endif
 
