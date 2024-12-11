@@ -49,16 +49,13 @@
                         </div>
                         @if($solicitud->id_estado_solicitudes !== 1 ) <!-- Estado: negociacion -->
                         <!-- Última negociación -->
-                            @php
-                                $ultimaNegociacion = $solicitud->negociaciones->first();
-                            @endphp
                             <div class="mb-4 text-sm">
                                 <p class="font-semibold text-gray-700">Ultima negociacion:</p>
-                                <p class="text-gray-500">Monto Negociado: <span class="text-gray-700">{{ $ultimaNegociacion->monto ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">Fecha Reserva: <span class="text-gray-700">{{ $ultimaNegociacion->nueva_fech_reserva ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">Hora de inicio: <span class="text-gray-700">{{ $ultimaNegociacion->hora_inicio ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">Tiempo estimado: <span class="text-gray-700">{{ $ultimaNegociacion->tiempo_estimado ?? 'En espera' }}</span></p>
-                                <p class="text-gray-500">Mensaje: <span class="text-gray-700">{{ $ultimaNegociacion->mensaje ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Monto Negociado: <span class="text-gray-700">{{ $solicitud->negociaciones->monto ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Fecha Reserva: <span class="text-gray-700">{{ $solicitud->negociaciones->nueva_fech_reserva ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Hora de inicio: <span class="text-gray-700">{{ $solicitud->negociaciones->hora_inicio ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Tiempo estimado: <span class="text-gray-700">{{ $solicitud->negociaciones->tiempo_estimado ?? 'En espera' }}</span></p>
+                                <p class="text-gray-500">Mensaje: <span class="text-gray-700">{{ $solicitud->negociaciones->mensaje ?? 'En espera' }}</span></p>
                             </div>
                         @endif
                         <!-- Botones de acción -->
@@ -122,14 +119,14 @@
                                         </div>
                                         <div>
                                             <label for="nueva_fech_reserva" class="block text-sm font-medium text-gray-600">Fecha de inicio:</label>
-                                            <input type="date" name="nueva_fech_reserva" id="nueva_fech_reserva" value="{{$ultimaNegociacion->nueva_fech_reserva}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
+                                            <input type="date" name="nueva_fech_reserva" id="nueva_fech_reserva" value="{{$solicitud->negociaciones->nueva_fech_reserva}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
                                         </div>
                                         <div>
                                             <label for="hora_inicio" class="block text-sm font-medium text-gray-600">Hora de inicio:</label>
-                                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{$ultimaNegociacion->hora_inicio}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
+                                            <input type="time" name="hora_inicio" id="hora_inicio" value="{{$solicitud->negociaciones->hora_inicio}}" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" required>
                                         </div>
 
-                                        <input type="hidden" name="tiempo_estimado" value="{{ $ultimaNegociacion->tiempo_estimado }}">
+                                        <input type="hidden" name="tiempo_estimado" value="{{ $solicitud->negociaciones->tiempo_estimado }}">
                                         <div>
                                             <label for="mensaje" class="block text-sm font-medium text-gray-600">Mensaje adicional:</label>
                                             <textarea name="mensaje" id="mensaje" rows="3" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-orange-500 focus:border-orange-500" placeholder="Escriba un mensaje adicional (opcional)"></textarea>
