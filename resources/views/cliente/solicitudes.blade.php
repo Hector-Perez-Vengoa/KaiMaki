@@ -96,7 +96,6 @@
                                 <button type="button" class="w-full bg-yellow-500 text-white py-2 rounded-lg font-medium transition" onclick="toggleModalCalificacion('{{ $solicitud->id_solicitudes }}')">
                                     Calificar servicio
                                 </button>
-                                <p>Puntuación: {{ $solicitud->trabajoCampo->puntuacion }}</p>
                             @endif
 
                         </div>
