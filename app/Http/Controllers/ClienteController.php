@@ -74,14 +74,14 @@ class ClienteController extends Controller
 
         // Obtener el ID del trabajador asociado al usuario autenticado
         $cliente = $usuario->clientes()->first();
-        $idTrabajador = $cliente->id_cliente;
+        $idCliente = $cliente->id_cliente;
 
         // Obtener el estado a filtrar desde la solicitud
         $estado = $request->input('estado');
 
         // Iniciar la consulta base
-        $query = Solicitud::where('id_cliente', $idTrabajador)
-            ->with(['cliente', 'estado', 'negociaciones' => function ($query) {
+        $query = Solicitud::where('id_cliente', $idCliente)
+            ->with(['cliente', 'estado', 'trabajoCampo', 'negociaciones' => function ($query) {
                 $query->latest('created_at'); // Ordenar por la última negociación
             }]);
 
@@ -155,7 +155,7 @@ class ClienteController extends Controller
             if (!$trabajoExistente && $ultimaNegociacion) {
                 TrabajoCampo::create([
                     'id_solicitudes' => $validated['id_solicitudes'],
-                    'hora_entrada' => $ultimaNegociacion->hora_entrada,
+                    'hora_entrada' => $ultimaNegociacion->hora_inicio,
                     'hora_salida' => null,
                     'oficio_serv' => null,
                     'monto' => $ultimaNegociacion->monto,
@@ -177,6 +177,7 @@ class ClienteController extends Controller
         $validated = $request->validate([
             'id_solicitudes' => 'required',
             'puntuacion' => 'required',
+            'hora_salida' => 'required'
         ]);
         // Puntuacion en la tabla
         // Buscar el registro asociado a la solicitud
@@ -188,6 +189,7 @@ class ClienteController extends Controller
 
         // Actualizar la puntuación
         $trabajoCampo->puntuacion = $validated['puntuacion'];
+        $trabajoCampo->hora_salida = $validated['hora_salida'];
         $trabajoCampo->save();
 
         //Actualizar la puntuacion del trabajador
@@ -206,7 +208,10 @@ class ClienteController extends Controller
                 $promedioRedondeado = round($promedio, 2);
 
                 // Actualizar el valor de la puntuación en el trabajador
-                Trabajadores::where('id_trabajadores', $solicitud->id_trabajadores)->update(['puntuacion' => $promedioRedondeado]);
+                Trabajadores::where('id_trabajadores', $solicitud->id_trabajadores)->update([
+                    'puntuacion' => $promedioRedondeado,
+                ]);
+
             }
         }
 
@@ -216,22 +221,33 @@ class ClienteController extends Controller
 
     }
 
-     //Acepta la solicitud
+    //Acepta la solicitud
 
-     public function aceptarSolicitud($idSolicitud)
-     {
-         // Obtener la solicitud
-         $solicitud = Solicitud::findOrFail($idSolicitud);
+    public function aceptarSolicitud($idSolicitud)
+    {
+        // Obtener la solicitud
+        $solicitud = Solicitud::findOrFail($idSolicitud);
 
-         // Verificar si la solicitud pertenece al cliente autenticado
-         $cliente = Auth::user()->cliente;
-         if ($solicitud->id_cliente !== $cliente->id_cliente) {
-             return redirect()->back()->with('error', 'No tienes permiso para aceptar esta solicitud.');
-         }
+        // Verificar si la solicitud pertenece al cliente autenticado
+        $cliente = Auth::user()->cliente;
+        if ($solicitud->id_cliente !== $cliente->id_cliente) {
+            return redirect()->back()->with('error', 'No tienes permiso para aceptar esta solicitud.');
+        }
 
-         // Cambiar el estado de la solicitud a "Aceptada"
-         $solicitud->update(['id_estado_solicitudes' => 2]); // Estado 2: Aceptada
+        // Cambiar el estado de la solicitud a "Aceptada"
+        $solicitud->update(['id_estado_solicitudes' => 2]); // Estado 2: Aceptada
 
+        // Crear un nuevo registro en la tabla de negociaciones
+        $negociacion = Negociacion::create([
+            'id_solicitudes' => $solicitud->id_solicitudes,
+            'id_cliente'=> $solicitud->id_cliente,
+            'id_trabajadores'=> $solicitud->id_trabajadores,
+            'monto' => 0, // Monto inicial (puede ser ajustado en la negociación)
+            'nueva_fech_reserva' => $solicitud->fech_reserva,
+            'hora_inicio' => $solicitud->hora_inicio_propuesta,
+            'tiempo_estimado' => '01:00', // Tiempo estimado inicial
+            'mensaje' => 'Negociación iniciada. Por favor, comience la conversación.',
+        ]);
          // Crear un nuevo registro en la tabla de negociaciones
          $negociacion = Negociacion::create([
              'id_solicitudes' => $solicitud->id_solicitudes,
@@ -244,27 +260,28 @@ class ClienteController extends Controller
              'mensaje' => 'Negociación iniciada. Por favor, comience la conversación.',
          ]);
 
-         // Redirigir a la vista de negociación
-         return redirect()->route('cliente.solicitudes', $negociacion->id_negociacion)
-         ->with('success', 'Solicitud aceptada y negociación iniciada.');
-     }
+        // Redirigir a la vista de negociación
+        return redirect()->route('cliente.solicitudes', $negociacion->id_negociacion)
+        ->with('success', 'Solicitud aceptada y negociación iniciada.');
+    }
 
-     public function rechazarSolicitud($idSolicitud)
-     {
-         // Obtener la solicitud
-         $solicitud = Solicitud::findOrFail($idSolicitud);
+    public function rechazarSolicitud($idSolicitud)
+    {
+        // Obtener la solicitud
+        $solicitud = Solicitud::findOrFail($idSolicitud);
 
-         // Verificar si la solicitud pertenece al cliente autenticado
-         $cliente = Auth::user()->cliente;
-         if ($solicitud->id_cliente !== $cliente->id_cliente) {
-             return redirect()->back()->with('error', 'No tienes permiso para rechazar esta solicitud.');
-         }
+        // Verificar si la solicitud pertenece al cliente autenticado
+        $cliente = Auth::user()->cliente;
+        if ($solicitud->id_cliente !== $cliente->id_cliente) {
+            return redirect()->back()->with('error', 'No tienes permiso para rechazar esta solicitud.');
+        }
 
-         // Cambiar el estado de la solicitud a "Rechazada" (estado id = 3, por ejemplo)
-         $solicitud->update(['id_estado_solicitudes' => 3]);
+        // Cambiar el estado de la solicitud a "Rechazada" (estado id = 3, por ejemplo)
+        $solicitud->update(['id_estado_solicitudes' => 3]);
 
-         return redirect()->back()->with('success', 'Has rechazado la solicitud.');
-     }
+        return redirect()->back()->with('success', 'Has rechazado la solicitud.');
+    }
+
     public function verSolicitudes()
     {
         // Obtener el cliente autenticado
