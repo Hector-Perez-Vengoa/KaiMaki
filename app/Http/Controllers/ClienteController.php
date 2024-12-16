@@ -240,7 +240,7 @@ class ClienteController extends Controller
              'monto' => 0, // Monto inicial (puede ser ajustado en la negociación)
              'nueva_fech_reserva' => $solicitud->fech_reserva,
              'hora_inicio' => $solicitud->hora_inicio_propuesta,
-             'tiempo_estimado' => '01:00:00', // Tiempo estimado inicial
+             'tiempo_estimado' => '01:00', // Tiempo estimado inicial
              'mensaje' => 'Negociación iniciada. Por favor, comience la conversación.',
          ]);
 

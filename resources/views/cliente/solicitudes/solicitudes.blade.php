@@ -71,7 +71,7 @@
 
                     <!-- Modal para ver detalles -->
                     <div id="modal-{{ $solicitud->id_solicitudes }}"
-                        class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-30 hidden z-50">
+                        class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-30 hidden-50">
                         <div class="bg-white rounded-lg p-6 w-96">
                             <h2 class="text-lg font-bold mb-4">Detalles de la Negociación</h2>
                             <p><strong>Fecha Propuesta:</strong> {{ $solicitud->negociaciones->nueva_fech_reserva ?? 'Sin cambios' }}</p>

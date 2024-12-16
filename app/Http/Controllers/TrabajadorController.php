@@ -11,6 +11,7 @@ use App\Models\Trabajadores;
 use App\Models\Ubicacion;
 use App\Models\Solicitud;
 use App\Models\Negociacion;
+use App\Models\Problema;
 use App\Models\TrabajoCampo;
 use App\Models\User;
 use App\Notifications\CambiosNegociacion;
@@ -336,7 +337,7 @@ public function solicitarTrabajo($problemaId)
         'id_problema' => $problema->id_problemas, // Guardar la relación con el problema
         'fech_reserva' => $problema->fecha_reserva,
         'descripcion' => $problema->descripcion,
-        'hora_inicio_propuesta' => now()->format('H:i:s'),
+        'hora_inicio_propuesta' => now()->format('H:i'),
     ]);
 
     return redirect()->route('trabajador.solicitudes')->with('success', 'Has solicitado el trabajo correctamente.');

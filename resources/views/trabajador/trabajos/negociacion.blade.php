@@ -40,7 +40,7 @@
 
         <!-- Modal -->
         <div id="modal-{{ $notification->id }}"
-            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            class="fixed inset-0 flex-items-center justify-center bg-black bg-opacity-50 hidden">
             <div class="bg-white rounded-lg p-6 w-96">
                 <h2 class="text-lg font-bold mb-4">Cambios Propuestos</h2>
 
